@@ -78,6 +78,14 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# Data files (keep directory structure only)
+data/raw/*
+!data/raw/README.md
+data/processed/*
+!data/processed/README.md
+data/embeddings/*
+!data/embeddings/README.md
+
 # IPython
 profile_default/
 ipython_config.py
