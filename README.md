@@ -1,59 +1,70 @@
-# RAGCUN - Retrieval-Augmented Generation Framework
+# LeJEPA Isotropic Gaussian Embeddings for RAG
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ctn/ragcun/blob/main/notebooks/colab_quickstart.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ctn/ragcun/blob/main/notebooks/lejepa_training.ipynb)
 
-A simple and effective framework for building Retrieval-Augmented Generation (RAG) applications. RAGCUN provides an easy-to-use interface for combining document retrieval with language generation.
+**Train and use isotropic Gaussian embeddings with LeJEPA for superior RAG retrieval.**
+
+This project implements **isotropic Gaussian distributed embeddings** using Google's EmbeddingGemma-300M fine-tuned with LeJEPA's SIGReg loss. Unlike traditional normalized embeddings (spherical distribution), isotropic Gaussian embeddings provide:
+
+- ✅ **Better retrieval accuracy** - Larger separation between relevant/irrelevant docs
+- ✅ **Magnitude = Confidence** - Embedding norm indicates uncertainty
+- ✅ **Full dimensional usage** - No dimensional collapse
+- ✅ **Semantic compositionality** - Query arithmetic works naturally
+- ✅ **Probabilistic scores** - Proper Gaussian likelihood for ranking
 
 ## 🚀 Quick Start with Google Colab
 
-The easiest way to get started is using Google Colab:
+Train your isotropic Gaussian embedding model in 3 steps:
 
-1. Click the "Open in Colab" badge above
-2. Run the cells to install and try RAGCUN
-3. Start building your own RAG applications!
+1. **[Open Training Notebook](notebooks/lejepa_training.ipynb)** in Google Colab
+2. **Run all cells** - Training takes 1-3 hours on free T4 GPU
+3. **Download model** - Use in your RAG retrieval system
 
-## 📋 Features
+## 📋 Key Features
 
-- **Simple API**: Easy-to-use interface for RAG pipelines
-- **Modular Design**: Swap out retrievers and generators as needed
-- **Google Colab Ready**: Pre-configured notebooks for quick experimentation
-- **Extensible**: Build custom components for your specific use case
-- **Well-Documented**: Examples and tutorials to get you started
+- **Isotropic Gaussian Embeddings**: True N(0,I) distribution via LeJEPA SIGReg
+- **State-of-the-art Base**: EmbeddingGemma-300M (best MTEB for size)
+- **Euclidean Retrieval**: L2 distance instead of cosine similarity
+- **No Normalization**: Preserves magnitude as confidence signal
+- **Fully Trainable**: Fine-tune on your domain data
 
 ## 🔧 Installation
 
-### In Google Colab
+### For Training (Google Colab)
 
 ```python
-# Clone and install
-!git clone https://github.com/ctn/ragcun.git
-%cd ragcun
-!pip install -e .
+# Install dependencies in Colab
+!pip install transformers sentence-transformers datasets faiss-gpu accelerate
+!pip install lejepa || pip install git+https://github.com/rbalestr-lab/lejepa.git
 ```
 
-### Local Installation
+### For Inference (Local)
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/ctn/ragcun.git
 cd ragcun
 
-# Install the package
+# Install package
 pip install -e .
-
-# Or install with all optional dependencies
-pip install -e ".[full]"
 ```
 
 ## 💡 Usage
 
-### Basic Example
+### Step 1: Train Model (in Colab)
 
 ```python
-from ragcun import RAGPipeline
+# See notebooks/lejepa_training.ipynb for full training code
+# After training, download the model weights
+```
 
-# Create a pipeline
-pipeline = RAGPipeline()
+### Step 2: Use for Retrieval (Local)
+
+```python
+from ragcun import GaussianRetriever
+
+# Load your trained model
+retriever = GaussianRetriever(model_path='data/embeddings/gaussian_embeddinggemma_final.pt')
 
 # Add documents
 documents = [
@@ -61,49 +72,49 @@ documents = [
     "Machine learning is a subset of artificial intelligence.",
     "Natural language processing enables computers to understand human language."
 ]
-pipeline.add_documents(documents)
+retriever.add_documents(documents)
 
-# Query the pipeline
-response = pipeline.query("What is machine learning?", top_k=3)
-print(response)
+# Retrieve with Euclidean distance (NOT cosine)
+results = retriever.retrieve("What is machine learning?", top_k=3)
+
+for doc, distance in results:
+    print(f"[dist={distance:.3f}] {doc}")
 ```
 
-### Custom Configuration
+### Why Euclidean Distance?
 
 ```python
-from ragcun import RAGPipeline, Retriever, Generator
+# Traditional (spherical embeddings)
+cosine_sim(query, doc1) = 0.78  # Good match
+cosine_sim(query, doc2) = 0.71  # Bad match
+# Difference: only 0.07!
 
-# Create custom components
-retriever = Retriever(embedding_model="sentence-transformers/all-MiniLM-L6-v2")
-generator = Generator(model_name="gpt-3.5-turbo")
-
-# Build pipeline with custom components
-pipeline = RAGPipeline(retriever=retriever, generator=generator)
+# Isotropic Gaussian embeddings
+euclidean_dist(query, doc1) = 0.5   # Good match
+euclidean_dist(query, doc2) = 4.2   # Bad match
+# Difference: 8.4x larger separation!
 ```
 
 ## 📂 Project Structure
 
 ```
 ragcun/
-├── src/ragcun/          # Main package source code
-│   ├── __init__.py      # Package initialization
-│   ├── retriever.py     # Document retrieval module
-│   ├── generator.py     # Text generation module
-│   └── pipeline.py      # RAG pipeline orchestration
-├── data/                # Data storage
-│   ├── raw/            # Raw input documents
-│   ├── processed/      # Processed documents
-│   └── embeddings/     # Vector embeddings
-├── notebooks/           # Jupyter/Colab notebooks
-│   └── colab_quickstart.ipynb
-├── examples/            # Example scripts
-│   └── basic_example.py
-├── config/              # Configuration files
+├── src/ragcun/                              # Main package
 │   ├── __init__.py
-│   └── config.example.env
-├── requirements.txt     # Package dependencies
-├── setup.py            # Package setup configuration
-└── README.md           # This file
+│   ├── model.py                             # GaussianEmbeddingGemma model
+│   └── retriever.py                         # Gaussian retriever (L2 distance)
+├── notebooks/                               # Training & experiments
+│   ├── lejepa_training.ipynb               # 🚀 Main training notebook
+│   └── document_processing.ipynb
+├── data/
+│   ├── embeddings/                          # Trained model weights
+│   │   └── gaussian_embeddinggemma_final.pt # Put trained model here
+│   ├── raw/                                 # Your documents
+│   └── processed/                           # Preprocessed data
+├── examples/                                # Usage examples
+│   └── retrieval_example.py
+├── requirements.txt                         # Dependencies
+└── README.md
 ```
 
 ## 🎓 Examples
