@@ -1,13 +1,13 @@
 """
-RAGCUN - Retrieval-Augmented Generation framework
-A simple and effective framework for building RAG applications.
+LeJEPA Isotropic Gaussian Embeddings for RAG
+
+Train and use isotropic Gaussian embeddings with LeJEPA for superior retrieval.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "RAGCUN Team"
 
-from .retriever import Retriever
-from .generator import Generator
-from .pipeline import RAGPipeline
+from .model import GaussianEmbeddingGemma
+from .retriever import GaussianRetriever
 
-__all__ = ["Retriever", "Generator", "RAGPipeline"]
+__all__ = ["GaussianEmbeddingGemma", "GaussianRetriever"]
