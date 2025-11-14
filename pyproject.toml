@@ -1,0 +1,164 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ragcun"
+version = "0.2.0"
+description = "LeJEPA Isotropic Gaussian Embeddings for RAG - Train and use isotropic Gaussian embeddings with LeJEPA for superior retrieval"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "RAGCUN Team"},
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "numpy>=1.24.0",
+    "torch>=2.0.0",
+    "transformers>=4.45.0",
+    "sentence-transformers>=3.0.0",
+    "faiss-cpu>=1.7.4",  # Use faiss-gpu for GPU support
+    "tqdm>=4.65.0",
+]
+
+[project.optional-dependencies]
+# Training dependencies (use in Colab)
+training = [
+    "datasets>=2.14.0",
+    "accelerate>=0.24.0",
+]
+
+# GPU support
+gpu = [
+    "faiss-gpu>=1.7.4",
+]
+
+# TPU support
+tpu = [
+    "torch-xla>=2.0.0",
+    "cloud-tpu-client",
+]
+
+# Development tools
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "ipython>=8.0.0",
+]
+
+# Jupyter/notebook support
+notebooks = [
+    "jupyter>=1.0.0",
+    "ipywidgets>=8.0.0",
+    "matplotlib>=3.5.0",
+    "pandas>=2.0.0",
+]
+
+# Document processing (optional)
+documents = [
+    "pypdf>=3.0.0",
+    "python-docx>=0.8.11",
+    "beautifulsoup4>=4.12.0",
+]
+
+# All optional dependencies
+all = [
+    "ragcun[training,gpu,dev,notebooks,documents]",
+]
+
+[project.urls]
+Homepage = "https://github.com/ctn/ragcun"
+Documentation = "https://github.com/ctn/ragcun/blob/main/README.md"
+Repository = "https://github.com/ctn/ragcun"
+"Bug Tracker" = "https://github.com/ctn/ragcun/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ragcun"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/README.md",
+    "/LICENSE",
+    "/pyproject.toml",
+]
+
+# Black formatting
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | \.eggs
+  | \.tox
+  | build
+  | dist
+  | external
+)/
+'''
+
+# Ruff linting
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+exclude = [
+    ".git",
+    ".venv",
+    "build",
+    "dist",
+    "external",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "B008",  # do not perform function calls in argument defaults
+]
+
+# MyPy type checking
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+exclude = [
+    'external',
+]
+
+# Pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers"
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "gpu: marks tests that require GPU",
+]

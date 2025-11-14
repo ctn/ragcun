@@ -34,12 +34,21 @@ mv ~/Downloads/gaussian_embeddinggemma_final.pt data/embeddings/
 ### **Step 4: Test It** (5 minutes)
 
 ```bash
-# Install dependencies
+# Install dependencies (with uv - fast!)
+uv pip install -e .
+
+# Or traditional pip
 pip install -e .
 
 # Run example
 python examples/retrieval_example.py
 ```
+
+**💡 Tip:** Install [uv](https://github.com/astral-sh/uv) for 10-100x faster installs:
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+See [UV_GUIDE.md](UV_GUIDE.md) for details.
 
 **You should see:**
 ```
