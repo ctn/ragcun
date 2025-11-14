@@ -1,0 +1,3 @@
+[submodule "external/lejepa"]
+	path = external/lejepa
+	url = git@github.com:rbalestr-lab/lejepa.git

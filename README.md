@@ -44,13 +44,27 @@ Train your isotropic Gaussian embedding model in 3 steps:
 ### For Inference (Local)
 
 ```bash
-# Clone repository
-git clone https://github.com/ctn/ragcun.git
+# Clone repository with submodules
+git clone --recurse-submodules git@github.com:ctn/ragcun.git
 cd ragcun
 
-# Install package
+# Recommended: Install with uv (10-100x faster!)
+uv pip install -e .
+
+# Or traditional pip
 pip install -e .
+
+# If you already cloned without --recurse-submodules:
+git submodule update --init --recursive
+uv pip install -e .
 ```
+
+**New: We now use [uv](https://github.com/astral-sh/uv) for fast package management!**
+- ⚡ 10-100x faster than pip
+- 📦 Uses modern `pyproject.toml`
+- See [UV_GUIDE.md](UV_GUIDE.md) for details
+
+**Note:** LeJEPA is included as a git submodule at `external/lejepa`. See [SUBMODULE.md](SUBMODULE.md) for details.
 
 ## 💡 Usage
 
@@ -107,8 +121,12 @@ ragcun/
 │   ├── model.py                             # GaussianEmbeddingGemma model
 │   └── retriever.py                         # Gaussian retriever (L2 distance)
 ├── notebooks/                               # Training & experiments
-│   ├── lejepa_training.ipynb               # 🚀 Main training notebook
-│   └── document_processing.ipynb
+│   ├── lejepa_training.ipynb               # 🚀 Main training notebook (GPU)
+│   ├── lejepa_training_tpu.ipynb           # TPU version (advanced)
+│   ├── evaluate_isotropy.ipynb             # Verify N(0,I) distribution
+│   └── evaluate_rag.ipynb                  # Compare performance
+├── external/                                # External dependencies
+│   └── lejepa/                             # 📦 LeJEPA submodule (git@github.com:rbalestr-lab/lejepa.git)
 ├── data/
 │   ├── embeddings/                          # Trained model weights
 │   │   └── gaussian_embeddinggemma_final.pt # Put trained model here
@@ -116,7 +134,9 @@ ragcun/
 │   └── processed/                           # Preprocessed data
 ├── examples/                                # Usage examples
 │   └── retrieval_example.py
+├── .gitmodules                              # Submodule configuration
 ├── requirements.txt                         # Dependencies
+├── SUBMODULE.md                            # Submodule usage guide
 └── README.md
 ```
 
@@ -156,53 +176,7 @@ drive.mount('/content/drive')
 Place your documents in the appropriate directories:
 - `data/raw/` - Original documents (PDF, TXT, DOCX, etc.)
 - `data/processed/` - Cleaned and processed documents
-- `data/embeddings/` - Generated vector embeddings
-
-## ⚙️ Configuration
-
-Copy the example configuration file and customize:
-
-```bash
-cp config/config.example.env .env
-```
-
-Edit `.env` with your settings:
-```env
-EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
-MODEL_NAME=gpt-3.5-turbo
-TOP_K=5
-```
-
-## 🔌 API Reference
-
-### RAGPipeline
-
-Main class for orchestrating retrieval and generation.
-
-```python
-pipeline = RAGPipeline(retriever=None, generator=None)
-pipeline.add_documents(documents: List[str])
-response = pipeline.query(question: str, top_k: int = 5)
-```
-
-### Retriever
-
-Handles document retrieval and similarity search.
-
-```python
-retriever = Retriever(embedding_model: str = None)
-retriever.add_documents(documents: List[str])
-docs = retriever.retrieve(query: str, top_k: int = 5)
-```
-
-### Generator
-
-Generates responses based on retrieved context.
-
-```python
-generator = Generator(model_name: str = None)
-response = generator.generate(query: str, context: List[str])
-```
+- `data/embeddings/` - Generated vector embeddings (save trained models here)
 
 ## 🤝 Contributing
 

@@ -1,26 +1,20 @@
-# Core dependencies
-numpy>=1.24.0
-torch>=2.0.0
+# This file is kept for backwards compatibility
+# Modern installations should use: uv pip install -e .
+#
+# See pyproject.toml for all dependencies
+# See UV_GUIDE.md for usage instructions
 
-# Embeddings and models
-transformers>=4.45.0
-sentence-transformers>=3.0.0
+# Install project with all dependencies:
+-e .
 
-# Fast similarity search
-faiss-cpu>=1.7.4  # Use faiss-gpu for GPU support
+# Or install with specific extras:
+# -e .[training]  # Training dependencies
+# -e .[gpu]       # GPU support
+# -e .[dev]       # Development tools
+# -e .[all]       # Everything
 
-# Training (install in Colab)
-# datasets>=2.14.0
-# accelerate>=0.24.0
-# lejepa (from GitHub)
-
-# Utilities
-tqdm>=4.65.0
-
-# Optional: Document processing
-# pypdf>=3.0.0
-# python-docx>=0.8.11
-
-# Optional: Jupyter
-# ipywidgets>=8.0.0
-# jupyter>=1.0.0
+# Legacy pip install (slower):
+#   pip install -r requirements.txt
+#
+# Modern uv install (faster):
+#   uv pip install -e ".[all]"
