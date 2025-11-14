@@ -23,6 +23,17 @@ Train your isotropic Gaussian embedding model in 3 steps:
 
 **Recommended:** Use GPU (T4) for default 5K samples. Use TPU only for 50K+ samples. See [GPU_vs_TPU.md](GPU_vs_TPU.md) for details.
 
+## 🖥️ AWS GPU Training with Cursor
+
+Want to train on AWS GPU and develop with Cursor?
+
+1. **[Follow AWS Setup Guide](AWS_GPU_SETUP.md)** - Complete walkthrough
+2. **Connect Cursor** - Remote-SSH to GPU instance
+3. **Train remotely** - Full Cursor features on AWS GPU
+4. **Download model** - SCP to local machine
+
+See [AWS_GPU_SETUP.md](AWS_GPU_SETUP.md) for step-by-step instructions.
+
 ## 📋 Key Features
 
 - **Isotropic Gaussian Embeddings**: True N(0,I) distribution via LeJEPA SIGReg
