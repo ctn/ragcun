@@ -17,8 +17,11 @@ This project implements **isotropic Gaussian distributed embeddings** using Goog
 Train your isotropic Gaussian embedding model in 3 steps:
 
 1. **[Open Training Notebook](notebooks/lejepa_training.ipynb)** in Google Colab
-2. **Run all cells** - Training takes 1-3 hours on free T4 GPU
-3. **Download model** - Use in your RAG retrieval system
+2. **Set Runtime** - GPU (T4/V100) or TPU (v2-8) - [See comparison](GPU_vs_TPU.md)
+3. **Run all cells** - Training takes 1-3 hours
+4. **Download model** - Use in your RAG retrieval system
+
+**Recommended:** Use GPU (T4) for default 5K samples. Use TPU only for 50K+ samples. See [GPU_vs_TPU.md](GPU_vs_TPU.md) for details.
 
 ## 📋 Key Features
 
