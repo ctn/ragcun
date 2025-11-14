@@ -35,13 +35,23 @@ ssh -i ~/.ssh/lejepa-gpu-key.pem ubuntu@<YOUR_GPU_IP>
 ```bash
 # On the remote GPU instance
 
-# Install Claude Code CLI
-curl -fsSL https://anthropic.com/claude-code/install.sh | sh
+# Method 1: Using npm (recommended)
+# First install Node.js if not already installed
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
-# Or manual installation
+# Install Claude Code CLI
+npm install -g @anthropic-ai/claude-code
+
+# Method 2: Download binary directly
+# Check latest release at: https://github.com/anthropics/claude-code/releases
 wget https://github.com/anthropics/claude-code/releases/latest/download/claude-code-linux-x64.tar.gz
 tar -xzf claude-code-linux-x64.tar.gz
 sudo mv claude-code /usr/local/bin/
+chmod +x /usr/local/bin/claude-code
+
+# Verify installation
+claude-code --version
 ```
 
 ### Step 3: Authenticate Claude Code
