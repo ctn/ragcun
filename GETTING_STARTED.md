@@ -10,6 +10,13 @@ A complete project for training and using **isotropic Gaussian embeddings** with
 
 ## What to Do Right Now
 
+**Choose Your Training Method:**
+
+- **Option A: Google Colab** (Free, Easy) - Follow steps below
+- **Option B: AWS GPU + Claude Code** (Paid, AI-Assisted) - See [CLAUDE_CODE_AWS.md](CLAUDE_CODE_AWS.md)
+
+### **Option A: Google Colab Training**
+
 ### **Step 1: Open Training Notebook** (2 minutes)
 
 1. Go to [Google Colab](https://colab.research.google.com)
