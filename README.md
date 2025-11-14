@@ -23,16 +23,22 @@ Train your isotropic Gaussian embedding model in 3 steps:
 
 **Recommended:** Use GPU (T4) for default 5K samples. Use TPU only for 50K+ samples. See [GPU_vs_TPU.md](GPU_vs_TPU.md) for details.
 
-## 🖥️ AWS GPU Training with Cursor
+## 🖥️ AWS GPU Training
 
-Want to train on AWS GPU and develop with Cursor?
+Want to train on your own AWS GPU instance?
 
-1. **[Follow AWS Setup Guide](AWS_GPU_SETUP.md)** - Complete walkthrough
+### Option 1: Claude Code (AI-Assisted)
+1. **[Follow Claude Code AWS Guide](CLAUDE_CODE_AWS.md)** - AI-assisted training
+2. **Natural language interface** - "Train the model on GPU"
+3. **Auto-monitoring** - Claude watches training progress
+4. **Debug with AI** - Get help when things break
+
+### Option 2: Cursor (IDE)
+1. **[Follow AWS Setup Guide](AWS_GPU_SETUP.md)** - Traditional IDE setup
 2. **Connect Cursor** - Remote-SSH to GPU instance
-3. **Train remotely** - Full Cursor features on AWS GPU
-4. **Download model** - SCP to local machine
+3. **Full IDE features** - Code, debug, train on AWS GPU
 
-See [AWS_GPU_SETUP.md](AWS_GPU_SETUP.md) for step-by-step instructions.
+**Recommendation:** Use Claude Code for AI-assisted training and experimentation!
 
 ## 📋 Key Features
 

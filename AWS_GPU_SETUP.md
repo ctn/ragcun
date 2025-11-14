@@ -2,6 +2,8 @@
 
 I'll walk you through setting up a remote AWS GPU instance and connecting Cursor to it.
 
+> **💡 Prefer AI-Assisted Development?** Check out [CLAUDE_CODE_AWS.md](CLAUDE_CODE_AWS.md) for running Claude Code CLI on AWS GPU instead of Cursor. Claude Code gives you natural language interface for training: "Train the model on GPU and monitor progress".
+
 ## Phase 1: Launch AWS EC2 GPU Instance
 
 ### Step 1: Choose Instance Type
