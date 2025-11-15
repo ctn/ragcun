@@ -7,7 +7,7 @@ name = "ragcun"
 version = "0.2.0"
 description = "LeJEPA Isotropic Gaussian Embeddings for RAG - Train and use isotropic Gaussian embeddings with LeJEPA for superior retrieval"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.8,<3.12"
 license = {file = "LICENSE"}
 authors = [
     {name = "RAGCUN Team"},
@@ -22,7 +22,6 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
 ]
 
 dependencies = [
@@ -32,6 +31,7 @@ dependencies = [
     "sentence-transformers>=3.0.0",
     "faiss-cpu>=1.7.4",  # Use faiss-gpu for GPU support
     "tqdm>=4.65.0",
+    "python-dotenv>=1.0.0",  # Load environment variables from .env
 ]
 
 [project.optional-dependencies]
@@ -43,7 +43,7 @@ training = [
 
 # GPU support
 gpu = [
-    "faiss-gpu>=1.7.4",
+    "faiss-gpu>=1.7.2",
 ]
 
 # TPU support
@@ -88,11 +88,11 @@ Repository = "https://github.com/ctn/ragcun"
 "Bug Tracker" = "https://github.com/ctn/ragcun/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/ragcun"]
+packages = ["ragcun"]
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "/src",
+    "/ragcun",
     "/README.md",
     "/LICENSE",
     "/pyproject.toml",
