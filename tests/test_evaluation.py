@@ -10,7 +10,7 @@ import torch
 import sys
 from pathlib import Path
 
-# Add scripts to path
+# Add scripts to path for evaluate module
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
 from evaluate import RetrievalEvaluator
