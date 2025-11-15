@@ -116,15 +116,15 @@ import sys
 # Add project to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.models import GaussianEmbeddingModel
-from ragcun.retrieval import GaussianRetriever
+from ragcun.model import GaussianEmbeddingGemma
+from ragcun.retriever import GaussianRetriever
 from torch.utils.data import DataLoader, Dataset
 
 print("Loading models...")
 
 # Load both models
-baseline_model = GaussianEmbeddingModel.from_pretrained('checkpoints/smoke_baseline/best_model.pt')
-isotropy_model = GaussianEmbeddingModel.from_pretrained('checkpoints/smoke_isotropy/best_model.pt')
+baseline_model = GaussianEmbeddingGemma.from_pretrained('checkpoints/smoke_baseline/best_model.pt')
+isotropy_model = GaussianEmbeddingGemma.from_pretrained('checkpoints/smoke_isotropy/best_model.pt')
 
 baseline_model.eval()
 isotropy_model.eval()
