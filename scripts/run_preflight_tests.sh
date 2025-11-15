@@ -105,7 +105,11 @@ print(f"✅ Test data created: {len(test_data)} examples")
 EOF
 
 echo ""
-echo "Stage 1 Summary: $(($FAILURES == 0 && echo '✅ PASSED' || echo '❌ FAILED'))"
+if [ $FAILURES -eq 0 ]; then
+    echo "Stage 1 Summary: ✅ PASSED"
+else
+    echo "Stage 1 Summary: ❌ FAILED"
+fi
 
 # ========================================
 # STAGE 2: GPU TESTS
@@ -204,7 +208,11 @@ except Exception as e:
 EOF
 
 echo ""
-echo "Stage 2 Summary: $(($FAILURES == 0 && echo '✅ PASSED' || echo '❌ FAILED'))"
+if [ $FAILURES -eq 0 ]; then
+    echo "Stage 2 Summary: ✅ PASSED"
+else
+    echo "Stage 2 Summary: ❌ FAILED"
+fi
 
 # ========================================
 # STAGE 3: TRAINING TEST
