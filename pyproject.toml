@@ -26,7 +26,6 @@ classifiers = [
 
 dependencies = [
     "numpy>=1.24.0",
-    "torch>=2.0.0",
     "transformers>=4.45.0",
     "sentence-transformers>=3.0.0",
     "faiss-cpu>=1.7.4",  # Use faiss-gpu for GPU support
@@ -35,15 +34,23 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Training dependencies (use in Colab)
+# Training dependencies
 training = [
     "datasets>=2.14.0",
     "accelerate>=0.24.0",
 ]
 
-# GPU support
+# GPU support (CUDA 12.1)
+# Note: Install PyTorch with CUDA first:
+#   uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
 gpu = [
     "faiss-gpu>=1.7.2",
+]
+
+# CPU-only (default)
+cpu = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
 ]
 
 # TPU support
@@ -59,6 +66,7 @@ dev = [
     "ruff>=0.1.0",
     "mypy>=1.0.0",
     "ipython>=8.0.0",
+    "pandas>=2.0.0",  # Required for CSV tests in test_data_preparation.py
 ]
 
 # Jupyter/notebook support
