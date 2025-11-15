@@ -72,9 +72,9 @@ class TestRecallAtK:
             k_values=[10]
         )
 
-        # When k > retrieved, implementation caps k to len(retrieved)
-        # So result is stored with key = len(retrieved) = 3
-        assert recall[3] == 1.0
+        # When k > retrieved, implementation caps k to len(retrieved) but keeps original k as key
+        # This makes sense: "What was recall@10?" even if only 3 docs retrieved
+        assert recall[10] == 1.0
 
     def test_empty_relevant(self):
         """Test with no relevant documents."""
@@ -368,8 +368,8 @@ class TestMetricEdgeCases:
         ndcg = RetrievalEvaluator.compute_ndcg(retrieved, relevant, k=1)
         map_score = RetrievalEvaluator.compute_map(retrieved, relevant, k=1)
 
-        # Empty retrieved gets capped to 0, so key is 0
-        assert recall[0] == 0.0
+        # Empty retrieved - key is still original k (1), not effective k (0)
+        assert recall[1] == 0.0
         assert mrr == 0.0
         assert ndcg == 0.0
         assert map_score == 0.0
