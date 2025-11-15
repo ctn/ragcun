@@ -239,7 +239,8 @@ def train_epoch(
     optimizer: torch.optim.Optimizer,
     device: torch.device,
     epoch: int,
-    log_interval: int = 10
+    log_interval: int = 10,
+    scaler: Optional[torch.cuda.amp.GradScaler] = None
 ) -> Dict[str, float]:
     """Train for one epoch."""
     model.train()
@@ -254,25 +255,47 @@ def train_epoch(
     }
 
     pbar = tqdm(dataloader, desc=f"Epoch {epoch}")
+    use_amp = scaler is not None
 
     for batch_idx, batch in enumerate(pbar):
         optimizer.zero_grad()
 
-        # Encode texts
-        query_emb = model(batch['queries'])
-        pos_emb = model(batch['positives'])
-        neg_emb = model(batch['negatives']) if batch['negatives'] else None
+        # Forward pass with optional mixed precision
+        if use_amp:
+            with torch.cuda.amp.autocast():
+                # Encode texts
+                query_emb = model(batch['queries'])
+                pos_emb = model(batch['positives'])
+                neg_emb = model(batch['negatives']) if batch['negatives'] else None
 
-        # Compute loss
-        loss, loss_dict = criterion(query_emb, pos_emb, neg_emb)
+                # Compute loss
+                loss, loss_dict = criterion(query_emb, pos_emb, neg_emb)
+        else:
+            # Encode texts
+            query_emb = model(batch['queries'])
+            pos_emb = model(batch['positives'])
+            neg_emb = model(batch['negatives']) if batch['negatives'] else None
 
-        # Backward pass
-        loss.backward()
+            # Compute loss
+            loss, loss_dict = criterion(query_emb, pos_emb, neg_emb)
 
-        # Gradient clipping
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+        # Backward pass with optional mixed precision
+        if use_amp:
+            scaler.scale(loss).backward()
 
-        optimizer.step()
+            # Gradient clipping (unscale first for accurate clipping)
+            scaler.unscale_(optimizer)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+
+            scaler.step(optimizer)
+            scaler.update()
+        else:
+            loss.backward()
+
+            # Gradient clipping
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+
+            optimizer.step()
 
         # Accumulate losses
         total_loss += loss.item()
@@ -397,6 +420,22 @@ def main():
 
     args = parser.parse_args()
 
+    # Validate input files exist (fail fast)
+    train_data_path = Path(args.train_data)
+    if not train_data_path.exists():
+        logger.error(f"❌ Training data not found: {args.train_data}")
+        logger.error(f"   Please prepare data first using: python scripts/prepare_data.py")
+        sys.exit(1)
+    
+    if args.val_data:
+        val_data_path = Path(args.val_data)
+        if not val_data_path.exists():
+            logger.error(f"❌ Validation data not found: {args.val_data}")
+            logger.error(f"   Either remove --val_data or create the file")
+            sys.exit(1)
+    
+    logger.info("✅ Input files validated")
+
     # Create output directory
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -500,6 +539,8 @@ def main():
 
     # Mixed precision scaler
     scaler = torch.cuda.amp.GradScaler() if args.mixed_precision else None
+    if args.mixed_precision:
+        logger.info("✅ Mixed precision training enabled (FP16)")
 
     # Training loop
     logger.info("Starting training...")
@@ -513,8 +554,11 @@ def main():
         # Train
         train_losses = train_epoch(
             model, train_loader, criterion, optimizer, device,
-            epoch, args.log_interval
+            epoch, args.log_interval, scaler
         )
+
+        # Step learning rate scheduler
+        scheduler.step()
 
         # Log training metrics
         logger.info(f"\nTraining metrics:")
@@ -559,6 +603,10 @@ def main():
                 'config': vars(args)
             }, checkpoint_path)
             logger.info(f"  💾 Saved checkpoint to {checkpoint_path}")
+
+        # Clear GPU cache to free memory
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
     # Save final model
     final_path = output_dir / 'final_model.pt'
