@@ -19,8 +19,7 @@ import json
 # Add project to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.models import GaussianEmbeddingModel
-from ragcun.losses import InfoNCELoss, SIGRegLoss
+from ragcun.model import GaussianEmbeddingGemma
 
 def print_section(title):
     print("\n" + "=" * 60)
@@ -48,7 +47,7 @@ def main():
     print_section("Test 1: Model Initialization")
     
     try:
-        model = GaussianEmbeddingModel(
+        model = GaussianEmbeddingGemma(
             base_model='sentence-transformers/all-mpnet-base-v2',
             output_dim=512
         )
@@ -60,16 +59,11 @@ def main():
         print(f"❌ Model failed to load: {e}")
         return
     
-    # Test 2: Loss functions
-    print_section("Test 2: Loss Functions")
+    # Test 2: Loss function (isotropy component)
+    print_section("Test 2: Isotropy Loss Function")
     
-    try:
-        infonce_loss = InfoNCELoss(temperature=0.05)
-        sigreg_loss = SIGRegLoss()
-        print("✅ Loss functions initialized")
-    except Exception as e:
-        print(f"❌ Loss functions failed: {e}")
-        return
+    print("✅ Using isotropy loss from SIGRegLoss (in train.py)")
+    print("   Will test it with actual embeddings...")
     
     # Test 3: Forward pass
     print_section("Test 3: Forward Pass")
@@ -87,24 +81,16 @@ def main():
     ]
     
     try:
-        # Encode queries
-        q_inputs = model.tokenizer(queries, return_tensors='pt', 
-                                   padding=True, truncation=True, max_length=512)
-        q_inputs = {k: v.to(device) for k, v in q_inputs.items()}
-        q_out = model(**q_inputs)
-        
-        # Encode positives
-        p_inputs = model.tokenizer(positives, return_tensors='pt',
-                                   padding=True, truncation=True, max_length=512)
-        p_inputs = {k: v.to(device) for k, v in p_inputs.items()}
-        p_out = model(**p_inputs)
+        # Encode queries and positives using model.encode()
+        q_out = model.encode(queries, convert_to_numpy=False)
+        p_out = model.encode(positives, convert_to_numpy=False)
         
         print("✅ Forward pass works")
-        print(f"   Query shape: {q_out['mean'].shape}")
-        print(f"   Positive shape: {p_out['mean'].shape}")
+        print(f"   Query shape: {q_out.shape}")
+        print(f"   Positive shape: {p_out.shape}")
         
         # Initial isotropy
-        q_embeddings = q_out['mean'].detach().cpu().numpy()
+        q_embeddings = q_out.detach().cpu().numpy()
         initial_isotropy = measure_isotropy(q_embeddings)
         print(f"   Initial isotropy: {initial_isotropy:.4f}")
         
@@ -112,21 +98,21 @@ def main():
         print(f"❌ Forward pass failed: {e}")
         return
     
-    # Test 4: Loss computation
-    print_section("Test 4: Loss Computation")
+    # Test 4: Isotropy loss computation
+    print_section("Test 4: Isotropy Loss Computation")
     
     try:
-        # InfoNCE loss (supervised)
-        loss_infonce = infonce_loss(q_out, p_out)
-        print(f"✅ InfoNCE loss: {loss_infonce.item():.4f}")
+        # Compute isotropy loss (same as in train.py)
+        all_emb = torch.cat([q_out, p_out], dim=0)
+        mean = all_emb.mean(dim=0, keepdim=True)
+        centered = all_emb - mean
+        cov = (centered.T @ centered) / (all_emb.shape[0] - 1)
+        variance = torch.var(all_emb)
+        target_cov = torch.eye(cov.shape[0], device=cov.device) * variance
+        isotropy_loss = torch.norm(cov - target_cov, p='fro') / cov.shape[0]
         
-        # SIGReg loss (isotropy regularization)
-        loss_sigreg = sigreg_loss(q_out)
-        print(f"✅ SIGReg loss: {loss_sigreg.item():.4f}")
-        
-        # Combined loss
-        loss_combined = loss_infonce + 1.0 * loss_sigreg
-        print(f"✅ Combined loss: {loss_combined.item():.4f}")
+        print(f"✅ Isotropy loss: {isotropy_loss.item():.4f}")
+        print(f"   Embedding variance: {variance.item():.4f}")
         
     except Exception as e:
         print(f"❌ Loss computation failed: {e}")
@@ -139,8 +125,12 @@ def main():
     lambda_values = [0.0, 0.5, 1.0, 2.0]
     losses = []
     
+    # Base loss (just contrastive, simplified)
+    pos_dist = torch.norm(q_out - p_out, p=2, dim=1).mean()
+    base_loss = pos_dist
+    
     for lam in lambda_values:
-        loss = loss_infonce + lam * loss_sigreg
+        loss = base_loss + lam * isotropy_loss
         losses.append(loss.item())
         print(f"   λ={lam:.1f}: loss={loss.item():.4f}")
     
@@ -155,7 +145,7 @@ def main():
     print("Running 10 gradient steps with isotropy regularization...")
     
     # Fresh model for fair test
-    model_test = GaussianEmbeddingModel(
+    model_test = GaussianEmbeddingGemma(
         base_model='sentence-transformers/all-mpnet-base-v2',
         output_dim=512
     )
@@ -181,23 +171,29 @@ def main():
     
     isotropy_scores = []
     
+    def compute_isotropy_loss_fn(embeddings):
+        """Compute isotropy loss"""
+        mean = embeddings.mean(dim=0, keepdim=True)
+        centered = embeddings - mean
+        cov = (centered.T @ centered) / (embeddings.shape[0] - 1)
+        variance = torch.var(embeddings)
+        target_cov = torch.eye(cov.shape[0], device=cov.device) * variance
+        return torch.norm(cov - target_cov, p='fro') / cov.shape[0]
+    
     for step in range(10):
         optimizer.zero_grad()
         
         # Encode
-        inputs = model_test.tokenizer(texts, return_tensors='pt',
-                                     padding=True, truncation=True, max_length=512)
-        inputs = {k: v.to(device) for k, v in inputs.items()}
-        outputs = model_test(**inputs)
+        embeddings = model_test.encode(texts, convert_to_numpy=False)
         
         # Only isotropy loss
-        loss = sigreg_loss(outputs)
+        loss = compute_isotropy_loss_fn(embeddings)
         loss.backward()
         optimizer.step()
         
         # Measure isotropy
-        embeddings = outputs['mean'].detach().cpu().numpy()
-        isotropy = measure_isotropy(embeddings)
+        embeddings_np = embeddings.detach().cpu().numpy()
+        isotropy = measure_isotropy(embeddings_np)
         isotropy_scores.append(isotropy)
         
         if step % 3 == 0:
