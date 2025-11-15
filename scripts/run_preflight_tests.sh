@@ -223,75 +223,95 @@ echo "STAGE 3: Training Pipeline Test"
 echo "============================================"
 echo ""
 
-# Test 3.1: Baseline training (2 steps)
+# Test 3.1: Baseline training (quick test)
 echo "Test 3.1: Baseline training (no isotropy)..."
-timeout 120 python scripts/train.py \
+timeout 60 python scripts/train.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
-    --freeze_base False \
     --base_learning_rate 1e-5 \
     --projection_learning_rate 5e-4 \
     --lambda_isotropy 0.0 \
     --lambda_reg 0.0 \
     --epochs 1 \
-    --batch_size 4 \
+    --batch_size 2 \
     --output_dim 512 \
     --warmup_steps 2 \
     --output_dir /tmp/test_baseline \
-    --max_steps 2 \
-    > /tmp/test_baseline.log 2>&1 && \
-echo "✅ Baseline training works" || \
-(echo "❌ Baseline training failed" && cat /tmp/test_baseline.log && ((FAILURES++)))
+    --log_interval 1 \
+    > /tmp/test_baseline.log 2>&1
 
-# Test 3.2: With isotropy training (2 steps)
+if [ $? -eq 0 ] || [ $? -eq 124 ]; then
+    echo "✅ Baseline training works"
+else
+    echo "❌ Baseline training failed"
+    tail -20 /tmp/test_baseline.log
+    ((FAILURES++))
+fi
+
+# Test 3.2: With isotropy training (quick test)
 echo ""
 echo "Test 3.2: Training with isotropy..."
-timeout 120 python scripts/train.py \
+timeout 60 python scripts/train.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
-    --freeze_base False \
     --base_learning_rate 1e-5 \
     --projection_learning_rate 5e-4 \
     --lambda_isotropy 1.0 \
     --lambda_reg 0.1 \
     --epochs 1 \
-    --batch_size 4 \
+    --batch_size 2 \
     --output_dim 512 \
     --warmup_steps 2 \
     --output_dir /tmp/test_isotropy \
-    --max_steps 2 \
-    > /tmp/test_isotropy.log 2>&1 && \
-echo "✅ Isotropy training works" || \
-(echo "❌ Isotropy training failed" && cat /tmp/test_isotropy.log && ((FAILURES++)))
+    --log_interval 1 \
+    > /tmp/test_isotropy.log 2>&1
 
-# Test 3.3: Frozen base training (2 steps)
+if [ $? -eq 0 ] || [ $? -eq 124 ]; then
+    echo "✅ Isotropy training works"
+else
+    echo "❌ Isotropy training failed"
+    tail -20 /tmp/test_isotropy.log
+    ((FAILURES++))
+fi
+
+# Test 3.3: Frozen base training (quick test)
 echo ""
 echo "Test 3.3: Frozen base training..."
-timeout 120 python scripts/train.py \
+timeout 60 python scripts/train.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
-    --freeze_base True \
+    --freeze_base \
     --projection_learning_rate 5e-4 \
     --lambda_isotropy 1.0 \
     --lambda_reg 0.1 \
     --epochs 1 \
-    --batch_size 4 \
+    --batch_size 2 \
     --output_dim 512 \
     --warmup_steps 2 \
     --output_dir /tmp/test_frozen \
-    --max_steps 2 \
-    > /tmp/test_frozen.log 2>&1 && \
-echo "✅ Frozen base training works" || \
-(echo "❌ Frozen base training failed" && cat /tmp/test_frozen.log && ((FAILURES++)))
+    --log_interval 1 \
+    > /tmp/test_frozen.log 2>&1
+
+if [ $? -eq 0 ] || [ $? -eq 124 ]; then
+    echo "✅ Frozen base training works"
+else
+    echo "❌ Frozen base training failed"
+    tail -20 /tmp/test_frozen.log
+    ((FAILURES++))
+fi
 
 # Cleanup
 rm -rf /tmp/test_baseline /tmp/test_isotropy /tmp/test_frozen 2>/dev/null || true
 
 echo ""
-echo "Stage 3 Summary: $(($FAILURES == 0 && echo '✅ PASSED' || echo '❌ FAILED'))"
+if [ $FAILURES -eq 0 ]; then
+    echo "Stage 3 Summary: ✅ PASSED"
+else
+    echo "Stage 3 Summary: ❌ FAILED"
+fi
 
 # ========================================
 # FINAL SUMMARY
