@@ -18,17 +18,17 @@ DATA_DIR="data/processed/quick"
 
 echo "Step 1/3: Preparing Data"
 echo "============================================"
-./scripts/prepare_data_quick.sh "data/raw/sample_docs.txt" "$DATA_DIR" 50
+./scripts/1_prepare_data_quick.sh "data/raw/sample_docs.txt" "$DATA_DIR" 50
 
 echo ""
 echo "Step 2/3: Training Model"
 echo "============================================"
-./scripts/train_quick.sh "$DATA_DIR/train.json" "$DATA_DIR/val.json" "$OUTPUT_DIR" 8
+./scripts/2_train_quick.sh "$DATA_DIR/train.json" "$DATA_DIR/val.json" "$OUTPUT_DIR" 8
 
 echo ""
 echo "Step 3/3: Evaluating Model"
 echo "============================================"
-./scripts/eval.sh "$OUTPUT_DIR/final_model.pt" "$DATA_DIR/test_eval.json" "results/quick_results.json"
+./scripts/3_eval.sh "$OUTPUT_DIR/final_model.pt" "$DATA_DIR/test_eval.json" "results/quick_results.json"
 
 echo ""
 echo "============================================"

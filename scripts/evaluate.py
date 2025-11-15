@@ -137,10 +137,10 @@ class RetrievalEvaluator:
         recall = {}
 
         for k in k_values:
-            if k > len(retrieved_indices):
-                k = len(retrieved_indices)
+            # Use min to cap k, but keep original k as the dictionary key
+            effective_k = min(k, len(retrieved_indices))
 
-            retrieved_at_k = set(retrieved_indices[:k])
+            retrieved_at_k = set(retrieved_indices[:effective_k])
             num_relevant_retrieved = len(retrieved_at_k & relevant_set)
 
             recall[k] = num_relevant_retrieved / len(relevant_set) if relevant_set else 0.0

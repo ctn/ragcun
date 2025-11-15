@@ -19,7 +19,14 @@ class MockSentenceTransformer(nn.Module):
         super().__init__()
         self.model_name = model_name
         # Create a simple embedding layer to simulate the base model
-        self.embedding_dim = 768
+        # Support different embedding dims based on model name
+        if 'all-MiniLM-L6-v2' in model_name:
+            self.embedding_dim = 384
+        elif 'all-mpnet-base-v2' in model_name:
+            self.embedding_dim = 768
+        else:
+            self.embedding_dim = 768  # Default
+        
         self.embedder = nn.Linear(100, self.embedding_dim)  # Dummy embedder
 
         # Create encoder layers that can actually be frozen
@@ -27,8 +34,8 @@ class MockSentenceTransformer(nn.Module):
         self.encoder = nn.Module()
         self.encoder.layer = nn.ModuleList([
             nn.ModuleDict({
-                'attention': nn.Linear(768, 768),
-                'output': nn.Linear(768, 768)
+                'attention': nn.Linear(self.embedding_dim, self.embedding_dim),
+                'output': nn.Linear(self.embedding_dim, self.embedding_dim)
             }) for _ in range(12)
         ])
 
@@ -64,6 +71,41 @@ class MockSentenceTransformer(nn.Module):
         if convert_to_tensor:
             return embeddings
         return embeddings.numpy()
+    
+    def get_sentence_embedding_dimension(self):
+        """Return the embedding dimension."""
+        return self.embedding_dim
+    
+    def tokenize(self, texts):
+        """Mock tokenize method that returns dummy token tensors."""
+        if isinstance(texts, str):
+            texts = [texts]
+        
+        # Create dummy tokens (batch_size x seq_len)
+        batch_size = len(texts)
+        seq_len = 10  # Arbitrary sequence length
+        
+        return {
+            'input_ids': torch.randint(0, 1000, (batch_size, seq_len)),
+            'attention_mask': torch.ones(batch_size, seq_len)
+        }
+    
+    def forward(self, tokenized_input):
+        """Forward pass for training mode."""
+        batch_size = tokenized_input['input_ids'].shape[0]
+        
+        # Use embedder to ensure gradients flow properly
+        # Average over sequence dimension to get sentence embedding
+        input_ids = tokenized_input['input_ids'].float() / 1000.0  # Normalize to ~[0, 1]
+        embeddings = self.embedder(input_ids.mean(dim=1, keepdim=True).expand(-1, 100))
+        
+        # Pass through first encoder layer for realism
+        embeddings = self.encoder.layer[0]['attention'](embeddings)
+        
+        # Normalize
+        embeddings = embeddings / embeddings.norm(dim=-1, keepdim=True)
+        
+        return {'sentence_embedding': embeddings}
 
 
 @pytest.fixture(autouse=True)

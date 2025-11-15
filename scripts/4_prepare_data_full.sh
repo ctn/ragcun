@@ -41,6 +41,7 @@ python scripts/prepare_data.py \
     --generate_pairs \
     --num_pairs "$NUM_PAIRS" \
     --split 0.8 0.1 0.1 \
+    --output "$OUTPUT_DIR/data.json" \
     --output_dir "$OUTPUT_DIR"
 
 echo ""

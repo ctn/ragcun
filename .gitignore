@@ -81,10 +81,24 @@ target/
 # Data files (keep directory structure only)
 data/raw/*
 !data/raw/README.md
+!data/raw/*.txt
+data/raw/combined_docs.txt
 data/processed/*
 !data/processed/README.md
 data/embeddings/*
 !data/embeddings/README.md
+
+# Model checkpoints and results (large binary files)
+checkpoints/
+results/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Generated documentation
+docs/_build/
+docs/generated/
 
 # IPython
 profile_default/
