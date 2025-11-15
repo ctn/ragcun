@@ -3,6 +3,11 @@
 
 set -e
 
+# Load HF_TOKEN from .env file if it exists
+if [ -f .env ]; then
+    export $(grep -v '^#' .env | xargs)
+fi
+
 echo "============================================"
 echo "Full Training (3 epochs, production settings)"
 echo "============================================"

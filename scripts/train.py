@@ -23,7 +23,10 @@ from typing import Dict, List, Tuple, Optional
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torch.distributed as dist
+from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data import DataLoader, Dataset
+from torch.utils.data.distributed import DistributedSampler
 from tqdm import tqdm
 from dotenv import load_dotenv
 
@@ -347,8 +350,16 @@ def main():
     # Model arguments
     parser.add_argument('--output_dim', type=int, default=512,
                         help='Embedding dimension')
+    parser.add_argument('--base_model', type=str, default=None,
+                        help='Base model to use (default: google/embeddinggemma-300m)')
+    parser.add_argument('--freeze_base', action='store_true',
+                        help='Freeze entire base encoder (smart hybrid - train projection only)')
     parser.add_argument('--freeze_early_layers', action='store_true',
                         help='Freeze first 4 transformer layers')
+    parser.add_argument('--base_learning_rate', type=float, default=None,
+                        help='Learning rate for base encoder (default: same as --learning_rate)')
+    parser.add_argument('--projection_learning_rate', type=float, default=None,
+                        help='Learning rate for projection layer (default: same as --learning_rate)')
 
     # Training arguments
     parser.add_argument('--epochs', type=int, default=3,
@@ -430,6 +441,8 @@ def main():
     logger.info("Initializing model...")
     model = GaussianEmbeddingGemma(
         output_dim=args.output_dim,
+        base_model=args.base_model,
+        freeze_base=args.freeze_base,
         freeze_early_layers=args.freeze_early_layers
     )
     model = model.to(device)
@@ -441,12 +454,32 @@ def main():
         margin=args.margin
     )
 
-    # Initialize optimizer
-    optimizer = torch.optim.AdamW(
-        model.parameters(),
-        lr=args.learning_rate,
-        weight_decay=args.weight_decay
+    # Initialize optimizer with differential learning rates if specified
+    param_groups_dict = model.get_trainable_parameters()
+    
+    base_lr = args.base_learning_rate if args.base_learning_rate is not None else args.learning_rate
+    proj_lr = args.projection_learning_rate if args.projection_learning_rate is not None else args.learning_rate
+    
+    use_diff_lr = (
+        base_lr != proj_lr and
+        len(param_groups_dict['base']) > 0
     )
+    
+    if use_diff_lr:
+        logger.info("Using differential learning rates:")
+        logger.info(f"  Base encoder: {base_lr}")
+        logger.info(f"  Projection: {proj_lr}")
+        
+        optimizer = torch.optim.AdamW([
+            {'params': param_groups_dict['base'], 'lr': base_lr},
+            {'params': param_groups_dict['projection'], 'lr': proj_lr}
+        ], weight_decay=args.weight_decay)
+    else:
+        optimizer = torch.optim.AdamW(
+            model.parameters(),
+            lr=args.learning_rate,
+            weight_decay=args.weight_decay
+        )
 
     # Learning rate scheduler with warmup
     total_steps = len(train_loader) * args.epochs

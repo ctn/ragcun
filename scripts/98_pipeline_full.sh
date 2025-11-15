@@ -26,17 +26,17 @@ DATA_DIR="data/processed"
 echo ""
 echo "Step 1/3: Preparing Data"
 echo "============================================"
-./scripts/prepare_data_full.sh "$DATA_DIR" 1000
+./scripts/4_prepare_data_full.sh "$DATA_DIR" 1000
 
 echo ""
 echo "Step 2/3: Training Model"
 echo "============================================"
-./scripts/train_full.sh "$DATA_DIR/train.json" "$DATA_DIR/val.json" "$OUTPUT_DIR" 8 3
+./scripts/5_train_full.sh "$DATA_DIR/train.json" "$DATA_DIR/val.json" "$OUTPUT_DIR" 8 3
 
 echo ""
 echo "Step 3/3: Evaluating Model"
 echo "============================================"
-./scripts/eval.sh "$OUTPUT_DIR/best_model.pt" "$DATA_DIR/test_eval.json" "results/pipeline_results.json"
+./scripts/3_eval.sh "$OUTPUT_DIR/best_model.pt" "$DATA_DIR/test_eval.json" "results/pipeline_results.json"
 
 echo ""
 echo "============================================"
