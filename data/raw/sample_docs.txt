@@ -1,0 +1,10 @@
+Python is a high-level, interpreted programming language known for its simplicity and readability. It supports multiple programming paradigms including procedural, object-oriented, and functional programming.
+Machine learning is a subset of artificial intelligence that enables systems to learn and improve from experience without being explicitly programmed. It focuses on developing algorithms that can access data and use it to learn.
+Natural language processing (NLP) is a branch of artificial intelligence that helps computers understand, interpret and manipulate human language. NLP draws from many disciplines including computer science and linguistics.
+Deep learning is a subset of machine learning that uses neural networks with multiple layers. These artificial neural networks attempt to simulate the behavior of the human brain to learn from large amounts of data.
+Data science combines domain expertise, programming skills, and knowledge of mathematics and statistics to extract meaningful insights from data. It involves using scientific methods, processes, algorithms and systems.
+Artificial intelligence refers to the simulation of human intelligence in machines that are programmed to think like humans and mimic their actions. AI can be applied to any machine that exhibits traits associated with a human mind.
+Cloud computing delivers computing services including servers, storage, databases, networking, software, analytics, and intelligence over the Internet to offer faster innovation and flexible resources.
+DevOps is a set of practices that combines software development and IT operations. It aims to shorten the systems development life cycle and provide continuous delivery with high software quality.
+Blockchain is a distributed ledger technology that maintains a continuously growing list of records called blocks. Each block contains a timestamp and a link to the previous block, making it resistant to modification.
+Quantum computing uses quantum-mechanical phenomena such as superposition and entanglement to perform computations. Quantum computers are different from digital electronic computers based on transistors.
