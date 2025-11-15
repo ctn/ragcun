@@ -1,0 +1,5 @@
+What is machine learning?
+Tell me about Python programming
+How does NLP work?
+What is deep learning?
+Explain data science

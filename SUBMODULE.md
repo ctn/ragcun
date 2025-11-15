@@ -138,7 +138,7 @@ ragcun/
 │       ├── tests/
 │       ├── scripts/
 │       └── README.md
-├── src/ragcun/           # Your code
+├── ragcun/               # Your code
 ├── notebooks/            # Your notebooks
 └── .gitmodules           # Submodule configuration
 ```

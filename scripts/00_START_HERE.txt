@@ -1,0 +1,98 @@
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║   📚 SCRIPTS ARE NUMBERED IN ORDER OF USE                 ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+
+🎯 BEGINNER PATH (Recommended):
+
+Step 0: Check GPU
+    ./scripts/0_gpu_info.sh
+
+Then choose ONE:
+
+  Option A - Quick Test (5 min):
+    ./scripts/99_pipeline_quick.sh
+    (Runs steps 1→2→3 automatically)
+
+  Option B - Manual Quick Test:
+    ./scripts/1_prepare_data_quick.sh
+    ./scripts/2_train_quick.sh
+    ./scripts/3_eval.sh
+
+═══════════════════════════════════════════════════════════
+
+🚀 PRODUCTION PATH:
+
+After testing, run full training:
+
+  Option A - Full Pipeline (1-2 hrs):
+    ./scripts/98_pipeline_full.sh
+    (Runs steps 4→5→3 automatically)
+
+  Option B - Manual Full Training:
+    ./scripts/4_prepare_data_full.sh
+    ./scripts/5_train_full.sh
+    ./scripts/3_eval.sh checkpoints/full/best_model.pt
+
+═══════════════════════════════════════════════════════════
+
+🔧 ADVANCED TOOLS:
+
+6️⃣  Custom Training:
+    ./scripts/6_train_custom.sh --help
+
+7️⃣  Evaluate Multiple Models:
+    ./scripts/7_eval_all.sh checkpoints/
+
+8️⃣  Monitor Training (run while training):
+    ./scripts/8_monitor_training.sh
+
+9️⃣  Hyperparameter Search (3-6 hrs):
+    ./scripts/9_hyperparameter_search.sh
+
+═══════════════════════════════════════════════════════════
+
+📋 SCRIPT NUMBERING:
+
+0️⃣  Setup & Info
+    0_gpu_info.sh
+
+1️⃣-3️⃣  Quick Test Path (~5 min)
+    1_prepare_data_quick.sh
+    2_train_quick.sh
+    3_eval.sh
+
+4️⃣-5️⃣  Production Path (~1-2 hrs)
+    4_prepare_data_full.sh
+    5_train_full.sh
+    (reuse 3_eval.sh)
+
+6️⃣-9️⃣  Advanced Tools
+    6_train_custom.sh
+    7_eval_all.sh
+    8_monitor_training.sh
+    9_hyperparameter_search.sh
+
+98-99  Complete Pipelines
+    99_pipeline_quick.sh  (quick)
+    98_pipeline_full.sh   (full)
+
+═══════════════════════════════════════════════════════════
+
+💡 QUICK START:
+
+New user? Run this ONE command:
+    ./scripts/99_pipeline_quick.sh
+
+Ready for production? Run this ONE command:
+    ./scripts/98_pipeline_full.sh
+
+═══════════════════════════════════════════════════════════
+
+📚 More Info:
+    - scripts/WORKFLOW.md    → Detailed workflow guide
+    - scripts/README.md      → Complete script reference
+    - QUICKSTART.md          → Full quickstart guide
+
+═══════════════════════════════════════════════════════════
