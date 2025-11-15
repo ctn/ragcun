@@ -59,7 +59,7 @@ COMMON="--train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
     --epochs 1 \
-    --batch_size 32 \
+    --batch_size 16 \
     --output_dim 512 \
     --warmup_steps 100 \
     --mixed_precision \
@@ -81,6 +81,10 @@ python scripts/train.py \
     2>&1 | tee logs/smoke_baseline.log
 
 echo "✅ Baseline done: $(date +'%H:%M:%S')"
+
+# Clear GPU cache
+echo "Clearing GPU cache..."
+python -c "import torch; torch.cuda.empty_cache(); print('✅ GPU cache cleared')"
 
 echo ""
 echo "============================================"
@@ -122,9 +126,17 @@ from torch.utils.data import DataLoader, Dataset
 
 print("Loading models...")
 
-# Load both models
-baseline_model = GaussianEmbeddingGemma.from_pretrained('checkpoints/smoke_baseline/best_model.pt')
-isotropy_model = GaussianEmbeddingGemma.from_pretrained('checkpoints/smoke_isotropy/best_model.pt')
+# Load both models (specify base_model to match training)
+baseline_model = GaussianEmbeddingGemma.from_pretrained(
+    'checkpoints/smoke_baseline/best_model.pt',
+    base_model='sentence-transformers/all-mpnet-base-v2',
+    output_dim=512
+)
+isotropy_model = GaussianEmbeddingGemma.from_pretrained(
+    'checkpoints/smoke_isotropy/best_model.pt',
+    base_model='sentence-transformers/all-mpnet-base-v2',
+    output_dim=512
+)
 
 baseline_model.eval()
 isotropy_model.eval()
