@@ -133,7 +133,7 @@ euclidean_dist(query, doc2) = 4.2   # Bad match
 
 ```
 ragcun/
-├── src/ragcun/                              # Main package
+├── ragcun/                                  # Main package
 │   ├── __init__.py
 │   ├── model.py                             # GaussianEmbeddingGemma model
 │   └── retriever.py                         # Gaussian retriever (L2 distance)

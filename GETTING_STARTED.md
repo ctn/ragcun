@@ -108,8 +108,8 @@ Query: "What is machine learning?"
 3. `notebooks/evaluate_rag.ipynb` - Compare performance
 
 ### **Code:**
-- `src/ragcun/model.py` - GaussianEmbeddingGemma class
-- `src/ragcun/retriever.py` - L2 distance retriever
+- `ragcun/model.py` - GaussianEmbeddingGemma class
+- `ragcun/retriever.py` - L2 distance retriever
 - `examples/retrieval_example.py` - Usage demo
 
 ---

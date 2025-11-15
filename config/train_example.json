@@ -1,0 +1,19 @@
+{
+  "train_data": "data/processed/train.json",
+  "val_data": "data/processed/val.json",
+  "output_dim": 512,
+  "freeze_early_layers": true,
+  "epochs": 3,
+  "batch_size": 8,
+  "learning_rate": 2e-5,
+  "weight_decay": 0.01,
+  "warmup_steps": 100,
+  "lambda_isotropy": 1.0,
+  "lambda_reg": 0.1,
+  "margin": 1.0,
+  "output_dir": "checkpoints",
+  "save_interval": 1,
+  "log_interval": 10,
+  "device": "cuda",
+  "mixed_precision": false
+}

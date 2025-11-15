@@ -136,7 +136,7 @@ class GaussianRetriever:
         Returns:
             List of (document, distance) tuples, sorted by distance (lower=better)
         """
-        if not self.documents:
+        if not self.documents or top_k <= 0:
             return []
 
         # Encode query

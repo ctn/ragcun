@@ -1,0 +1,5 @@
+Python is a high-level programming language.
+Machine learning is a subset of artificial intelligence.
+Natural language processing enables computers to understand human language.
+Deep learning uses neural networks with multiple layers.
+Data science combines statistics, programming, and domain knowledge.

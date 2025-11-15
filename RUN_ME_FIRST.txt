@@ -1,0 +1,98 @@
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║   🚀 RAGCUN - RAG Training on GPU                         ║
+║   Scripts are numbered in order of use!                   ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+
+📋 QUICK START (Choose one):
+
+1️⃣  Complete Quick Test (5 min):
+    ./scripts/99_pipeline_quick.sh
+
+2️⃣  Complete Full Training (1-2 hrs):
+    ./scripts/98_pipeline_full.sh
+
+3️⃣  Check GPU First:
+    ./scripts/0_gpu_info.sh
+
+═══════════════════════════════════════════════════════════
+
+📚 NUMBERED WORKFLOW:
+
+BEGINNER PATH (Steps 1-3):
+  0️⃣  ./scripts/0_gpu_info.sh              Check GPU
+  1️⃣  ./scripts/1_prepare_data_quick.sh    50 pairs
+  2️⃣  ./scripts/2_train_quick.sh           Train 1 epoch
+  3️⃣  ./scripts/3_eval.sh                  Evaluate
+
+PRODUCTION PATH (Steps 4-5):
+  4️⃣  ./scripts/4_prepare_data_full.sh     1000 pairs
+  5️⃣  ./scripts/5_train_full.sh            Train 3 epochs
+  3️⃣  ./scripts/3_eval.sh                  Evaluate (reuse)
+
+ADVANCED (Steps 6-9):
+  6️⃣  ./scripts/6_train_custom.sh          Custom settings
+  7️⃣  ./scripts/7_eval_all.sh              Compare models
+  8️⃣  ./scripts/8_monitor_training.sh      Real-time monitor
+  9️⃣  ./scripts/9_hyperparameter_search.sh Grid search
+
+AUTOMATED PIPELINES:
+  99  ./scripts/99_pipeline_quick.sh       Quick (1→2→3)
+  98  ./scripts/98_pipeline_full.sh        Full (4→5→3)
+
+═══════════════════════════════════════════════════════════
+
+💡 RECOMMENDATION:
+
+First time? Run this:
+    ./scripts/0_gpu_info.sh          # Check GPU
+    ./scripts/99_pipeline_quick.sh   # Test everything
+
+Then run this:
+    ./scripts/98_pipeline_full.sh    # Full training
+
+═══════════════════════════════════════════════════════════
+
+📚 Documentation (numbered order):
+    scripts/00_START_HERE.txt   → Quick reference
+    scripts/WORKFLOW.md         → Detailed workflow guide
+    QUICKSTART.md               → Complete quickstart
+    scripts/README.md           → All scripts reference
+
+═══════════════════════════════════════════════════════════
+
+📊 What's Ready:
+
+Shell Scripts: 13 scripts (numbered by workflow)
+    0-5:  Core workflow
+    6-9:  Advanced tools
+    98-99: Complete pipelines
+
+Python Scripts: 3 core scripts
+    train.py (18KB)
+    evaluate.py (12KB)
+    prepare_data.py (14KB)
+
+Training Data: 61+ documents
+    tech_docs.txt (41 docs)
+    science_docs.txt (20 docs)
+    training_pairs.json (20 pairs)
+
+═══════════════════════════════════════════════════════════
+
+🎯 The Numbers Show the Path:
+
+    0 → Check setup
+    ↓
+    1-2-3 → Quick test (5 min)
+    ↓
+    4-5-3 → Production (1-2 hrs)
+    ↓
+    6-9 → Advanced experiments
+
+Or just run: 99 (quick) then 98 (full)
+
+═══════════════════════════════════════════════════════════
+
+Happy Training! 🎉
