@@ -116,21 +116,26 @@ class SIGRegLoss(nn.Module):
         lambda_contrastive: float = 1.0,
         lambda_isotropy: float = 1.0,
         lambda_reg: float = 0.1,
+        lambda_predictive: float = 0.0,
         margin: float = 1.0,
-        target_std: float = 1.0
+        target_std: float = 1.0,
+        use_stopgrad: bool = True
     ):
         super().__init__()
         self.lambda_contrastive = lambda_contrastive
         self.lambda_isotropy = lambda_isotropy
         self.lambda_reg = lambda_reg
+        self.lambda_predictive = lambda_predictive
         self.margin = margin
         self.target_std = target_std
+        self.use_stopgrad = use_stopgrad
 
     def forward(
         self,
         query_emb: torch.Tensor,
         pos_emb: torch.Tensor,
-        neg_emb: Optional[torch.Tensor] = None
+        neg_emb: Optional[torch.Tensor] = None,
+        predicted_pos: Optional[torch.Tensor] = None
     ) -> Tuple[torch.Tensor, Dict[str, float]]:
         """
         Compute SIGReg loss.
@@ -203,11 +208,20 @@ class SIGRegLoss(nn.Module):
         std = torch.std(all_emb)
         reg_loss = (std - self.target_std) ** 2
 
+        # 4. Predictive Loss (JEPA-style): Predict document from query
+        if predicted_pos is not None and self.lambda_predictive > 0:
+            # Stop-gradient on target to prevent collapse (JEPA standard)
+            target = pos_emb.detach() if self.use_stopgrad else pos_emb
+            predictive_loss = F.mse_loss(predicted_pos, target)
+        else:
+            predictive_loss = torch.tensor(0.0, device=query_emb.device)
+
         # Total loss
         total_loss = (
             self.lambda_contrastive * contrastive_loss +
             self.lambda_isotropy * isotropy_loss +
-            self.lambda_reg * reg_loss
+            self.lambda_reg * reg_loss +
+            self.lambda_predictive * predictive_loss
         )
 
         # Return loss components for logging
@@ -216,6 +230,7 @@ class SIGRegLoss(nn.Module):
             'contrastive': contrastive_loss.item(),
             'isotropy': isotropy_loss.item(),
             'regularization': reg_loss.item(),
+            'predictive': predictive_loss.item() if isinstance(predictive_loss, torch.Tensor) else predictive_loss,
             'pos_dist_mean': pos_dist.mean().item(),
             'embedding_std': std.item(),
         }
@@ -272,16 +287,22 @@ def train_epoch(
                 pos_emb = model(batch['positives'])
                 neg_emb = model(batch['negatives']) if batch['negatives'] else None
 
+                # Predict document from query (JEPA-style)
+                predicted_pos = model.predictor(query_emb) if model.predictor is not None else None
+
                 # Compute loss
-                loss, loss_dict = criterion(query_emb, pos_emb, neg_emb)
+                loss, loss_dict = criterion(query_emb, pos_emb, neg_emb, predicted_pos=predicted_pos)
         else:
             # Encode texts
             query_emb = model(batch['queries'])
             pos_emb = model(batch['positives'])
             neg_emb = model(batch['negatives']) if batch['negatives'] else None
 
+            # Predict document from query (JEPA-style)
+            predicted_pos = model.predictor(query_emb) if model.predictor is not None else None
+
             # Compute loss
-            loss, loss_dict = criterion(query_emb, pos_emb, neg_emb)
+            loss, loss_dict = criterion(query_emb, pos_emb, neg_emb, predicted_pos=predicted_pos)
 
         # Backward pass with optional mixed precision
         if use_amp:
@@ -409,6 +430,12 @@ def main():
                         help='Weight for isotropy loss')
     parser.add_argument('--lambda_reg', type=float, default=0.1,
                         help='Weight for regularization loss')
+    parser.add_argument('--lambda_predictive', type=float, default=0.0,
+                        help='Weight for predictive loss (JEPA-style, set >0 to enable)')
+    parser.add_argument('--use_predictor', action='store_true',
+                        help='Use predictor network (JEPA-style: query → document)')
+    parser.add_argument('--no_stopgrad', action='store_true',
+                        help='Disable stop-gradient on target (default: enabled for JEPA)')
     parser.add_argument('--margin', type=float, default=1.0,
                         help='Margin for contrastive loss')
 
@@ -419,6 +446,8 @@ def main():
                         help='Save checkpoint every N epochs')
     parser.add_argument('--log_interval', type=int, default=10,
                         help='Log every N batches')
+    parser.add_argument('--resume_from', type=str, default=None,
+                        help='Path to checkpoint to resume from (e.g., checkpoint_epoch_N.pt)')
 
     # Device arguments
     parser.add_argument('--device', type=str, default='cuda' if torch.cuda.is_available() else 'cpu',
@@ -491,7 +520,8 @@ def main():
         base_model=args.base_model,
         freeze_base=args.freeze_base,
         freeze_early_layers=args.freeze_early_layers,
-        normalize_embeddings=not args.no_normalize_embeddings
+        normalize_embeddings=not args.no_normalize_embeddings,
+        use_predictor=args.use_predictor
     )
     model = model.to(device)
 
@@ -500,7 +530,9 @@ def main():
         lambda_contrastive=args.lambda_contrastive,
         lambda_isotropy=args.lambda_isotropy,
         lambda_reg=args.lambda_reg,
-        margin=args.margin
+        lambda_predictive=args.lambda_predictive,
+        margin=args.margin,
+        use_stopgrad=not args.no_stopgrad
     )
 
     # Initialize optimizer with differential learning rates if specified
@@ -519,10 +551,16 @@ def main():
         logger.info(f"  Base encoder: {base_lr}")
         logger.info(f"  Projection: {proj_lr}")
         
-        optimizer = torch.optim.AdamW([
+        param_groups = [
             {'params': param_groups_dict['base'], 'lr': base_lr},
             {'params': param_groups_dict['projection'], 'lr': proj_lr}
-        ], weight_decay=args.weight_decay)
+        ]
+        # Add predictor if it exists
+        if len(param_groups_dict['predictor']) > 0:
+            param_groups.append({'params': param_groups_dict['predictor'], 'lr': proj_lr})
+            logger.info(f"  Predictor: {proj_lr}")
+        
+        optimizer = torch.optim.AdamW(param_groups, weight_decay=args.weight_decay)
     else:
         optimizer = torch.optim.AdamW(
             model.parameters(),
@@ -552,11 +590,41 @@ def main():
     if args.mixed_precision:
         logger.info("✅ Mixed precision training enabled (FP16)")
 
+    # Resume from checkpoint if provided
+    start_epoch = 1
+    if args.resume_from:
+        checkpoint_path = Path(args.resume_from)
+        if checkpoint_path.exists():
+            logger.info(f"🔄 Resuming from checkpoint: {checkpoint_path}")
+            checkpoint = torch.load(checkpoint_path, map_location=device)
+            
+            # Load model state
+            model.load_state_dict(checkpoint['model_state_dict'])
+            
+            # Load optimizer state
+            if 'optimizer_state_dict' in checkpoint:
+                optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            
+            # Load scheduler state
+            if 'scheduler_state_dict' in checkpoint:
+                scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+            
+            # Get starting epoch
+            start_epoch = checkpoint.get('epoch', 1) + 1
+            best_val_loss = checkpoint.get('val_loss', float('inf'))
+            
+            logger.info(f"✅ Resumed from epoch {checkpoint.get('epoch', 1)}")
+            logger.info(f"   Continuing from epoch {start_epoch} to {args.epochs}")
+        else:
+            logger.warning(f"⚠️  Checkpoint not found: {checkpoint_path}")
+            logger.warning("   Starting training from scratch")
+
     # Training loop
     logger.info("Starting training...")
-    best_val_loss = float('inf')
+    if not args.resume_from:
+        best_val_loss = float('inf')
 
-    for epoch in range(1, args.epochs + 1):
+    for epoch in range(start_epoch, args.epochs + 1):
         logger.info(f"\n{'='*60}")
         logger.info(f"Epoch {epoch}/{args.epochs}")
         logger.info(f"{'='*60}")

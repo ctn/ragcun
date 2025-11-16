@@ -191,21 +191,25 @@ class GaussianEmbeddingGemma(nn.Module):
         Get list of trainable parameters for optimizer groups.
         
         Returns:
-            Dictionary with 'base' and 'projection' parameter lists
+            Dictionary with 'base', 'projection', and 'predictor' parameter lists
         """
         base_params = []
         projection_params = []
+        predictor_params = []
         
         for name, param in self.named_parameters():
             if param.requires_grad:
                 if 'projection' in name:
                     projection_params.append(param)
+                elif 'predictor' in name:
+                    predictor_params.append(param)
                 else:
                     base_params.append(param)
         
         return {
             'base': base_params,
-            'projection': projection_params
+            'projection': projection_params,
+            'predictor': predictor_params
         }
     
     @classmethod
@@ -215,7 +219,8 @@ class GaussianEmbeddingGemma(nn.Module):
         output_dim=512,
         base_model=None,
         freeze_base=False,
-        normalize_embeddings=True
+        normalize_embeddings=True,
+        use_predictor=None
     ):
         """
         Load model from saved weights.
@@ -226,24 +231,32 @@ class GaussianEmbeddingGemma(nn.Module):
             base_model: Base model to use (default: same as saved)
             freeze_base: Whether to freeze base encoder
             normalize_embeddings: Whether to normalize base model embeddings
+            use_predictor: Whether to load predictor (None = auto-detect from checkpoint)
 
         Returns:
             Loaded model
         """
-        model = cls(
-            output_dim=output_dim,
-            base_model=base_model,
-            freeze_base=freeze_base,
-            freeze_early_layers=False,
-            normalize_embeddings=normalize_embeddings
-        )
-        state_dict = torch.load(path, map_location='cpu')
+        state_dict = torch.load(path, map_location='cpu', weights_only=False)
 
         # Handle both full checkpoint and state_dict only
         if 'model_state_dict' in state_dict:
             state_dict = state_dict['model_state_dict']
 
-        model.load_state_dict(state_dict)
+        # Auto-detect if predictor exists in checkpoint
+        if use_predictor is None:
+            use_predictor = any('predictor' in key for key in state_dict.keys())
+
+        model = cls(
+            output_dim=output_dim,
+            base_model=base_model,
+            freeze_base=freeze_base,
+            freeze_early_layers=False,
+            normalize_embeddings=normalize_embeddings,
+            use_predictor=use_predictor
+        )
+        
+        # Load state dict (may have predictor or not)
+        model.load_state_dict(state_dict, strict=False)
         model.eval()
         print(f"✅ Loaded model from {path}")
         return model
