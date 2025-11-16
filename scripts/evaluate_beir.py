@@ -379,6 +379,12 @@ Available datasets: {', '.join(BEIR_DATASETS.keys())}
     )
 
     parser.add_argument(
+        '--use_predictor',
+        action='store_true',
+        help='Load model with predictor network (for JEPA-like models)'
+    )
+
+    parser.add_argument(
         '--data_dir',
         type=str,
         default='data/beir',
@@ -407,6 +413,8 @@ Available datasets: {', '.join(BEIR_DATASETS.keys())}
         load_kwargs['freeze_base'] = True
     if args.no_normalize_embeddings:
         load_kwargs['normalize_embeddings'] = False
+    if args.use_predictor:
+        load_kwargs['use_predictor'] = True
 
     model = GaussianEmbeddingGemma.from_pretrained(
         args.model_path,
