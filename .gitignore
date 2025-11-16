@@ -229,3 +229,4 @@ marimo/_lsp/
 __marimo__/
 # External dependencies (not used in current implementation)
 external/
+data/beir/
