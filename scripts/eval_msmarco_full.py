@@ -219,15 +219,56 @@ def main():
             print(f"ERROR loading isotropy model: {e}")
             isotropy_results = None
         
+        # Evaluate frozen base
+        print(f"\n📊 Frozen Base (λ_iso=1.0, base frozen)")
+        print("-"*80)
+        frozen_path = f'checkpoints/smoke_frozen/{model_key}_frozen_isotropy/best_model.pt'
+        
+        try:
+            frozen_model = GaussianEmbeddingGemma.from_pretrained(
+                frozen_path,
+                base_model=base_model,
+                output_dim=512,
+                freeze_base=True
+            ).to(device)
+            
+            frozen_results = evaluate_model(
+                frozen_model,
+                queries,
+                positives,
+                all_passages,
+                device=device
+            )
+            
+            print(f"\nResults:")
+            print(f"  MRR@10:     {frozen_results['mrr@10']:.4f}")
+            print(f"  Recall@1:   {frozen_results['recall@1']:.4f}")
+            print(f"  Recall@5:   {frozen_results['recall@5']:.4f}")
+            print(f"  Recall@10:  {frozen_results['recall@10']:.4f}")
+            print(f"  Recall@100: {frozen_results['recall@100']:.4f}")
+            print(f"  Median rank: {frozen_results['median_rank']:.1f}")
+            
+            # Clear GPU memory
+            del frozen_model
+            torch.cuda.empty_cache()
+            
+        except Exception as e:
+            print(f"ERROR loading frozen model: {e}")
+            frozen_results = None
+        
         # Compute improvements
-        if baseline_results and isotropy_results:
-            print(f"\n📈 Improvement")
+        if baseline_results and isotropy_results and frozen_results:
+            print(f"\n📈 Improvement (vs Baseline)")
             print("-"*80)
-            print(f"  MRR@10:     {isotropy_results['mrr@10'] - baseline_results['mrr@10']:+.4f}")
-            print(f"  Recall@1:   {(isotropy_results['recall@1'] - baseline_results['recall@1'])*100:+.1f}%")
-            print(f"  Recall@5:   {(isotropy_results['recall@5'] - baseline_results['recall@5'])*100:+.1f}%")
-            print(f"  Recall@10:  {(isotropy_results['recall@10'] - baseline_results['recall@10'])*100:+.1f}%")
-            print(f"  Recall@100: {(isotropy_results['recall@100'] - baseline_results['recall@100'])*100:+.1f}%")
+            print(f"  Full FT   - Recall@5:  {(isotropy_results['recall@5'] - baseline_results['recall@5'])*100:+.1f}%")
+            print(f"  Frozen    - Recall@5:  {(frozen_results['recall@5'] - baseline_results['recall@5'])*100:+.1f}%")
+            print(f"\n  Winner: ", end="")
+            if frozen_results['recall@5'] > isotropy_results['recall@5']:
+                print("🏆 FROZEN BASE")
+            elif isotropy_results['recall@5'] > frozen_results['recall@5']:
+                print("🏆 FULL FINE-TUNE")
+            else:
+                print("🤝 TIE")
             
             results.append({
                 'model': model_key,
@@ -235,12 +276,12 @@ def main():
                 'size': size,
                 'baseline': baseline_results,
                 'isotropy': isotropy_results,
+                'frozen': frozen_results,
                 'improvement': {
-                    'mrr@10': isotropy_results['mrr@10'] - baseline_results['mrr@10'],
-                    'recall@1': isotropy_results['recall@1'] - baseline_results['recall@1'],
-                    'recall@5': isotropy_results['recall@5'] - baseline_results['recall@5'],
-                    'recall@10': isotropy_results['recall@10'] - baseline_results['recall@10'],
-                    'recall@100': isotropy_results['recall@100'] - baseline_results['recall@100'],
+                    'full_ft_mrr@10': isotropy_results['mrr@10'] - baseline_results['mrr@10'],
+                    'full_ft_recall@5': isotropy_results['recall@5'] - baseline_results['recall@5'],
+                    'frozen_mrr@10': frozen_results['mrr@10'] - baseline_results['mrr@10'],
+                    'frozen_recall@5': frozen_results['recall@5'] - baseline_results['recall@5'],
                 }
             })
         
@@ -254,47 +295,53 @@ def main():
         json.dump(results, f, indent=2)
     
     # Print summary table
-    print("\n" + "="*90)
-    print("MS MARCO DEV SET EVALUATION SUMMARY (1,939 queries)")
-    print("="*90)
-    print(f"{'Model':<20} {'Size':<8} {'MRR@10 Δ':<12} {'R@1 Δ':<10} {'R@5 Δ':<10} {'R@10 Δ':<10}")
-    print("-"*90)
+    print("\n" + "="*100)
+    print("MS MARCO DEV SET: FROZEN BASE vs FULL FINE-TUNE COMPARISON (1,939 queries)")
+    print("="*100)
+    print(f"{'Model':<20} {'Size':<8} {'Baseline':<12} {'Full FT':<12} {'Frozen':<12} {'Winner':<15}")
+    print("-"*100)
     
     for r in results:
         model = r['model']
         size = r['size']
-        mrr_delta = r['improvement']['mrr@10']
-        r1_delta = r['improvement']['recall@1'] * 100
-        r5_delta = r['improvement']['recall@5'] * 100
-        r10_delta = r['improvement']['recall@10'] * 100
+        base_r5 = r['baseline']['recall@5'] * 100
+        full_r5 = r['isotropy']['recall@5'] * 100
+        frozen_r5 = r['frozen']['recall@5'] * 100
         
-        print(f"{model:<20} {size:<8} {mrr_delta:+.4f}       {r1_delta:+5.1f}%     {r5_delta:+5.1f}%     {r10_delta:+5.1f}%")
+        full_delta = (r['isotropy']['recall@5'] - r['baseline']['recall@5']) * 100
+        frozen_delta = (r['frozen']['recall@5'] - r['baseline']['recall@5']) * 100
+        
+        if frozen_r5 > full_r5:
+            winner = "Frozen"
+        elif full_r5 > frozen_r5:
+            winner = "Full FT"
+        else:
+            winner = "Tie"
+        
+        print(f"{model:<20} {size:<8} {base_r5:5.1f}%       "
+              f"{full_r5:5.1f}% ({full_delta:+.1f}%) {frozen_r5:5.1f}% ({frozen_delta:+.1f}%) {winner}")
     
-    print("\n" + "="*90)
+    print("\n" + "="*100)
     print("SUMMARY")
-    print("="*90)
+    print("="*100)
     
-    avg_mrr = sum(r['improvement']['mrr@10'] for r in results) / len(results)
-    avg_r1 = sum(r['improvement']['recall@1'] for r in results) / len(results) * 100
-    avg_r5 = sum(r['improvement']['recall@5'] for r in results) / len(results) * 100
+    avg_full_ft = sum(r['improvement']['full_ft_recall@5'] for r in results) / len(results) * 100
+    avg_frozen = sum(r['improvement']['frozen_recall@5'] for r in results) / len(results) * 100
     
-    print(f"Average MRR@10 improvement: {avg_mrr:+.4f}")
-    print(f"Average Recall@1 improvement: {avg_r1:+.1f}%")
-    print(f"Average Recall@5 improvement: {avg_r5:+.1f}%")
+    print(f"Average Recall@5 improvement:")
+    print(f"  Full fine-tune: {avg_full_ft:+.1f}%")
+    print(f"  Frozen base:    {avg_frozen:+.1f}%")
+    print()
     
-    # Count improvements
-    positive_improvements = sum(1 for r in results if r['improvement']['recall@5'] > 0.01)
-    
-    print(f"\nModels with >1% Recall@5 improvement: {positive_improvements}/{len(results)}")
-    
-    if positive_improvements >= len(results) * 0.75:
-        print("\n✅ STRONG CONSISTENT IMPROVEMENTS - Publication ready!")
-    elif positive_improvements >= len(results) * 0.5:
-        print("\n✅ MAJORITY show improvements - Good publication evidence")
+    # Determine overall winner
+    if avg_frozen > avg_full_ft + 0.5:
+        print("✅ FROZEN BASE WINS! Better performance with 3x faster training")
+    elif avg_full_ft > avg_frozen + 0.5:
+        print("✅ FULL FINE-TUNE WINS! Worth the extra training time")
     else:
-        print("\n⚠️  Mixed results - Further investigation needed")
+        print("✅ TIE! Both approaches perform similarly")
     
-    print("="*90)
+    print("="*100)
     print(f"\nResults saved to: {output_dir / 'results.json'}")
     print()
 

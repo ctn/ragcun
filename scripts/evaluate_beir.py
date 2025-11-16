@@ -360,6 +360,19 @@ Available datasets: {', '.join(BEIR_DATASETS.keys())}
     )
     
     parser.add_argument(
+        '--base_model',
+        type=str,
+        default=None,
+        help='Base model name (e.g., sentence-transformers/all-mpnet-base-v2)'
+    )
+    
+    parser.add_argument(
+        '--freeze_base',
+        action='store_true',
+        help='Load with frozen base encoder (for frozen models)'
+    )
+    
+    parser.add_argument(
         '--data_dir',
         type=str,
         default='data/beir',
@@ -381,9 +394,15 @@ Available datasets: {', '.join(BEIR_DATASETS.keys())}
     
     # Load model
     logger.info(f"Loading model from {args.model_path}")
+    load_kwargs = {'output_dim': args.output_dim}
+    if args.base_model:
+        load_kwargs['base_model'] = args.base_model
+    if args.freeze_base:
+        load_kwargs['freeze_base'] = True
+    
     model = GaussianEmbeddingGemma.from_pretrained(
         args.model_path,
-        output_dim=args.output_dim
+        **load_kwargs
     )
     model = model.to(device)
     model.eval()
