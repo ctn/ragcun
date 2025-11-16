@@ -371,14 +371,20 @@ Available datasets: {', '.join(BEIR_DATASETS.keys())}
         action='store_true',
         help='Load with frozen base encoder (for frozen models)'
     )
-    
+
+    parser.add_argument(
+        '--no_normalize_embeddings',
+        action='store_true',
+        help='Disable normalization of base model embeddings (for models trained without normalization)'
+    )
+
     parser.add_argument(
         '--data_dir',
         type=str,
         default='data/beir',
         help='Directory to store BEIR datasets (default: data/beir)'
     )
-    
+
     args = parser.parse_args()
     
     # Validate datasets
@@ -399,7 +405,9 @@ Available datasets: {', '.join(BEIR_DATASETS.keys())}
         load_kwargs['base_model'] = args.base_model
     if args.freeze_base:
         load_kwargs['freeze_base'] = True
-    
+    if args.no_normalize_embeddings:
+        load_kwargs['normalize_embeddings'] = False
+
     model = GaussianEmbeddingGemma.from_pretrained(
         args.model_path,
         **load_kwargs

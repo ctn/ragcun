@@ -104,6 +104,7 @@ class SIGRegLoss(nn.Module):
     3. Regularization loss: Prevent collapse and maintain variance
 
     Args:
+        lambda_contrastive: Weight for contrastive loss (default: 1.0, set to 0.0 for pure isotropy)
         lambda_isotropy: Weight for isotropy loss (default: 1.0)
         lambda_reg: Weight for regularization loss (default: 0.1)
         margin: Margin for contrastive loss (default: 1.0)
@@ -112,12 +113,14 @@ class SIGRegLoss(nn.Module):
 
     def __init__(
         self,
+        lambda_contrastive: float = 1.0,
         lambda_isotropy: float = 1.0,
         lambda_reg: float = 0.1,
         margin: float = 1.0,
         target_std: float = 1.0
     ):
         super().__init__()
+        self.lambda_contrastive = lambda_contrastive
         self.lambda_isotropy = lambda_isotropy
         self.lambda_reg = lambda_reg
         self.margin = margin
@@ -188,20 +191,21 @@ class SIGRegLoss(nn.Module):
         centered = all_emb - mean
         cov = (centered.T @ centered) / (all_emb.shape[0] - 1)
 
-        # Ideal isotropic covariance is identity * variance
+        # SIGReg: Isotropic covariance at CURRENT scale (scale-invariant)
+        # This enforces isotropy without constraining variance
         variance = torch.var(all_emb)
         target_cov = torch.eye(cov.shape[0], device=cov.device) * variance
 
-        # Frobenius norm of difference
+        # Frobenius norm of difference (normalized by dimension)
         isotropy_loss = torch.norm(cov - target_cov, p='fro') / cov.shape[0]
 
-        # 3. Regularization Loss: Maintain target variance
+        # 3. Regularization Loss: Optional variance constraint
         std = torch.std(all_emb)
         reg_loss = (std - self.target_std) ** 2
 
         # Total loss
         total_loss = (
-            contrastive_loss +
+            self.lambda_contrastive * contrastive_loss +
             self.lambda_isotropy * isotropy_loss +
             self.lambda_reg * reg_loss
         )
@@ -379,6 +383,8 @@ def main():
                         help='Freeze entire base encoder (smart hybrid - train projection only)')
     parser.add_argument('--freeze_early_layers', action='store_true',
                         help='Freeze first 4 transformer layers')
+    parser.add_argument('--no_normalize_embeddings', action='store_true',
+                        help='Disable normalization of base model embeddings (use raw embeddings)')
     parser.add_argument('--base_learning_rate', type=float, default=None,
                         help='Learning rate for base encoder (default: same as --learning_rate)')
     parser.add_argument('--projection_learning_rate', type=float, default=None,
@@ -397,6 +403,8 @@ def main():
                         help='Number of warmup steps')
 
     # Loss arguments
+    parser.add_argument('--lambda_contrastive', type=float, default=1.0,
+                        help='Weight for contrastive loss (set to 0.0 for pure isotropy)')
     parser.add_argument('--lambda_isotropy', type=float, default=1.0,
                         help='Weight for isotropy loss')
     parser.add_argument('--lambda_reg', type=float, default=0.1,
@@ -482,12 +490,14 @@ def main():
         output_dim=args.output_dim,
         base_model=args.base_model,
         freeze_base=args.freeze_base,
-        freeze_early_layers=args.freeze_early_layers
+        freeze_early_layers=args.freeze_early_layers,
+        normalize_embeddings=not args.no_normalize_embeddings
     )
     model = model.to(device)
 
     # Initialize loss
     criterion = SIGRegLoss(
+        lambda_contrastive=args.lambda_contrastive,
         lambda_isotropy=args.lambda_isotropy,
         lambda_reg=args.lambda_reg,
         margin=args.margin

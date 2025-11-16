@@ -44,23 +44,40 @@ class GaussianEmbeddingGemma(nn.Module):
         output_dim=512,
         base_model=None,
         freeze_base=False,
-        freeze_early_layers=True
+        freeze_early_layers=True,
+        normalize_embeddings=True,
+        use_predictor=False
     ):
         super().__init__()
 
         # Default to EmbeddingGemma if not specified
         if base_model is None:
             base_model = 'google/embeddinggemma-300m'
-        
+
         self.base_model_name = base_model
         self.freeze_base = freeze_base
-        
+        self.normalize_embeddings = normalize_embeddings
+
         print(f"Loading base model: {base_model}")
+        print(f"Base embedding normalization: {normalize_embeddings}")
         self.base = SentenceTransformer(
             base_model,
             trust_remote_code=True
         )
-        
+
+        # If not normalizing, remove the Normalize layer from the model pipeline
+        # Many sentence-transformers models have Normalize() as the last module
+        if not normalize_embeddings:
+            if '2' in self.base._modules and type(self.base._modules['2']).__name__ == 'Normalize':
+                print("⚠️  Removing built-in Normalize layer from base model")
+                del self.base._modules['2']
+            elif hasattr(self.base, '_last_module') and type(self.base._last_module()).__name__ == 'Normalize':
+                print("⚠️  Removing built-in Normalize layer from base model")
+                # Remove last module
+                keys = list(self.base._modules.keys())
+                if keys:
+                    del self.base._modules[keys[-1]]
+
         # Get embedding dimension from base model
         base_dim = self.base.get_sentence_embedding_dimension()
         print(f"Base embedding dimension: {base_dim}")
@@ -107,6 +124,18 @@ class GaussianEmbeddingGemma(nn.Module):
         print(f"Trainable: {trainable:,} ({100*trainable/total:.1f}%)")
 
         self.output_dim = output_dim
+        
+        # Predictor network (JEPA-style): predicts document embedding from query embedding
+        if use_predictor:
+            self.predictor = nn.Sequential(
+                nn.Linear(output_dim, output_dim * 2),
+                nn.GELU(),
+                nn.Dropout(0.1),
+                nn.Linear(output_dim * 2, output_dim)
+            )
+            print(f"✅ Added predictor network (query → document embedding)")
+        else:
+            self.predictor = None
 
     def encode(self, texts, batch_size=32, show_progress=False, convert_to_numpy=False):
         """
@@ -133,14 +162,17 @@ class GaussianEmbeddingGemma(nn.Module):
             # Move to same device as model
             tokenized = {k: v.to(next(self.parameters()).device) for k, v in tokenized.items()}
             base_emb = self.base(tokenized)['sentence_embedding']
+            # Note: If normalize_embeddings=False, we've already removed the Normalize layer
+            # so base_emb is already unnormalized. No need for manual normalization.
         else:
             # During inference, use encode method (more efficient)
+            # Note: normalize_embeddings flag is ignored here because we've already
+            # removed the Normalize layer from the model if needed
             base_emb = self.base.encode(
                 texts,
                 batch_size=batch_size,
                 convert_to_tensor=True,
-                show_progress_bar=show_progress,
-                normalize_embeddings=True
+                show_progress_bar=show_progress
             )
 
         # Project to Gaussian space (undoes normalization)
@@ -182,7 +214,8 @@ class GaussianEmbeddingGemma(nn.Module):
         path,
         output_dim=512,
         base_model=None,
-        freeze_base=False
+        freeze_base=False,
+        normalize_embeddings=True
     ):
         """
         Load model from saved weights.
@@ -192,6 +225,7 @@ class GaussianEmbeddingGemma(nn.Module):
             output_dim: Output dimension (must match saved model)
             base_model: Base model to use (default: same as saved)
             freeze_base: Whether to freeze base encoder
+            normalize_embeddings: Whether to normalize base model embeddings
 
         Returns:
             Loaded model
@@ -200,7 +234,8 @@ class GaussianEmbeddingGemma(nn.Module):
             output_dim=output_dim,
             base_model=base_model,
             freeze_base=freeze_base,
-            freeze_early_layers=False
+            freeze_early_layers=False,
+            normalize_embeddings=normalize_embeddings
         )
         state_dict = torch.load(path, map_location='cpu')
 

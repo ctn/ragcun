@@ -555,6 +555,41 @@ wheels = [
 ]
 
 [[package]]
+name = "beir"
+version = "2.0.0"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version < '3.9'",
+]
+dependencies = [
+    { name = "datasets", version = "3.1.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "elasticsearch", marker = "python_full_version < '3.9'" },
+    { name = "faiss-cpu", version = "1.8.0.post1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "pytrec-eval", marker = "python_full_version < '3.9'" },
+    { name = "sentence-transformers", version = "3.2.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/52/b0/77c3640f506503d51cc10608c05d3101f6edff3db6a27f6c02de35458a90/beir-2.0.0.tar.gz", hash = "sha256:90aa9cf4507658f1f961136c5007f358e38f8fa5198a20a225e534a4c6bf842e", size = 53627, upload-time = "2023-07-21T22:54:22.354Z" }
+
+[[package]]
+name = "beir"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.11'",
+    "python_full_version == '3.10.*'",
+    "python_full_version == '3.9.*'",
+]
+dependencies = [
+    { name = "datasets", version = "4.4.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
+    { name = "pytrec-eval-terrier", marker = "python_full_version >= '3.9'" },
+    { name = "sentence-transformers", version = "5.1.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/14/23/10e19fa9601fe50c71f65408847e9eccdf3c32a5ed7e382d5bf51de16ebb/beir-2.2.0.tar.gz", hash = "sha256:3bef26652cf9fa209190c3b3b9e9ff684343d66cf39ec637998a6a57e523f786", size = 63959, upload-time = "2025-06-04T17:42:42.731Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8b/bc/fa7702f4d37e4821a55b26a87f95641ce12d09252bc4202025b34bef44a0/beir-2.2.0-py3-none-any.whl", hash = "sha256:46fe4d0a3a6e719090eabc0d1f8aa0c51c6c1379639e6381de5b49e445ab36d1", size = 77357, upload-time = "2025-06-04T17:42:41.252Z" },
+]
+
+[[package]]
 name = "black"
 version = "24.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1285,6 +1320,19 @@ resolution-markers = [
 sdist = { url = "https://files.pythonhosted.org/packages/12/80/630b4b88364e9a8c8c5797f4602d0f76ef820909ee32f0bacb9f90654042/dill-0.4.0.tar.gz", hash = "sha256:0633f1d2df477324f53a895b02c901fb961bdbf65a17122586ea7019292cbcf0", size = 186976, upload-time = "2025-04-16T00:41:48.867Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/50/3d/9373ad9c56321fdab5b41197068e1d8c25883b3fea29dd361f9b55116869/dill-0.4.0-py3-none-any.whl", hash = "sha256:44f54bf6412c2c8464c14e8243eb163690a9800dbe2c367330883b19c7561049", size = 119668, upload-time = "2025-04-16T00:41:47.671Z" },
+]
+
+[[package]]
+name = "elasticsearch"
+version = "7.9.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "certifi", marker = "python_full_version < '3.9'" },
+    { name = "urllib3", version = "2.2.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/04/b5/701e31909be28a102d7f4f3fa9a0d5a34086fcafc2641607be79030410a1/elasticsearch-7.9.1.tar.gz", hash = "sha256:5e08776fbb30c6e92408c7fa8c37d939210d291475ae2f364f0497975918b6fe", size = 169932, upload-time = "2020-08-20T19:00:16.548Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e4/b7/f8f03019089671486e2910282c1b6fce26ccc8a513322df72ac8994ab2de/elasticsearch-7.9.1-py2.py3-none-any.whl", hash = "sha256:8c7e2374f53ee1b891ff2804116e0c7fb517585d6d5788ba668686bbc9d82e2d", size = 219158, upload-time = "2020-08-20T19:00:14.534Z" },
 ]
 
 [[package]]
@@ -5208,6 +5256,44 @@ wheels = [
 ]
 
 [[package]]
+name = "pytrec-eval"
+version = "0.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2e/03/e6e84df6a7c1265579ab26bbe30ff7f8c22745aa77e0799bba471c0a3a19/pytrec_eval-0.5.tar.gz", hash = "sha256:d9eb4616e7d6b73bf1b5ba4c2c4916e88124e790b53fd61610c30158999e7bde", size = 15248, upload-time = "2020-09-07T18:31:57.186Z" }
+
+[[package]]
+name = "pytrec-eval-terrier"
+version = "0.5.10"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "numpy", version = "2.3.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "scipy", version = "1.13.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "scipy", version = "1.16.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/04/96/4925a95e4865a647bc74d3bb052243d12a3c8e8a34909d7d097b5a4d08c5/pytrec_eval_terrier-0.5.10.tar.gz", hash = "sha256:eaaf20580d17b5575a233e04dab8a4cbcc01a7e45be8cf547c07f0a2bb3e7eb9", size = 18634, upload-time = "2025-10-20T16:50:18.098Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bf/a6/09a081ea7cf76c680b5fa8367836cba5a019d1de5be295081992a0addfc1/pytrec_eval_terrier-0.5.10-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:5e574b2d4285d42e3bdc7ca0d9724d46c3bce06d3ee5d6c20e90fdea19761a2f", size = 136811, upload-time = "2025-10-20T16:50:38.729Z" },
+    { url = "https://files.pythonhosted.org/packages/e3/b5/f18b1ad8936a38a7b1d51913189cd53d477d513cd48b79c7cb9bb7dc980f/pytrec_eval_terrier-0.5.10-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:e69c78878379e3e5e280ecf91e9c3bd882f637763d2378655bb0f121e62efbd4", size = 303698, upload-time = "2025-10-20T16:54:13.674Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/1a/2d6a268d2327c38547b4e4a0f815fd51b4a93ab3ee5639260e82def444bb/pytrec_eval_terrier-0.5.10-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:04266dd7869276ae025399df69bf050bba26043b37426cd482fb9bcaa2b78ffa", size = 1327102, upload-time = "2025-10-20T16:54:14.551Z" },
+    { url = "https://files.pythonhosted.org/packages/44/d2/283bb904ee40d0a1bb6858e018fca63043632ac0426e4c5badd5548cc753/pytrec_eval_terrier-0.5.10-cp310-cp310-win_amd64.whl", hash = "sha256:bb0bb4495f10a0bff95f97a8c17df67c967d611c9fc1a5db13e143e7888b102e", size = 58611, upload-time = "2025-10-20T16:52:01.714Z" },
+    { url = "https://files.pythonhosted.org/packages/18/de/7659555355381e57a73e7ba31437dc31d3df146b5cc3fb66eb032683e84e/pytrec_eval_terrier-0.5.10-cp311-cp311-macosx_10_9_universal2.whl", hash = "sha256:1036735d4a12d1c92eea38a14a071168a292f8696099e90742c2c701479f010b", size = 136866, upload-time = "2025-10-20T16:50:40.054Z" },
+    { url = "https://files.pythonhosted.org/packages/d3/d7/1cbc2d3936eec51b57e1146840eb3ccd8a9fb2debc519d7aa748f13dd724/pytrec_eval_terrier-0.5.10-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:b36a2fbdccc7669c4b8aba1f6de2a661e6f2f77c10f05855eda55dda60fc88f5", size = 304025, upload-time = "2025-10-20T16:54:15.957Z" },
+    { url = "https://files.pythonhosted.org/packages/7a/a2/84c93f0a260d0dabca007a02b206981d235c7f4b4c569ec746b5ef6d965b/pytrec_eval_terrier-0.5.10-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:9e4ca19110f24922d7435cf9ef9951a61f0b575488b6a1db86081d82b88dd621", size = 1327402, upload-time = "2025-10-20T16:54:16.842Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/ee/3a20da0523228f54d8b89b9a11d7ec402625086cc3167fb940e36a9e2d5b/pytrec_eval_terrier-0.5.10-cp311-cp311-win_amd64.whl", hash = "sha256:d36e9a8966560ed10bc5aeb30c5c29a53d3fe8e4ccb6ff6bb026bffb21be3fe3", size = 58558, upload-time = "2025-10-20T16:51:46.032Z" },
+    { url = "https://files.pythonhosted.org/packages/90/93/6e87d06ee944eb5794bd1459dd6efbc0fcb406301acd1910a62ecd364687/pytrec_eval_terrier-0.5.10-cp38-cp38-macosx_11_0_universal2.whl", hash = "sha256:df2bc7da44ede067b9a8404c39f0ed839bea873d25b4b3d839df0062bea45c66", size = 136880, upload-time = "2025-10-20T16:51:19.429Z" },
+    { url = "https://files.pythonhosted.org/packages/d4/a9/5700ebc37ebf6b0e42d356fddb206da33b574527e549efa002cdef2888ba/pytrec_eval_terrier-0.5.10-cp38-cp38-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:c227e7722a0b1c49224488b26fa364383f263bb7cc9abae92bb065838b23f77c", size = 302334, upload-time = "2025-10-20T16:54:26.55Z" },
+    { url = "https://files.pythonhosted.org/packages/03/0b/64022732f59b6773f8f728a8ea332d0611f63cbac2753b39fdca59c4d7b1/pytrec_eval_terrier-0.5.10-cp38-cp38-musllinux_1_2_x86_64.whl", hash = "sha256:270d86ecba2fe717d17cd201bacc187f9b190658b7d1e238e7c6152031eee3e1", size = 1325941, upload-time = "2025-10-20T16:54:27.505Z" },
+    { url = "https://files.pythonhosted.org/packages/33/84/d02a222e6cf6430c65e50795594e470a4918f34c5b35fa0ec9be32855186/pytrec_eval_terrier-0.5.10-cp38-cp38-win_amd64.whl", hash = "sha256:9efeb4fd9194528b7965919a58e9f1c4eddad8c7042c980949557a640dd01cd0", size = 58466, upload-time = "2025-10-20T16:52:12.855Z" },
+    { url = "https://files.pythonhosted.org/packages/de/08/72b055a0f4ea82f24a1eae60fc0da3d855322d5b6fcb81b550c53684f52c/pytrec_eval_terrier-0.5.10-cp39-cp39-macosx_10_9_universal2.whl", hash = "sha256:2afaff86a8eb66a766c996fb8955f6c0c601bc2b78ff678412de394f60a965d7", size = 136798, upload-time = "2025-10-20T16:51:13.57Z" },
+    { url = "https://files.pythonhosted.org/packages/fb/72/dda1fe42e1b493bc292189c8de10f5cba00de05e67b5ca353f8de6e34082/pytrec_eval_terrier-0.5.10-cp39-cp39-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:af71efdd4b9628c088a1faf4c7777f73acda057961df2318b6a74b9711516d15", size = 303432, upload-time = "2025-10-20T16:54:28.87Z" },
+    { url = "https://files.pythonhosted.org/packages/56/df/ea247d504d613104c29df94ff8a9cfdc9aefd95dd28b7e4a1d15e7416280/pytrec_eval_terrier-0.5.10-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:46fe13f625b6214288b4a0d3df60ac086cf511efc0383fd3adb3e772fc1d54f8", size = 1326867, upload-time = "2025-10-20T16:54:29.866Z" },
+    { url = "https://files.pythonhosted.org/packages/92/97/90ddad5e3148a0724be77bce83b3ea45364cecce20a08d2f72c2f8d7b0e8/pytrec_eval_terrier-0.5.10-cp39-cp39-win_amd64.whl", hash = "sha256:a6e36d9fd2a9d4080201850d002790df12308b948de5e2c32defb7605eb97c64", size = 58601, upload-time = "2025-10-20T16:52:18.506Z" },
+]
+
+[[package]]
 name = "pytz"
 version = "2025.2"
 source = { registry = "https://pypi.org/simple" }
@@ -5392,6 +5478,8 @@ name = "ragcun"
 version = "0.2.0"
 source = { editable = "." }
 dependencies = [
+    { name = "beir", version = "2.0.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "beir", version = "2.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
     { name = "faiss-cpu", version = "1.8.0.post1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "faiss-cpu", version = "1.12.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
     { name = "numpy", version = "1.24.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
@@ -5402,9 +5490,6 @@ dependencies = [
     { name = "python-dotenv", version = "1.2.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
     { name = "sentence-transformers", version = "3.2.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "sentence-transformers", version = "5.1.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
-    { name = "torch", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
-    { name = "torch", version = "2.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
-    { name = "torch", version = "2.9.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
     { name = "tqdm" },
     { name = "transformers", version = "4.46.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "transformers", version = "4.57.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
@@ -5443,6 +5528,14 @@ all = [
     { name = "python-docx", version = "1.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
     { name = "ruff" },
 ]
+cpu = [
+    { name = "torch", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "torch", version = "2.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "torch", version = "2.9.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+    { name = "torchvision", version = "0.20.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "torchvision", version = "0.23.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "torchvision", version = "0.24.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+]
 dev = [
     { name = "black", version = "24.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "black", version = "25.11.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
@@ -5452,6 +5545,8 @@ dev = [
     { name = "ipython", version = "9.7.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "mypy", version = "1.14.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "mypy", version = "1.18.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
+    { name = "pandas", version = "2.0.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "pandas", version = "2.3.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.9'" },
     { name = "pytest", version = "8.3.5", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
     { name = "pytest", version = "8.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
     { name = "pytest", version = "9.0.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
@@ -5493,6 +5588,7 @@ training = [
 requires-dist = [
     { name = "accelerate", marker = "extra == 'training'", specifier = ">=0.24.0" },
     { name = "beautifulsoup4", marker = "extra == 'documents'", specifier = ">=4.12.0" },
+    { name = "beir", specifier = ">=2.0.0" },
     { name = "black", marker = "extra == 'dev'", specifier = ">=23.0.0" },
     { name = "cloud-tpu-client", marker = "extra == 'tpu'" },
     { name = "datasets", marker = "extra == 'training'", specifier = ">=2.14.0" },
@@ -5504,6 +5600,7 @@ requires-dist = [
     { name = "matplotlib", marker = "extra == 'notebooks'", specifier = ">=3.5.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = ">=1.0.0" },
     { name = "numpy", specifier = ">=1.24.0" },
+    { name = "pandas", marker = "extra == 'dev'", specifier = ">=2.0.0" },
     { name = "pandas", marker = "extra == 'notebooks'", specifier = ">=2.0.0" },
     { name = "pypdf", marker = "extra == 'documents'", specifier = ">=3.0.0" },
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0.0" },
@@ -5512,12 +5609,13 @@ requires-dist = [
     { name = "ragcun", extras = ["training", "gpu", "dev", "notebooks", "documents"], marker = "extra == 'all'" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.1.0" },
     { name = "sentence-transformers", specifier = ">=3.0.0" },
-    { name = "torch", specifier = ">=2.0.0" },
+    { name = "torch", marker = "extra == 'cpu'", specifier = ">=2.0.0" },
     { name = "torch-xla", marker = "extra == 'tpu'", specifier = ">=2.0.0" },
+    { name = "torchvision", marker = "extra == 'cpu'", specifier = ">=0.15.0" },
     { name = "tqdm", specifier = ">=4.65.0" },
     { name = "transformers", specifier = ">=4.45.0" },
 ]
-provides-extras = ["training", "gpu", "tpu", "dev", "notebooks", "documents", "all"]
+provides-extras = ["training", "gpu", "cpu", "tpu", "dev", "notebooks", "documents", "all"]
 
 [[package]]
 name = "referencing"
@@ -6868,6 +6966,85 @@ dependencies = [
 wheels = [
     { url = "https://files.pythonhosted.org/packages/44/ed/829d38fbe114995df6a2aa55421c07939804a8ee24f46247c9294fe2f6c4/torch_xla-2.8.1-cp310-cp310-manylinux_2_28_x86_64.whl", hash = "sha256:a88525e54b913d4c5ca2f9c80440ae2d4357fd418b8eb36977a5e7fc02a1cea5", size = 106908410, upload-time = "2025-09-11T18:20:57.314Z" },
     { url = "https://files.pythonhosted.org/packages/48/1e/6196a506e78a79d5f913cc7ee3a5d8dbcc79d5e668baeaf2dba52973a7db/torch_xla-2.8.1-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:643c053d013499aaccbf4e5fec37fe45d339ca17a3e32e0db55f4065a5025d85", size = 106910307, upload-time = "2025-09-11T18:21:01.718Z" },
+]
+
+[[package]]
+name = "torchvision"
+version = "0.20.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version < '3.9'",
+]
+dependencies = [
+    { name = "numpy", version = "1.24.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "pillow", version = "10.4.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+    { name = "torch", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.9'" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/8d/59/aea68d755da1451e1a0d894528a7edc9b58eb30d33e274bf21bef28dad1a/torchvision-0.20.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:4878fefb96ef293d06c27210918adc83c399d9faaf34cda5a63e129f772328f1", size = 1787552, upload-time = "2024-10-29T17:40:34.071Z" },
+    { url = "https://files.pythonhosted.org/packages/a2/f6/7ff89a9f8703f623f5664afd66c8600e3f09fe188e1e0b7e6f9a8617f865/torchvision-0.20.1-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:8ffbdf8bf5b30eade22d459f5a313329eeadb20dc75efa142987b53c007098c3", size = 7238975, upload-time = "2024-10-29T17:41:03.374Z" },
+    { url = "https://files.pythonhosted.org/packages/f7/ce/4c31e9b96cc4f9fec746b258d2aa35f8d1247f4f58d63f9c505ea5eb254d/torchvision-0.20.1-cp310-cp310-manylinux2014_aarch64.whl", hash = "sha256:75f8a4d51a593c4bab6c9bf7d75bdd88691b00a53b07656678bc55a3a753dd73", size = 14265343, upload-time = "2024-10-29T17:40:57.799Z" },
+    { url = "https://files.pythonhosted.org/packages/17/11/b5ce67715bbbec8798fb48c4a20ac28828aec1710ac01091a3eddcb8e075/torchvision-0.20.1-cp310-cp310-win_amd64.whl", hash = "sha256:22c2fa44e20eb404b85e42b22b453863a14b0927d25e550fd4f84eea97fa5b39", size = 1562413, upload-time = "2024-10-29T17:40:39.991Z" },
+    { url = "https://files.pythonhosted.org/packages/28/57/4d7ad90be612f5ac6c4bdafcb0ff13e818e14a340a88c8ca00d9ed8c2dad/torchvision-0.20.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:344b339e15e6bbb59ee0700772616d0afefd209920c762b1604368d8c3458322", size = 1787548, upload-time = "2024-10-29T17:40:55.292Z" },
+    { url = "https://files.pythonhosted.org/packages/de/e9/e190ecec448d5a2abad8348cf085fcb39962a491e3f40dcb023721e04feb/torchvision-0.20.1-cp311-cp311-manylinux1_x86_64.whl", hash = "sha256:86f6523dee420000fe14c3527f6c8e0175139fda7d995b187f54a0b0ebec7eb6", size = 7241222, upload-time = "2024-10-29T17:40:38.056Z" },
+    { url = "https://files.pythonhosted.org/packages/b1/a3/cbb8177e5e379f0c040b00c6f80f14d323a97e30495d7115d169b101b2f7/torchvision-0.20.1-cp311-cp311-manylinux2014_aarch64.whl", hash = "sha256:a40d766345927639da322c693934e5f91b1ba2218846c7104b868dea2314ce8e", size = 14267510, upload-time = "2024-10-29T17:40:53.031Z" },
+    { url = "https://files.pythonhosted.org/packages/69/55/ce836703ff77bb21582c3098d5311f8ddde7eadc7eab04be9561961f4725/torchvision-0.20.1-cp311-cp311-win_amd64.whl", hash = "sha256:5b501d5c04b034d2ecda96a31ed050e383cf8201352e4c9276ca249cbecfded0", size = 1562402, upload-time = "2024-10-29T17:40:49.052Z" },
+    { url = "https://files.pythonhosted.org/packages/a1/14/c13e8b49fa812266e3340969b3157b11928a3608faa3a0448b8a564b01b8/torchvision-0.20.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:2cd58406978b813188cf4e9135b218775b57e0bb86d4a88f0339874b8a224819", size = 1787569, upload-time = "2024-10-29T17:40:36.301Z" },
+    { url = "https://files.pythonhosted.org/packages/f1/6c/f5fcf2e2a5828643354939ececbcd45bfde4d0355b1e44722c960c6f81c2/torchvision-0.20.1-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:408766b2f0ada9e1bc880d12346cec9638535af5df6459ba9ac4ce5c46402f91", size = 7240810, upload-time = "2024-10-29T17:41:00.894Z" },
+    { url = "https://files.pythonhosted.org/packages/44/a7/a69e090ee59b6b042580304524af035dc0e980f05f9b0592f2153de94579/torchvision-0.20.1-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:abcb8005de8dc393dbd1310ecb669dc68ab664b9107af6d698a6341d1d3f2c3c", size = 1896028, upload-time = "2024-10-29T17:40:43.251Z" },
+    { url = "https://files.pythonhosted.org/packages/d4/1e/0bd619dd8aa443e167fb62c6167ecb9b6ce8f275e9ca1842e7994fd9653d/torchvision-0.20.1-cp39-cp39-win_amd64.whl", hash = "sha256:ea9678163bbf19568f4f959d927f3751eeb833cc8eac949de507edde38c1fc9f", size = 1562339, upload-time = "2024-10-29T17:40:41.715Z" },
+]
+
+[[package]]
+name = "torchvision"
+version = "0.23.0"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version == '3.9.*'",
+]
+dependencies = [
+    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "pillow", version = "11.3.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+    { name = "torch", version = "2.8.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.9.*'" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4d/49/5ad5c3ff4920be0adee9eb4339b4fb3b023a0fc55b9ed8dbc73df92946b8/torchvision-0.23.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:7266871daca00ad46d1c073e55d972179d12a58fa5c9adec9a3db9bbed71284a", size = 1856885, upload-time = "2025-08-06T14:57:55.024Z" },
+    { url = "https://files.pythonhosted.org/packages/25/44/ddd56d1637bac42a8c5da2c8c440d8a28c431f996dd9790f32dd9a96ca6e/torchvision-0.23.0-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:31c583ba27426a3a04eca8c05450524105c1564db41be6632f7536ef405a6de2", size = 2394251, upload-time = "2025-08-06T14:58:01.725Z" },
+    { url = "https://files.pythonhosted.org/packages/93/f3/3cdf55bbf0f737304d997561c34ab0176222e0496b6743b0feab5995182c/torchvision-0.23.0-cp310-cp310-manylinux_2_28_x86_64.whl", hash = "sha256:3932bf67256f2d095ce90a9f826f6033694c818856f4bb26794cf2ce64253e53", size = 8627497, upload-time = "2025-08-06T14:58:09.317Z" },
+    { url = "https://files.pythonhosted.org/packages/97/90/02afe57c3ef4284c5cf89d3b7ae203829b3a981f72b93a7dd2a3fd2c83c1/torchvision-0.23.0-cp310-cp310-win_amd64.whl", hash = "sha256:83ee5bf827d61a8af14620c0a61d8608558638ac9c3bac8adb7b27138e2147d1", size = 1600760, upload-time = "2025-08-06T14:57:56.783Z" },
+    { url = "https://files.pythonhosted.org/packages/f0/d7/15d3d7bd8d0239211b21673d1bac7bc345a4ad904a8e25bb3fd8a9cf1fbc/torchvision-0.23.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:49aa20e21f0c2bd458c71d7b449776cbd5f16693dd5807195a820612b8a229b7", size = 1856884, upload-time = "2025-08-06T14:58:00.237Z" },
+    { url = "https://files.pythonhosted.org/packages/dd/14/7b44fe766b7d11e064c539d92a172fa9689a53b69029e24f2f1f51e7dc56/torchvision-0.23.0-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:01dc33ee24c79148aee7cdbcf34ae8a3c9da1674a591e781577b716d233b1fa6", size = 2395543, upload-time = "2025-08-06T14:58:04.373Z" },
+    { url = "https://files.pythonhosted.org/packages/79/9c/fcb09aff941c8147d9e6aa6c8f67412a05622b0c750bcf796be4c85a58d4/torchvision-0.23.0-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:35c27941831b653f5101edfe62c03d196c13f32139310519e8228f35eae0e96a", size = 8628388, upload-time = "2025-08-06T14:58:07.802Z" },
+    { url = "https://files.pythonhosted.org/packages/93/40/3415d890eb357b25a8e0a215d32365a88ecc75a283f75c4e919024b22d97/torchvision-0.23.0-cp311-cp311-win_amd64.whl", hash = "sha256:09bfde260e7963a15b80c9e442faa9f021c7e7f877ac0a36ca6561b367185013", size = 1600741, upload-time = "2025-08-06T14:57:59.158Z" },
+    { url = "https://files.pythonhosted.org/packages/d5/3e/f1f3bb3dd452b98ec2eba4820d777440abceb3d3a428a6c8243006fe47e5/torchvision-0.23.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:b190db205f90206c230fc2f91cbdfd5733334babc0e0d19bddb90a40b8cf26c2", size = 1856927, upload-time = "2025-08-06T14:58:18.919Z" },
+    { url = "https://files.pythonhosted.org/packages/f4/e2/aafc6af854e792d212ff58e459f8d5d807568dc3f2b49ec41b677275e5a9/torchvision-0.23.0-cp39-cp39-manylinux_2_28_aarch64.whl", hash = "sha256:6c74cbc1cbee26dd4f35f989cd80dccc40411f258dee476b29871dee4b483af0", size = 2392870, upload-time = "2025-08-06T14:58:21.303Z" },
+    { url = "https://files.pythonhosted.org/packages/5d/06/09b6a917b3759ef000428af0aa2597f983e20d9fbbcfeb826750f778fe6d/torchvision-0.23.0-cp39-cp39-manylinux_2_28_x86_64.whl", hash = "sha256:a9e9d7552d34547b80843eaf64ab0737b19b2e8bec2514286b8cfd30861ca8b5", size = 8630400, upload-time = "2025-08-06T14:58:24.139Z" },
+    { url = "https://files.pythonhosted.org/packages/08/07/ae46106efbf4bbc0090078aa4c406c38282cbe4e637bdb4b7f2e984140af/torchvision-0.23.0-cp39-cp39-win_amd64.whl", hash = "sha256:dc7ce5accbbb8c9df9a79f8cef6a6df042f28e2250a6ae0d2ca70b06473fa03b", size = 1600751, upload-time = "2025-08-06T14:58:20.027Z" },
+]
+
+[[package]]
+name = "torchvision"
+version = "0.24.1"
+source = { registry = "https://pypi.org/simple" }
+resolution-markers = [
+    "python_full_version >= '3.11'",
+    "python_full_version == '3.10.*'",
+]
+dependencies = [
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "numpy", version = "2.3.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "pillow", version = "12.0.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+    { name = "torch", version = "2.9.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f7/09/d51aadf8591138e08b74c64a6eb783630c7a31ca2634416277115a9c3a2b/torchvision-0.24.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:ded5e625788572e4e1c4d155d1bbc48805c113794100d70e19c76e39e4d53465", size = 1891441, upload-time = "2025-11-12T15:25:01.687Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/49/a35df863e7c153aad82af7505abd8264a5b510306689712ef86bea862822/torchvision-0.24.1-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:54ed17c3d30e718e08d8da3fd5b30ea44b0311317e55647cb97077a29ecbc25b", size = 2386226, upload-time = "2025-11-12T15:25:05.449Z" },
+    { url = "https://files.pythonhosted.org/packages/49/20/f2d7cd1eea052887c1083afff0b8df5228ec93b53e03759f20b1a3c6d22a/torchvision-0.24.1-cp310-cp310-manylinux_2_28_x86_64.whl", hash = "sha256:f476da4e085b7307aaab6f540219617d46d5926aeda24be33e1359771c83778f", size = 8046093, upload-time = "2025-11-12T15:25:09.425Z" },
+    { url = "https://files.pythonhosted.org/packages/d8/cf/0ff4007c09903199307da5f53a192ff5d62b45447069e9ef3a19bdc5ff12/torchvision-0.24.1-cp310-cp310-win_amd64.whl", hash = "sha256:fbdbdae5e540b868a681240b7dbd6473986c862445ee8a138680a6a97d6c34ff", size = 3696202, upload-time = "2025-11-12T15:25:10.657Z" },
+    { url = "https://files.pythonhosted.org/packages/e7/69/30f5f03752aa1a7c23931d2519b31e557f3f10af5089d787cddf3b903ecf/torchvision-0.24.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:056c525dc875f18fe8e9c27079ada166a7b2755cea5a2199b0bc7f1f8364e600", size = 1891436, upload-time = "2025-11-12T15:25:04.3Z" },
+    { url = "https://files.pythonhosted.org/packages/0c/69/49aae86edb75fe16460b59a191fcc0f568c2378f780bb063850db0fe007a/torchvision-0.24.1-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:1e39619de698e2821d71976c92c8a9e50cdfd1e993507dfb340f2688bfdd8283", size = 2387757, upload-time = "2025-11-12T15:25:06.795Z" },
+    { url = "https://files.pythonhosted.org/packages/11/c9/1dfc3db98797b326f1d0c3f3bb61c83b167a813fc7eab6fcd2edb8c7eb9d/torchvision-0.24.1-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:a0f106663e60332aa4fcb1ca2159ef8c3f2ed266b0e6df88de261048a840e0df", size = 8047682, upload-time = "2025-11-12T15:25:21.125Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/bb/cfc6a6f6ccc84a534ed1fdf029ae5716dd6ff04e57ed9dc2dab38bf652d5/torchvision-0.24.1-cp311-cp311-win_amd64.whl", hash = "sha256:a9308cdd37d8a42e14a3e7fd9d271830c7fecb150dd929b642f3c1460514599a", size = 4037588, upload-time = "2025-11-12T15:25:14.402Z" },
 ]
 
 [[package]]

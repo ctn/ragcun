@@ -28,9 +28,10 @@ dependencies = [
     "numpy>=1.24.0",
     "transformers>=4.45.0",
     "sentence-transformers>=3.0.0",
-    "faiss-cpu>=1.7.4",  # Use faiss-gpu for GPU support
+    "faiss-cpu>=1.7.4", # Use faiss-gpu for GPU support
     "tqdm>=4.65.0",
-    "python-dotenv>=1.0.0",  # Load environment variables from .env
+    "python-dotenv>=1.0.0", # Load environment variables from .env
+    "beir>=2.0.0",
 ]
 
 [project.optional-dependencies]
