@@ -1,0 +1,45 @@
+Archive Index
+=============
+
+Generated: 2025-11-17 15:23:25
+
+## Checkpoints
+
+### jepa_supervised_finetuned_no_predictor/
+- Old supervised fine-tuning checkpoints (epochs 2-3, final_model)
+- Issue: Model collapsed due to missing predictor
+- Date: Nov 17, 2025 (before 14:50)
+
+## Results
+
+### jepa_supervised_finetuned_no_predictor.json
+- Evaluation results from supervised fine-tuning without predictor
+- Performance: NDCG@10 ~0.02-0.04 (terrible)
+- Date: Nov 17, 2025
+
+## Logs
+
+### Training Logs
+- supervised_finetuning_no_predictor.log - Training log for failed run
+
+### Evaluation Logs
+- jepa_supervised_finetuned_eval_no_predictor.log - Eval log for failed run
+- jepa_xy_masked_epoch1_eval.log - Early epoch 1 evaluation
+- jepa_xy_masked_best_eval.log - Best model evaluation
+- jepa_xy_masked_eval.log - General evaluation
+- jepa_xy_masked_baseline_eval.log - Baseline evaluation
+
+## Active Files (Not Archived)
+
+### Current Training
+- checkpoints/jepa_supervised_finetuned/best_model.pt (epoch 1, with predictor)
+- checkpoints/jepa_supervised_finetuned/checkpoint_epoch_1.pt (with predictor)
+- logs/supervised_finetuning.log (current training, with predictor)
+
+### Current Evaluation
+- results/beir_standard/jepa_supervised_finetuned_with_predictor.json (in progress)
+- logs/jepa_supervised_finetuned_with_predictor_eval.log (in progress)
+
+### Self-Supervised Model
+- checkpoints/jepa_xy_masked/best_model.pt (reference model)
+- results/beir_standard/jepa_xy_masked.json (if exists)

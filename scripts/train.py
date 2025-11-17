@@ -183,8 +183,13 @@ class SIGRegLoss(nn.Module):
             # For each query, find hardest negative
             hard_neg_distances, _ = neg_distances.min(dim=1)
 
+            # pos_distances contains both query->pos and pos->query pairs
+            # We only need query->pos pairs (first batch_size elements)
+            query_pos_distances = pos_distances[:batch_size]
+            query_hard_neg_distances = hard_neg_distances[:batch_size]
+
             contrastive_loss = torch.mean(
-                F.relu(pos_distances - hard_neg_distances[pos_mask] + self.margin)
+                F.relu(query_pos_distances - query_hard_neg_distances + self.margin)
             )
 
         # 2. Isotropy Loss: Encourage uniform distribution
@@ -448,6 +453,8 @@ def main():
                         help='Log every N batches')
     parser.add_argument('--resume_from', type=str, default=None,
                         help='Path to checkpoint to resume from (e.g., checkpoint_epoch_N.pt)')
+    parser.add_argument('--load_weights_only', action='store_true',
+                        help='When resuming, only load model weights (not optimizer/scheduler state)')
 
     # Device arguments
     parser.add_argument('--device', type=str, default='cuda' if torch.cuda.is_available() else 'cpu',
@@ -595,26 +602,48 @@ def main():
     if args.resume_from:
         checkpoint_path = Path(args.resume_from)
         if checkpoint_path.exists():
-            logger.info(f"🔄 Resuming from checkpoint: {checkpoint_path}")
+            logger.info(f"🔄 Loading checkpoint: {checkpoint_path}")
             checkpoint = torch.load(checkpoint_path, map_location=device)
             
-            # Load model state
-            model.load_state_dict(checkpoint['model_state_dict'])
+            # Load model state (allow missing/extra keys for flexibility)
+            model_state = checkpoint['model_state_dict']
+            model_dict = model.state_dict()
             
-            # Load optimizer state
-            if 'optimizer_state_dict' in checkpoint:
-                optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+            # Filter out keys that don't match (e.g., predictor if not using it)
+            filtered_state = {k: v for k, v in model_state.items() if k in model_dict}
+            missing_keys = set(model_dict.keys()) - set(filtered_state.keys())
+            extra_keys = set(model_state.keys()) - set(filtered_state.keys())
             
-            # Load scheduler state
-            if 'scheduler_state_dict' in checkpoint:
-                scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+            if missing_keys:
+                logger.warning(f"⚠️  Missing keys (will use random init): {list(missing_keys)[:5]}...")
+            if extra_keys:
+                logger.info(f"ℹ️  Ignoring extra keys from checkpoint: {list(extra_keys)[:5]}...")
             
-            # Get starting epoch
-            start_epoch = checkpoint.get('epoch', 1) + 1
-            best_val_loss = checkpoint.get('val_loss', float('inf'))
+            model_dict.update(filtered_state)
+            model.load_state_dict(model_dict)
+            logger.info("✅ Loaded model weights")
             
-            logger.info(f"✅ Resumed from epoch {checkpoint.get('epoch', 1)}")
-            logger.info(f"   Continuing from epoch {start_epoch} to {args.epochs}")
+            if args.load_weights_only:
+                # Fine-tuning mode: only load weights, start fresh
+                logger.info("   Fine-tuning mode: Starting from epoch 1 with loaded weights")
+                start_epoch = 1
+                best_val_loss = float('inf')
+            else:
+                # Full resume: load optimizer and scheduler state
+                if 'optimizer_state_dict' in checkpoint:
+                    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+                    logger.info("✅ Loaded optimizer state")
+                
+                if 'scheduler_state_dict' in checkpoint:
+                    scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+                    logger.info("✅ Loaded scheduler state")
+                
+                # Get starting epoch
+                start_epoch = checkpoint.get('epoch', 1) + 1
+                best_val_loss = checkpoint.get('val_loss', float('inf'))
+                
+                logger.info(f"✅ Resumed from epoch {checkpoint.get('epoch', 1)}")
+                logger.info(f"   Continuing from epoch {start_epoch} to {args.epochs}")
         else:
             logger.warning(f"⚠️  Checkpoint not found: {checkpoint_path}")
             logger.warning("   Starting training from scratch")
