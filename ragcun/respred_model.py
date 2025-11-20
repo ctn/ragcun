@@ -15,12 +15,43 @@ from ragcun.model import IsotropicGaussianEncoder
 
 class ResidualGaussianEncoder(IsotropicGaussianEncoder):
     """
-    ResPred model with residual predictor connection.
-    
-    Inherits from IsotropicGaussianEncoder but modifies the predictor to:
-    1. Use Tanh() to bound residuals
-    2. Add learnable scale factor (alpha)
-    3. Return residual connection: query_emb + alpha * delta
+    Encoder with bounded residual predictor for stable query→doc prediction.
+
+    Architecture:
+        Inherits: IsotropicGaussianEncoder
+            ↓
+        Input Text → Base → Projection → [output_dim]
+            ↓
+        ResidualPredictor (replaces default predictor):
+            ├─ Linear(dim → dim * 2)
+            ├─ GELU()
+            ├─ Dropout(0.1)
+            ├─ Linear(dim * 2 → dim)
+            ├─ Tanh()  ← Bounds to [-1, 1]
+            ↓ delta (bounded residual)
+            ├─ alpha (learnable scale, init=0.1)
+            ↓
+        Output: query_emb + alpha * delta
+
+    Key innovations:
+    1. Bounded residuals: Tanh ensures δ ∈ [-1, 1]
+    2. Learnable scale: α parameter prevents large deviations
+    3. Residual connection: Small corrections from query embedding
+    4. Stability: Prevents predictor collapse during training
+
+    Training strategy:
+    - Frozen base encoder (freeze_base=True by default)
+    - Train projection + residual predictor only
+    - Loss includes residual regularization (L2 on δ)
+
+    Args:
+        base_model: Pre-trained model (default: all-mpnet-base-v2)
+        output_dim: Embedding dimension (default: 768)
+        freeze_base: Freeze base encoder (default: True)
+        freeze_early_layers: Freeze early layers if base trainable (default: False)
+        normalize_embeddings: L2 normalize base embeddings (default: False)
+        use_predictor: Enable residual predictor (default: True)
+        residual_scale_init: Initial value of α scale factor (default: 0.1)
     """
     
     def __init__(

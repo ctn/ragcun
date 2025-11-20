@@ -117,16 +117,56 @@ class PredictorHead(nn.Module):
 
 class MPNetLeJEPA(nn.Module):
     """
-    MPNet-LeJEPA Architecture
-    
-    Implements LeJEPA-style architecture with:
-    - Online encoder (trainable or frozen)
-    - Target encoder (EMA, no gradients)
-    - Mean pooling
-    - Online and target projection heads
-    - Predictor (online only)
-    - LeJEPA SIGReg loss for isotropy
-    
+    BYOL/JEPA-style dual network with EMA target for self-supervised learning.
+
+    Architecture:
+        ONLINE BRANCH (trainable):
+        Input → Encoder → MeanPool → Projection → Predictor
+                 (MPNet)              (2-layer)   (2-layer)
+            ↓         ↓                   ↓           ↓
+        [hidden]  [pooled]           [proj_dim]  [proj_dim]
+                                                    p_online
+
+        TARGET BRANCH (EMA, frozen):
+        Input → Encoder → MeanPool → Projection
+                 (MPNet)              (2-layer)
+            ↓         ↓                   ↓
+        [hidden]  [pooled]           [proj_dim]
+                                      z_target (stop-grad)
+
+        Loss: MSE(p_online, z_target) + SIGReg(embeddings)
+
+        EMA Update: θ_target ← β·θ_target + (1-β)·θ_online
+
+    Component Details:
+
+    MeanPooling:
+        - Weighted average over sequence length
+        - Uses attention mask for proper pooling
+
+    ProjectionHead:
+        Linear(hidden_size → hidden_size)
+        GELU()
+        Linear(hidden_size → proj_dim)
+
+    PredictorHead:
+        Linear(proj_dim → proj_dim)
+        GELU()
+        Linear(proj_dim → proj_dim)
+
+    Key features:
+    - Dual networks: Online (trainable) + Target (EMA, no gradients)
+    - Asymmetric architecture: Predictor only on online branch
+    - EMA updates: β = 0.999 after each optimizer step
+    - Stop-gradient: Target provides fixed targets (no collapse)
+    - LeJEPA SIGReg loss: Predictive + isotropy regularization
+
+    Training strategy:
+    - Frozen base encoders (both online and target)
+    - Train projection + predictor only
+    - Update target via exponential moving average
+    - No negative samples needed (unlike contrastive methods)
+
     Args:
         base_model: Base model name (default: 'sentence-transformers/all-mpnet-base-v2')
         proj_dim: Projection dimension (default: 256)

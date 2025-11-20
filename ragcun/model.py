@@ -12,30 +12,55 @@ from sentence_transformers import SentenceTransformer
 
 class IsotropicGaussianEncoder(nn.Module):
     """
-    EmbeddingGemma with LeJEPA-trained projection to isotropic Gaussian space.
+    General-purpose encoder for isotropic Gaussian embedding space.
+
+    Architecture:
+        Input Text
+            ↓
+        SentenceTransformer (base_model)
+            ├─ Default: google/embeddinggemma-300m
+            └─ Or: sentence-transformers/all-mpnet-base-v2, etc.
+            ↓ [base_dim]
+        Projection MLP:
+            ├─ Linear(base_dim → base_dim * 2)
+            ├─ GELU()
+            ├─ Dropout(0.1)
+            └─ Linear(base_dim * 2 → output_dim)
+            ↓ [output_dim, unnormalized]
+        Optional Predictor (if use_predictor=True):
+            ├─ Linear(output_dim → output_dim * 2)
+            ├─ GELU()
+            ├─ Dropout(0.1)
+            └─ Linear(output_dim * 2 → output_dim)
+            ↓
+        Output: Isotropic Gaussian embeddings
 
     Key features:
-    - Starts with pre-trained model (EmbeddingGemma or Sentence-BERT)
-    - Projects to unnormalized Gaussian space (NO L2 normalization)
+    - NO L2 normalization (unnormalized Gaussian space)
     - Trained with LeJEPA SIGReg loss for isotropy
     - Uses Euclidean distance for retrieval (not cosine similarity)
+    - Flexible freezing: freeze_base or freeze_early_layers
+    - Optional JEPA-style predictor for query → doc prediction
 
     Args:
         output_dim: Dimension of output embeddings (default: 512)
         base_model: Pre-trained model to use (default: google/embeddinggemma-300m)
         freeze_base: Freeze entire base encoder (only train projection)
         freeze_early_layers: Freeze first 4 transformer layers (if not freeze_base)
+        normalize_embeddings: Apply L2 norm to base embeddings (default: True)
+        use_predictor: Add predictor network for JEPA training (default: False)
 
     Example:
         >>> # Full training
         >>> model = IsotropicGaussianEncoder(output_dim=512)
-        
+
         >>> # Smart hybrid (train projection only)
         >>> model = IsotropicGaussianEncoder(
         ...     output_dim=512,
         ...     base_model='sentence-transformers/all-mpnet-base-v2',
         ...     freeze_base=True
         ... )
+        >>> embeddings = model.encode(["text1", "text2"])
         >>> print(embeddings.shape)  # (2, 512)
     """
 

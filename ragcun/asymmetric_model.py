@@ -17,16 +17,47 @@ from typing import List
 
 class AsymmetricDualEncoder(nn.Module):
     """
-    Model with asymmetric projections for queries and documents.
-    
+    Dual encoder with separate semantic spaces for queries vs documents.
+
     Architecture:
-        Frozen Encoder (shared)
+        Input (Query or Document)
             ↓
-        Query Projection ← Different
-            ↓           ↘
-        z_q              z_d ← Different
-                        ↗
-        Doc Projection ← Different
+        Frozen SentenceTransformer (shared)
+            ↓ [base_dim]
+            ├─────────────┬─────────────┤
+            ↓             ↓             ↓
+        Query Path     Doc Path
+            ↓             ↓
+        Query Projection  Doc Projection
+        (2-layer MLP)    (2-layer MLP)
+            ↓             ↓
+        Linear(base → base*2)
+        GELU()           GELU()
+        Dropout(0.1)     Dropout(0.1)
+        Linear(base*2 → out)
+            ↓             ↓
+        z_q [out_dim]   z_d [out_dim]
+            ↓
+        Similarity: COSINE (L2 normalized)
+
+    Key features:
+    - Shared frozen encoder: Single base model for efficiency
+    - Asymmetric projections: Separate query/doc semantic spaces
+    - No predictor: Clean contrastive learning (InfoNCE)
+    - Cosine similarity: L2 normalized embeddings (unlike other models)
+    - InfoNCE loss: Temperature-scaled cross-entropy
+
+    Training strategy:
+    - Frozen base encoder (always)
+    - Train both projections simultaneously
+    - Dual isotropy loss (query space + doc space)
+    - Contrastive learning with in-batch negatives
+
+    Args:
+        base_model: Pre-trained model (default: all-mpnet-base-v2)
+        output_dim: Projection dimension (default: 768)
+        freeze_base: Freeze base encoder (default: True, always recommended)
+        normalize_embeddings: Apply L2 norm to base embeddings (default: False)
     """
     
     def __init__(
