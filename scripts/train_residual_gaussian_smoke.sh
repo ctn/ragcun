@@ -10,7 +10,7 @@ set -e
 
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 OUTPUT_DIR="checkpoints/respred_smoke_${TIMESTAMP}"
-LOG_FILE="logs/respred/respred_smoke_${TIMESTAMP}.log"
+LOG_FILE="logs/residual_gaussian/respred_smoke_${TIMESTAMP}.log"
 
 # Create directories
 mkdir -p "$(dirname ${LOG_FILE})"
@@ -40,7 +40,7 @@ echo "=============================================" | tee -a ${LOG_FILE}
 echo "" | tee -a ${LOG_FILE}
 
 # Run training
-python scripts/train_respred.py \
+python scripts/train_residual_gaussian.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \

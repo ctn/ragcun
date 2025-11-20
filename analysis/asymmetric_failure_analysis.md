@@ -110,11 +110,11 @@ contrastive_loss = F.cross_entropy(sim_matrix, labels)
 
 ### 🔧 Changes Made
 
-1. **Training Script** (`train_asymmetric.py`):
+1. **Training Script** (`train_asymmetric_dual.py`):
    - Line 84-89: Normalize embeddings before contrastive loss
    - Now uses cosine similarity instead of raw dot product
 
-2. **Evaluation Script** (`eval_asymmetric_quick.py`):
+2. **Evaluation Script** (`eval_asymmetric_dual_quick.py`):
    - Line 67-69: Normalize embeddings before computing retrieval scores
    - Ensures train/eval consistency
 

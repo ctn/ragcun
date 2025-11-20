@@ -225,7 +225,7 @@ z_doc = projection_doc(encoder(doc))        # Doc-specific projection
 ### **1. Quick Test: Remove λ_residual** (30 min)
 ```bash
 # Retrain with λ_residual = 0.0
-python scripts/train_respred.py \
+python scripts/train_residual_gaussian.py \
     --lambda_residual 0.0 \
     --lambda_isotropy 1.5 \
     --lambda_predictive 1.2 \

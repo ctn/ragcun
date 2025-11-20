@@ -74,18 +74,18 @@ Query Proj  Doc Proj  (2.4M params each, trainable)
 
 **Model checkpoint:** `checkpoints/asymmetric_smoke_20251118_111938/`
 
-**Training log:** `logs/asymmetric/asymmetric_smoke_20251118_111938.log`
+**Training log:** `logs/asymmetric_dual/asymmetric_smoke_20251118_111938.log`
 
 **Monitor commands:**
 ```bash
 # Watch live progress
-tail -f logs/asymmetric/asymmetric_smoke_20251118_111938.log
+tail -f logs/asymmetric_dual/asymmetric_smoke_20251118_111938.log
 
 # Check process status
 ps aux | grep "[t]rain_asymmetric"
 
 # Quick status
-tail -30 logs/asymmetric/asymmetric_smoke_20251118_111938.log | grep -E "Epoch|Loss|Accuracy"
+tail -30 logs/asymmetric_dual/asymmetric_smoke_20251118_111938.log | grep -E "Epoch|Loss|Accuracy"
 ```
 
 ---
@@ -95,7 +95,7 @@ tail -30 logs/asymmetric/asymmetric_smoke_20251118_111938.log | grep -E "Epoch|L
 ### 1. Training Summary
 ```bash
 grep -E "Epoch [0-9]/|Training Loss|Validation Loss|Accuracy" \
-  logs/asymmetric/asymmetric_smoke_20251118_111938.log
+  logs/asymmetric_dual/asymmetric_smoke_20251118_111938.log
 ```
 
 ### 2. Final Metrics
@@ -107,7 +107,7 @@ grep -E "Epoch [0-9]/|Training Loss|Validation Loss|Accuracy" \
 ### 3. Run Evaluation
 ```bash
 # Quick eval on 2 datasets (~5 min)
-python scripts/eval_respred_quick.py \
+python scripts/eval_residual_gaussian_quick.py \
   --checkpoint checkpoints/asymmetric_smoke_20251118_111938/best_model.pt \
   --datasets scifact nfcorpus \
   --output_file results/beir_standard/asymmetric_epoch3_quick.json \
@@ -211,12 +211,12 @@ python scripts/eval_respred_quick.py \
 
 **Output:**
 - Results: `results/beir_standard/asymmetric_epoch3_quick.json`
-- Log: `logs/asymmetric/eval_asymmetric_scheduled.log`
+- Log: `logs/asymmetric_dual/eval_asymmetric_dual_scheduled.log`
 
 **Monitor:**
 ```bash
 # Check if evaluation started (after 11:52)
-tail -f logs/asymmetric/eval_asymmetric_scheduled.log
+tail -f logs/asymmetric_dual/eval_asymmetric_dual_scheduled.log
 
 # Check when done (after 12:00)
 cat results/beir_standard/asymmetric_epoch3_quick.json

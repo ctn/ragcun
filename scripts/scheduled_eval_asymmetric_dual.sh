@@ -7,7 +7,7 @@ set -e
 WAIT_TIME=1800  # 30 minutes in seconds
 CHECKPOINT_DIR="checkpoints/asymmetric_smoke_20251118_111938"
 OUTPUT_FILE="results/beir_standard/asymmetric_epoch3_quick.json"
-LOG_FILE="logs/asymmetric/eval_asymmetric_scheduled.log"
+LOG_FILE="logs/asymmetric_dual/eval_asymmetric_dual_scheduled.log"
 
 echo "=============================================" | tee ${LOG_FILE}
 echo "Scheduled Evaluation: Asymmetric Projections" | tee -a ${LOG_FILE}
@@ -56,7 +56,7 @@ echo "=============================================" | tee -a ${LOG_FILE}
 echo "" | tee -a ${LOG_FILE}
 
 # Run evaluation
-python scripts/eval_asymmetric_quick.py \
+python scripts/eval_asymmetric_dual_quick.py \
     --checkpoint "${CHECKPOINT}" \
     --datasets scifact nfcorpus \
     --output_file "${OUTPUT_FILE}" \
