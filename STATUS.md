@@ -107,7 +107,7 @@ grep -E "Epoch [0-9]/|Training Loss|Validation Loss|Accuracy" \
 ### 3. Run Evaluation
 ```bash
 # Quick eval on 2 datasets (~5 min)
-python scripts/eval_residual_gaussian_quick.py \
+python scripts/eval/residual_gaussian_quick.py \
   --checkpoint checkpoints/asymmetric_smoke_20251118_111938/best_model.pt \
   --datasets scifact nfcorpus \
   --output_file results/beir_standard/asymmetric_epoch3_quick.json \

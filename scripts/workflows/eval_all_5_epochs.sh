@@ -27,7 +27,7 @@ for epoch in 1 2 3 4 5; do
     LOG_FILE="logs/eval_5epochs/epoch${epoch}_${TIMESTAMP}.log"
     
     echo "Starting epoch $epoch evaluation..."
-    nohup python scripts/evaluate_beir.py \
+    nohup python scripts/eval/beir.py \
         --model_path "$CHECKPOINT" \
         --base_model "$BASE_MODEL" \
         --output_dim "$OUTPUT_DIM" \

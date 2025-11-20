@@ -4,7 +4,7 @@
 
 ```bash
 # 1. Test training works (1 minute)
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 1 \
@@ -13,7 +13,7 @@ python scripts/train.py \
     --output_dir checkpoints/test
 
 # 2. If successful, run full training
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 3 \
@@ -54,7 +54,7 @@ $ ls -lh data/processed/
 
 ### Quick Test (CPU, 1 min)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 1 --batch_size 4 --output_dim 128 \
@@ -63,7 +63,7 @@ python scripts/train.py \
 
 ### Full Training (GPU, ~30 min)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 3 --batch_size 8 --output_dim 512 \
@@ -73,7 +73,7 @@ python scripts/train.py \
 
 ### Smart Hybrid (Faster, ~15 min)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 3 --batch_size 16 --output_dim 512 \

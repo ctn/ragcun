@@ -107,7 +107,7 @@ results/
 **To resume:**
 ```bash
 # Re-launch instance, then:
-python scripts/train.py [same args] --resume checkpoints/[model]/checkpoint_epoch_2.pt
+python scripts/train/isotropic.py [same args] --resume checkpoints/[model]/checkpoint_epoch_2.pt
 ```
 
 ---

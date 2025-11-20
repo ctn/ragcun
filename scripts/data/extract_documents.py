@@ -7,18 +7,18 @@ for self-supervised JEPA training.
 
 Usage:
     # Extract from MS MARCO
-    python scripts/extract_documents.py \
+    python scripts/data/extract_documents.py \
         --input data/processed/msmarco/train.json \
         --output data/raw/msmarco_documents.json
 
     # Extract with deduplication
-    python scripts/extract_documents.py \
+    python scripts/data/extract_documents.py \
         --input data/processed/msmarco/train.json \
         --output data/raw/msmarco_documents.json \
         --deduplicate
 
     # Extract and filter by length
-    python scripts/extract_documents.py \
+    python scripts/data/extract_documents.py \
         --input data/processed/msmarco/train.json \
         --output data/raw/msmarco_documents.json \
         --min_length 50 \
@@ -163,25 +163,25 @@ def main():
         epilog="""
 Examples:
   # Basic extraction
-  python scripts/extract_documents.py \\
+  python scripts/data/extract_documents.py \\
     --input data/processed/msmarco/train.json \\
     --output data/raw/msmarco_documents.json
 
   # With deduplication
-  python scripts/extract_documents.py \\
+  python scripts/data/extract_documents.py \\
     --input data/processed/msmarco/train.json \\
     --output data/raw/msmarco_documents.json \\
     --deduplicate
 
   # Filter by length
-  python scripts/extract_documents.py \\
+  python scripts/data/extract_documents.py \\
     --input data/processed/msmarco/train.json \\
     --output data/raw/msmarco_documents.json \\
     --min_length 100 \\
     --max_length 1500
 
   # Extract from different field
-  python scripts/extract_documents.py \\
+  python scripts/data/extract_documents.py \\
     --input data/processed/custom.json \\
     --output data/raw/custom_documents.json \\
     --field_name document

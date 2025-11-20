@@ -74,7 +74,7 @@ You'll train **THREE models** to show clear ablations:
 **Purpose:** Show standard fine-tuning performance without your contribution
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -101,7 +101,7 @@ python scripts/train.py \
 **Purpose:** Show your LeJEPA contribution improves results
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -130,7 +130,7 @@ python scripts/train.py \
 **Purpose:** Show you can also do efficient training (optional but valuable)
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -196,7 +196,7 @@ Before training, evaluate the base model to get true baseline:
 pip install beir
 
 # Evaluate base MPNet (no fine-tuning)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model sentence-transformers/all-mpnet-base-v2 \
     --datasets scifact nfcorpus arguana fiqa trec-covid \
     --output_file results/baseline_mpnet_original.json
@@ -213,13 +213,13 @@ python scripts/evaluate_beir.py \
 #### Option A: Sequential Training (Single GPU)
 ```bash
 # Week 1: Baseline (no isotropy)
-python scripts/train.py [Experiment 1 args] # 5-6 days
+python scripts/train/isotropic.py [Experiment 1 args] # 5-6 days
 
 # Week 2: With isotropy (your method)
-python scripts/train.py [Experiment 2 args] # 5-6 days
+python scripts/train/isotropic.py [Experiment 2 args] # 5-6 days
 
 # Week 3: Frozen base (efficiency)
-python scripts/train.py [Experiment 3 args] # 2-3 days
+python scripts/train/isotropic.py [Experiment 3 args] # 2-3 days
 ```
 
 **Total: ~15 days on single T4**
@@ -227,13 +227,13 @@ python scripts/train.py [Experiment 3 args] # 2-3 days
 #### Option B: Parallel Training (Multi-GPU or Multiple Instances) ⭐
 ```bash
 # GPU 0: Baseline
-CUDA_VISIBLE_DEVICES=0 python scripts/train.py [Exp 1] &
+CUDA_VISIBLE_DEVICES=0 python scripts/train/isotropic.py [Exp 1] &
 
 # GPU 1: With isotropy
-CUDA_VISIBLE_DEVICES=1 python scripts/train.py [Exp 2] &
+CUDA_VISIBLE_DEVICES=1 python scripts/train/isotropic.py [Exp 2] &
 
 # GPU 2: Frozen base
-CUDA_VISIBLE_DEVICES=2 python scripts/train.py [Exp 3] &
+CUDA_VISIBLE_DEVICES=2 python scripts/train/isotropic.py [Exp 3] &
 
 wait
 ```
@@ -248,17 +248,17 @@ For each trained model:
 
 ```bash
 # Evaluate on full BEIR (18 datasets)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/baseline_no_isotropy/best_model.pt \
     --datasets all \
     --output_file results/beir_baseline.json
 
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/with_isotropy/best_model.pt \
     --datasets all \
     --output_file results/beir_with_isotropy.json
 
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/frozen_efficient/best_model.pt \
     --datasets all \
     --output_file results/beir_frozen.json
@@ -400,7 +400,7 @@ echo ""
 echo "============================================"
 echo "Experiment 1: Baseline (no isotropy)"
 echo "============================================"
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -422,7 +422,7 @@ echo ""
 echo "============================================"
 echo "Experiment 2: With Isotropy (YOUR METHOD)"
 echo "============================================"
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -444,7 +444,7 @@ echo ""
 echo "============================================"
 echo "Experiment 3: Frozen Base (Efficiency)"
 echo "============================================"
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -491,28 +491,28 @@ echo "============================================"
 
 # Baseline original MPNet
 echo "Evaluating: Original MPNet (no fine-tuning)..."
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model sentence-transformers/all-mpnet-base-v2 \
     --datasets all \
     --output_file results/beir_mpnet_original.json
 
 # Experiment 1: Baseline (no isotropy)
 echo "Evaluating: Baseline (no isotropy)..."
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/baseline_no_isotropy/best_model.pt \
     --datasets all \
     --output_file results/beir_baseline.json
 
 # Experiment 2: With isotropy
 echo "Evaluating: With Isotropy (YOUR METHOD)..."
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/with_isotropy/best_model.pt \
     --datasets all \
     --output_file results/beir_with_isotropy.json
 
 # Experiment 3: Frozen base
 echo "Evaluating: Frozen Base (Efficiency)..."
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/frozen_efficient/best_model.pt \
     --datasets all \
     --output_file results/beir_frozen.json
@@ -539,7 +539,7 @@ cd /home/ubuntu/ragcun
 python scripts/download_msmarco.py --output_dir data/processed/msmarco
 
 # 3. Verify baseline (30 min)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model sentence-transformers/all-mpnet-base-v2 \
     --datasets scifact nfcorpus \
     --output_file results/baseline_quick.json
@@ -606,7 +606,7 @@ Before starting training, ensure:
    - This is CRITICAL for competitive performance
 
 3. **✅ BEIR evaluation script ready**
-   - Ensure `scripts/evaluate_beir.py` handles your Gaussian embeddings
+   - Ensure `scripts/eval/beir.py` handles your Gaussian embeddings
    - Use Euclidean distance (not cosine) for retrieval
 
 4. **✅ Isotropy computation implemented**

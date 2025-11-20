@@ -40,7 +40,7 @@ echo "=============================================" | tee -a ${LOG_FILE}
 echo "" | tee -a ${LOG_FILE}
 
 # Run training
-python scripts/train_residual_gaussian.py \
+python scripts/train/residual_gaussian.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -72,6 +72,6 @@ echo "Next steps:" | tee -a ${LOG_FILE}
 echo "  1. Check training stats: cat ${LOG_FILE} | grep -A 5 'Epoch'" | tee -a ${LOG_FILE}
 echo "  2. Monitor alpha evolution: cat ${LOG_FILE} | grep 'Alpha:'" | tee -a ${LOG_FILE}
 echo "  3. Check delta magnitudes: cat ${LOG_FILE} | grep 'Delta'" | tee -a ${LOG_FILE}
-echo "  4. Evaluate on BEIR: python scripts/evaluate_beir.py --model_path ${OUTPUT_DIR}/best_model.pt" | tee -a ${LOG_FILE}
+echo "  4. Evaluate on BEIR: python scripts/eval/beir.py --model_path ${OUTPUT_DIR}/best_model.pt" | tee -a ${LOG_FILE}
 echo "" | tee -a ${LOG_FILE}
 

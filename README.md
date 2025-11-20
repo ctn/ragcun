@@ -136,7 +136,7 @@ echo "HF_TOKEN=your_token" > .env
 
 ```bash
 # Evaluate on BEIR
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/with_isotropy/best_model.pt \
     --datasets all \
     --output_file results/beir_results.json

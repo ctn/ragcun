@@ -269,7 +269,7 @@ aws s3 sync checkpoints/ $S3_BACKUP_BUCKET/checkpoints/
 3. Re-launch instance, resume from checkpoint:
 
 ```bash
-python scripts/train.py [same args] \
+python scripts/train/isotropic.py [same args] \
     --resume checkpoints/with_isotropy/checkpoint_epoch_2.pt
 ```
 

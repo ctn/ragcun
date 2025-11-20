@@ -227,7 +227,7 @@ nvidia-smi dmon -s u
 ### Speed Up Evaluation
 ```bash
 # Evaluate on subset first (5 datasets, 30 min)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/smart_hybrid/best_model.pt \
     --datasets msmarco nfcorpus scifact fiqa arguana \
     --output_file results/beir_subset.json
@@ -254,7 +254,7 @@ A: Resume from checkpoint:
 **Q: Can I use multiple GPUs?**  
 A: Yes! Use PyTorch DDP:
 ```bash
-torchrun --nproc_per_node=4 scripts/train.py ...
+torchrun --nproc_per_node=4 scripts/train/isotropic.py ...
 # 4x speedup, done in 12 hours
 ```
 

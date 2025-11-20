@@ -36,7 +36,7 @@ echo "=============================================" | tee -a "$TRAIN_LOG"
 echo "" | tee -a "$TRAIN_LOG"
 
 # Train all 5 epochs in one shot
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data "$TRAIN_DATA" \
     --val_data "$VAL_DATA" \
     --output_dir "$OUTPUT_DIR" \
@@ -69,7 +69,7 @@ echo "  - checkpoint_epoch_5.pt" | tee -a "$TRAIN_LOG"
 echo "  - best_model.pt" | tee -a "$TRAIN_LOG"
 echo "" | tee -a "$TRAIN_LOG"
 echo "Run evaluation when ready with:" | tee -a "$TRAIN_LOG"
-echo "  python scripts/evaluate_beir.py \\" | tee -a "$TRAIN_LOG"
+echo "  python scripts/eval/beir.py \\" | tee -a "$TRAIN_LOG"
 echo "    --model_path $OUTPUT_DIR/checkpoint_epoch_5.pt \\" | tee -a "$TRAIN_LOG"
 echo "    --base_model $BASE_MODEL \\" | tee -a "$TRAIN_LOG"
 echo "    --output_dim $OUTPUT_DIM \\" | tee -a "$TRAIN_LOG"

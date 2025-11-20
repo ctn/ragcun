@@ -51,8 +51,8 @@ cd /home/ubuntu/ragcun
 echo "Test 1: Script availability..."
 for script in \
     scripts/download_msmarco.py \
-    scripts/train.py \
-    scripts/evaluate_beir.py \
+    scripts/train/isotropic.py \
+    scripts/eval/beir.py \
     scripts/train_parallel_p4d.sh \
     scripts/setup_p4d_instance.sh \
     scripts/test_training_setup.sh; do
@@ -204,7 +204,7 @@ EOF
 # Test 4: Training script dry-run (2 steps only)
 echo ""
 echo "Test 4: Training script dry-run..."
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_test/train.json \
     --val_data data/processed/msmarco_test/train.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -285,7 +285,7 @@ EOF
 # Test Experiment 1: Baseline (no isotropy)
 echo ""
 echo "Test Experiment 1: Baseline..."
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -313,7 +313,7 @@ fi
 # Test Experiment 2: With isotropy
 echo ""
 echo "Test Experiment 2: With isotropy..."
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -341,7 +341,7 @@ fi
 # Test Experiment 3: Frozen base
 echo ""
 echo "Test Experiment 3: Frozen base..."
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -446,7 +446,7 @@ Before launching expensive p4d.24xlarge:
 
 ### **Scripts Tested:**
 - [ ] `scripts/download_msmarco.py` ✅
-- [ ] `scripts/train.py` with all 3 configs ✅
+- [ ] `scripts/train/isotropic.py` with all 3 configs ✅
 - [ ] `scripts/setup_p4d_instance.sh` reviewed
 - [ ] `scripts/train_parallel_p4d.sh` reviewed
 - [ ] `scripts/test_training_setup.sh` works

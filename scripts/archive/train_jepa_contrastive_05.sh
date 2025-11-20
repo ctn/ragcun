@@ -22,7 +22,7 @@ echo "  • Stop-gradient: enabled (JEPA standard)"
 echo "  • Expected time: ~18-20 minutes"
 echo ""
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \

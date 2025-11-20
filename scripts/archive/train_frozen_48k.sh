@@ -26,7 +26,7 @@ echo "  • Epochs: 3"
 echo "  • Expected time: ~15-20 minutes"
 echo ""
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \

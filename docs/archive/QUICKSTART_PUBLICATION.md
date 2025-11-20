@@ -126,7 +126,7 @@ Your current MS MARCO download uses random negatives. For +2-3% improvement:
 
 ### 2. **Euclidean Distance**
 Your Gaussian embeddings use Euclidean distance, not cosine:
-- Ensure `scripts/evaluate_beir.py` uses `-euclidean_distance` for scoring
+- Ensure `scripts/eval/beir.py` uses `-euclidean_distance` for scoring
 - This is key to your approach
 
 ### 3. **Isotropy Computation**
@@ -216,7 +216,7 @@ Frozen (with isotropy)   | 46.8%    | 0.92     | 1.2M
 cd /home/ubuntu/ragcun
 
 # Quick verification (30 min)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model sentence-transformers/all-mpnet-base-v2 \
     --datasets scifact nfcorpus \
     --output_file results/baseline_quick.json

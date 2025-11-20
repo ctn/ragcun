@@ -96,7 +96,7 @@ python scripts/prepare_data.py \
 Main training script - all experiments use this.
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -161,19 +161,19 @@ Evaluate model on BEIR benchmark.
 
 ```bash
 # Single dataset
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/model.pt \
     --datasets scifact \
     --output_file results/beir_scifact.json
 
 # Multiple datasets
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/model.pt \
     --datasets scifact nfcorpus arguana \
     --output_file results/beir_results.json
 
 # All 18 BEIR datasets
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/model.pt \
     --datasets all \
     --output_file results/beir_full.json

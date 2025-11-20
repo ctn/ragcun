@@ -56,7 +56,7 @@ echo "=============================================" | tee -a ${LOG_FILE}
 echo "" | tee -a ${LOG_FILE}
 
 # Run evaluation
-python scripts/eval_asymmetric_dual_quick.py \
+python scripts/eval/asymmetric_dual_quick.py \
     --checkpoint "${CHECKPOINT}" \
     --datasets scifact nfcorpus \
     --output_file "${OUTPUT_FILE}" \

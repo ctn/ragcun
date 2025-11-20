@@ -84,7 +84,7 @@ echo "Experiment 1: Baseline (no isotropy)"
 echo "Started: $(date)"
 echo "============================================"
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --base_learning_rate 1e-5 \
     --projection_learning_rate 5e-4 \
@@ -102,7 +102,7 @@ echo "Experiment 2: With Isotropy (YOUR METHOD)"
 echo "Started: $(date)"
 echo "============================================"
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --base_learning_rate 1e-5 \
     --projection_learning_rate 5e-4 \
@@ -124,7 +124,7 @@ echo ""
 
 # Baseline
 echo "Evaluating baseline..."
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/pilot_baseline/best_model.pt \
     --datasets scifact nfcorpus arguana \
     --output_file results/pilot_baseline_beir.json \
@@ -133,7 +133,7 @@ python scripts/evaluate_beir.py \
 # With isotropy
 echo ""
 echo "Evaluating with isotropy..."
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/pilot_isotropy/best_model.pt \
     --datasets scifact nfcorpus arguana \
     --output_file results/pilot_isotropy_beir.json \

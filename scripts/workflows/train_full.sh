@@ -45,7 +45,7 @@ echo "Starting full training ($EPOCHS epochs)..."
 echo "This will take approximately $((EPOCHS * 30)) - $((EPOCHS * 60)) minutes on T4 GPU"
 echo ""
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data "$TRAIN_DATA" \
     --val_data "$VAL_DATA" \
     --epochs "$EPOCHS" \

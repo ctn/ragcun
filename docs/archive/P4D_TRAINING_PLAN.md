@@ -148,8 +148,8 @@ COMMON_ARGS="--train_data data/processed/msmarco/train.json \
 - [ ] Test scripts locally (if possible):
   ```bash
   # Dry run to check imports
-  python scripts/train.py --help
-  python scripts/evaluate_beir.py --help
+  python scripts/train/isotropic.py --help
+  python scripts/eval/beir.py --help
   ```
 
 ---
@@ -492,7 +492,7 @@ COMMON_ARGS="--train_data data/processed/msmarco/train.json \
 
 # Experiment 1: Baseline (GPU 0)
 echo "Starting Experiment 1..."
-CUDA_VISIBLE_DEVICES=0 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=0 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base False \
     --base_learning_rate 1e-5 \
@@ -507,7 +507,7 @@ sleep 5
 
 # Experiment 2: With isotropy (GPU 1)
 echo "Starting Experiment 2..."
-CUDA_VISIBLE_DEVICES=1 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=1 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base False \
     --base_learning_rate 1e-5 \
@@ -522,7 +522,7 @@ sleep 5
 
 # Experiment 3: Frozen base (GPU 2)
 echo "Starting Experiment 3..."
-CUDA_VISIBLE_DEVICES=2 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=2 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base True \
     --projection_learning_rate 5e-4 \

@@ -259,13 +259,13 @@ To use these updates:
 
 Then run with torchrun:
   # Single GPU
-  python scripts/train.py [args]
+  python scripts/train/isotropic.py [args]
   
   # Multi-GPU (4 GPUs)
-  torchrun --nproc_per_node=4 scripts/train.py [args]
+  torchrun --nproc_per_node=4 scripts/train/isotropic.py [args]
   
   # Smart hybrid
-  python scripts/train.py \\
+  python scripts/train/isotropic.py \\
     --base_model sentence-transformers/all-mpnet-base-v2 \\
     --freeze_base \\
     --projection_learning_rate 5e-4

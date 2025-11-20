@@ -24,7 +24,7 @@ Train IsotropicGaussianEncoder with LeJEPA SIGReg loss.
 
 **Basic usage:**
 ```bash
-python scripts/train.py --train_data data/processed/train.json --epochs 3
+python scripts/train/isotropic.py --train_data data/processed/train.json --epochs 3
 ```
 
 **Key features:**
@@ -170,7 +170,7 @@ python scripts/prepare_data.py \
     --output_dir data/processed
 
 # Step 2: Train the model
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 3 \
@@ -218,7 +218,7 @@ Example configuration (`config/train_example.json`):
 
 Use with:
 ```bash
-python scripts/train.py @config/train_example.json  # Not implemented yet
+python scripts/train/isotropic.py @config/train_example.json  # Not implemented yet
 # For now, pass args directly
 ```
 
@@ -232,7 +232,7 @@ python scripts/train.py @config/train_example.json  # Not implemented yet
 
 If OOM occurs:
 ```bash
-python scripts/train.py --batch_size 4  # Reduce batch size
+python scripts/train/isotropic.py --batch_size 4  # Reduce batch size
 ```
 
 ### Training Tips
@@ -259,7 +259,7 @@ python scripts/train.py --batch_size 4  # Reduce batch size
 
 ### "CUDA out of memory"
 ```bash
-python scripts/train.py --batch_size 4
+python scripts/train/isotropic.py --batch_size 4
 ```
 
 ### "Loss not decreasing"
@@ -296,7 +296,7 @@ python scripts/prepare_data.py \
     --output_dir data/processed
 
 # Train
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --epochs 5 \
     --batch_size 8
@@ -306,7 +306,7 @@ python scripts/train.py \
 
 ```bash
 # Load checkpoint and continue training
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data new_data.json \
     --learning_rate 1e-5 \
     --epochs 2 \
@@ -330,7 +330,7 @@ done
 ```bash
 for margin in 0.5 1.0 2.0; do
     for lambda_iso in 0.5 1.0 1.5; do
-        python scripts/train.py \
+        python scripts/train/isotropic.py \
             --train_data data/processed/train.json \
             --margin $margin \
             --lambda_isotropy $lambda_iso \
@@ -359,7 +359,7 @@ done
 4. **Try with your data:**
    ```bash
    python scripts/prepare_data.py --documents your_docs.txt ...
-   python scripts/train.py --train_data data/processed/train.json ...
+   python scripts/train/isotropic.py --train_data data/processed/train.json ...
    ```
 
 Happy training! 🎉

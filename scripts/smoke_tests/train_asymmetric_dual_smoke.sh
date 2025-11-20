@@ -48,7 +48,7 @@ echo "=============================================" | tee -a ${LOG_FILE}
 echo "" | tee -a ${LOG_FILE}
 
 # Run training
-python scripts/train_asymmetric_dual.py \
+python scripts/train/asymmetric_dual.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -75,6 +75,6 @@ echo "Log saved to: ${LOG_FILE}" | tee -a ${LOG_FILE}
 echo "" | tee -a ${LOG_FILE}
 echo "Next steps:" | tee -a ${LOG_FILE}
 echo "  1. Check training stats: tail ${LOG_FILE}" | tee -a ${LOG_FILE}
-echo "  2. Evaluate on BEIR: python scripts/evaluate_beir.py --model_path ${OUTPUT_DIR}/best_model.pt --model_type asymmetric" | tee -a ${LOG_FILE}
+echo "  2. Evaluate on BEIR: python scripts/eval/beir.py --model_path ${OUTPUT_DIR}/best_model.pt --model_type asymmetric" | tee -a ${LOG_FILE}
 echo "" | tee -a ${LOG_FILE}
 

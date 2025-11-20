@@ -182,7 +182,7 @@ if [ $? -ne 0 ]; then ((FAILURES++)); fi
 echo ""
 echo "Test 6: Training script dry-run (1 step)..."
 if [ -f "data/processed/msmarco/train.json" ]; then
-    timeout 120 python scripts/train.py \
+    timeout 120 python scripts/train/isotropic.py \
         --train_data data/processed/msmarco/train.json \
         --val_data data/processed/msmarco/dev.json \
         --base_model sentence-transformers/all-mpnet-base-v2 \

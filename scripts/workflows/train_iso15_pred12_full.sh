@@ -20,7 +20,7 @@ echo "Output directory: $OUTPUT_DIR"
 echo "Log file: $LOG_FILE"
 echo ""
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/val.json \
     --output_dir "$OUTPUT_DIR" \

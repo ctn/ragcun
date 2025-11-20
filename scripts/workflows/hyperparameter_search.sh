@@ -44,7 +44,7 @@ for LR in 1e-5 2e-5 5e-5; do
     EXP_NAME="lr_${LR}"
     echo "Training with LR=$LR..."
 
-    python scripts/train.py \
+    python scripts/train/isotropic.py \
         --train_data "$TRAIN_DATA" \
         --val_data "$VAL_DATA" \
         --epochs 2 \
@@ -71,7 +71,7 @@ for BS in 4 8 16; do
     EXP_NAME="bs_${BS}"
     echo "Training with batch_size=$BS..."
 
-    python scripts/train.py \
+    python scripts/train/isotropic.py \
         --train_data "$TRAIN_DATA" \
         --val_data "$VAL_DATA" \
         --epochs 2 \
@@ -98,7 +98,7 @@ for LAMBDA in 0.5 1.0 1.5; do
     EXP_NAME="iso_${LAMBDA}"
     echo "Training with lambda_isotropy=$LAMBDA..."
 
-    python scripts/train.py \
+    python scripts/train/isotropic.py \
         --train_data "$TRAIN_DATA" \
         --val_data "$VAL_DATA" \
         --epochs 2 \

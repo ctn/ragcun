@@ -20,7 +20,7 @@ echo "Started at: $(date)"
 echo "============================================="
 echo ""
 
-python scripts/eval_residual_gaussian_quick.py \
+python scripts/eval/residual_gaussian_quick.py \
     --checkpoint "${CHECKPOINT}" \
     --datasets scifact nfcorpus \
     --output_file "${OUTPUT_FILE}" \

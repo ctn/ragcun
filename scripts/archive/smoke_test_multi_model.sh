@@ -71,7 +71,7 @@ train_model() {
     
     # Baseline (no isotropy)
     echo "Training baseline (λ_iso=0)..."
-    python scripts/train.py \
+    python scripts/train/isotropic.py \
         $COMMON_ARGS \
         --base_model "$model_name" \
         --base_learning_rate 2e-5 \
@@ -88,7 +88,7 @@ train_model() {
     
     # With isotropy
     echo "Training with isotropy (λ_iso=1.0)..."
-    python scripts/train.py \
+    python scripts/train/isotropic.py \
         $COMMON_ARGS \
         --base_model "$model_name" \
         --base_learning_rate 2e-5 \

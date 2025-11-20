@@ -114,7 +114,7 @@ echo "  Freeze layers: $FREEZE_LAYERS"
 echo ""
 
 # Build command
-CMD="python scripts/train.py \
+CMD="python scripts/train/isotropic.py \
     --train_data $TRAIN_DATA \
     --epochs $EPOCHS \
     --batch_size $BATCH_SIZE \

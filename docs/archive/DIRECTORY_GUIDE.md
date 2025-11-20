@@ -146,7 +146,7 @@ retriever = IsotropicRetriever(
 **Usage**:
 ```bash
 # Load config and override specific params
-python scripts/train.py --epochs 5 --batch_size 16
+python scripts/train/isotropic.py --epochs 5 --batch_size 16
 ```
 
 ---

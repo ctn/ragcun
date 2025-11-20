@@ -65,7 +65,7 @@ for key in "${!MODELS[@]}"; do
     echo "============================================"
     
     # Train with frozen base + isotropy
-    python scripts/train.py \
+    python scripts/train/isotropic.py \
         $COMMON_ARGS \
         --base_model "$model_name" \
         --freeze_base \

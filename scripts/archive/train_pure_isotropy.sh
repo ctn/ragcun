@@ -19,7 +19,7 @@ echo "  • Epochs: 1"
 echo "  • Expected time: ~7-10 minutes"
 echo ""
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
@@ -40,6 +40,6 @@ echo ""
 echo "✅ Training complete!"
 echo ""
 echo "Next steps:"
-echo "  - Evaluate on BEIR: python scripts/evaluate_beir.py --model_path checkpoints/pure_isotropy_only/best_model.pt --base_model sentence-transformers/all-mpnet-base-v2 --freeze_base --datasets scifact nfcorpus arguana fiqa trec-covid"
+echo "  - Evaluate on BEIR: python scripts/eval/beir.py --model_path checkpoints/pure_isotropy_only/best_model.pt --base_model sentence-transformers/all-mpnet-base-v2 --freeze_base --datasets scifact nfcorpus arguana fiqa trec-covid"
 echo "  - Compare with: contrastive-only baseline and contrastive+isotropy"
 

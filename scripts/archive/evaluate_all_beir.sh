@@ -35,7 +35,7 @@ echo "============================================"
 echo "Evaluating: Original MPNet (no fine-tuning)"
 echo "Started: $(date)"
 echo "============================================"
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model sentence-transformers/all-mpnet-base-v2 \
     --datasets all \
     --output_file results/beir_mpnet_original.json \
@@ -54,7 +54,7 @@ if [ ! -f "checkpoints/baseline_no_isotropy/best_model.pt" ]; then
     echo "⚠️  Model not found: checkpoints/baseline_no_isotropy/best_model.pt"
     echo "Skipping..."
 else
-    python scripts/evaluate_beir.py \
+    python scripts/eval/beir.py \
         --model_path checkpoints/baseline_no_isotropy/best_model.pt \
         --datasets all \
         --output_file results/beir_baseline.json \
@@ -74,7 +74,7 @@ if [ ! -f "checkpoints/with_isotropy/best_model.pt" ]; then
     echo "⚠️  Model not found: checkpoints/with_isotropy/best_model.pt"
     echo "Skipping..."
 else
-    python scripts/evaluate_beir.py \
+    python scripts/eval/beir.py \
         --model_path checkpoints/with_isotropy/best_model.pt \
         --datasets all \
         --output_file results/beir_with_isotropy.json \
@@ -94,7 +94,7 @@ if [ ! -f "checkpoints/frozen_efficient/best_model.pt" ]; then
     echo "⚠️  Model not found: checkpoints/frozen_efficient/best_model.pt"
     echo "Skipping..."
 else
-    python scripts/evaluate_beir.py \
+    python scripts/eval/beir.py \
         --model_path checkpoints/frozen_efficient/best_model.pt \
         --datasets all \
         --output_file results/beir_frozen.json \

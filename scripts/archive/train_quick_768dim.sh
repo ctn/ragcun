@@ -15,7 +15,7 @@ echo "  • Epochs: 1 (quick test)"
 echo "  • λ_contrastive=0.1, λ_isotropy=1.0"
 echo ""
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \

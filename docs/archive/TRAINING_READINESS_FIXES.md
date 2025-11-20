@@ -39,7 +39,7 @@ Also fixed edge case for empty retrieved arrays.
 ---
 
 ### 2. Mixed Precision Training Implementation ✅
-**File**: `scripts/train.py`  
+**File**: `scripts/train/isotropic.py`  
 **Issue**: `--mixed_precision` flag created scaler but never used it  
 **Impact**: FP16 training was not functional
 
@@ -71,7 +71,7 @@ def train_epoch(..., scaler: Optional[torch.cuda.amp.GradScaler] = None):
 ---
 
 ### 3. Learning Rate Scheduler Stepping ✅
-**File**: `scripts/train.py`  
+**File**: `scripts/train/isotropic.py`  
 **Issue**: Scheduler created but never stepped - LR stayed constant  
 **Fix**: Added `scheduler.step()` after each training epoch
 
@@ -95,7 +95,7 @@ scheduler.step()
 ---
 
 ### 4. Input Validation ✅
-**File**: `scripts/train.py`  
+**File**: `scripts/train/isotropic.py`  
 **Issue**: No validation of input files - cryptic errors if missing  
 **Fix**: Added fail-fast validation with helpful error messages
 
@@ -125,7 +125,7 @@ logger.info("✅ Input files validated")
 ---
 
 ### 5. GPU Memory Management ✅
-**File**: `scripts/train.py`  
+**File**: `scripts/train/isotropic.py`  
 **Enhancement**: Added GPU cache clearing after each epoch
 
 **Implementation**:
@@ -203,7 +203,7 @@ python scripts/prepare_data.py \
 
 ### Quick Test (1 minute)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 1 \
@@ -215,7 +215,7 @@ python scripts/train.py \
 
 ### Full Training (GPU recommended)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 3 \
@@ -229,7 +229,7 @@ python scripts/train.py \
 
 ### Smart Hybrid Training (Train projection only - faster)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 3 \
@@ -322,7 +322,7 @@ Validation metrics:
 
 ### 1. Test Training (5 minutes)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 1 \
@@ -349,7 +349,7 @@ python scripts/download_msmarco.py \
 
 ### 3. Full Training
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/real/train.json \
     --val_data data/processed/real/val.json \
     --epochs 3 \
@@ -371,7 +371,7 @@ python scripts/evaluate.py \
 
 ## 📝 Files Modified
 
-1. `scripts/train.py` - Added:
+1. `scripts/train/isotropic.py` - Added:
    - Mixed precision training
    - Scheduler stepping
    - Input validation

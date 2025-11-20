@@ -192,7 +192,7 @@ class IsotropicGaussianEncoder(nn.Module):
 
 ### Step 2: Add Predictive Loss
 
-**File: `scripts/train.py`**
+**File: `scripts/train/isotropic.py`**
 
 ```python
 class JEPASIGRegLoss(nn.Module):
@@ -235,7 +235,7 @@ class JEPASIGRegLoss(nn.Module):
 
 ### Step 3: Update Training Loop
 
-**File: `scripts/train.py` (train_epoch function)**
+**File: `scripts/train/isotropic.py` (train_epoch function)**
 
 ```python
 def train_epoch(...):

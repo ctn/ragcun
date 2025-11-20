@@ -41,7 +41,7 @@ for MODEL_KEY in mpnet minilm-l6 distilroberta; do
     echo ""
     echo "📊 Baseline (λ_iso=0.0)"
     echo "--------------------------------------"
-    python scripts/evaluate_beir.py \
+    python scripts/eval/beir.py \
         --model_path "checkpoints/smoke_multi/${MODEL_KEY}_baseline/best_model.pt" \
         --base_model "$BASE_MODEL" \
         --output_dim 512 \
@@ -55,7 +55,7 @@ for MODEL_KEY in mpnet minilm-l6 distilroberta; do
     echo ""
     echo "📊 Full Fine-Tune (λ_iso=1.0)"
     echo "--------------------------------------"
-    python scripts/evaluate_beir.py \
+    python scripts/eval/beir.py \
         --model_path "checkpoints/smoke_multi/${MODEL_KEY}_isotropy/best_model.pt" \
         --base_model "$BASE_MODEL" \
         --output_dim 512 \
@@ -69,7 +69,7 @@ for MODEL_KEY in mpnet minilm-l6 distilroberta; do
     echo ""
     echo "📊 Frozen Base (λ_iso=1.0, base frozen)"
     echo "--------------------------------------"
-    python scripts/evaluate_beir.py \
+    python scripts/eval/beir.py \
         --model_path "checkpoints/smoke_frozen/${MODEL_KEY}_frozen_isotropy/best_model.pt" \
         --base_model "$BASE_MODEL" \
         --output_dim 512 \

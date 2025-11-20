@@ -13,7 +13,7 @@ echo "  • Uses predictor network (training-only, not used in inference)"
 echo "  • Base encoder: frozen"
 echo ""
 
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path "checkpoints/jepa_10k/best_model.pt" \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
     --output_dim 768 \

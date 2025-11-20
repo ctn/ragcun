@@ -111,7 +111,7 @@
 
 ### Experiment 1: Small Contrastive (MUST TRY FIRST)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
@@ -132,7 +132,7 @@ python scripts/train.py \
 
 ### Experiment 2: Balanced (if #1 works)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
@@ -153,7 +153,7 @@ python scripts/train.py \
 
 ### Experiment 3: Scale Up (if #1 or #2 works)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \

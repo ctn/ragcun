@@ -25,7 +25,7 @@ echo "  Model: MPNet Frozen+Iso (768-dim, λ_contrastive=0.1)"
 echo "  Datasets: SciFact, NFCorpus, ArguAna, FiQA, TREC-COVID"
 echo ""
 
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path "$MODEL_PATH" \
     --base_model "$BASE_MODEL" \
     --output_dim 768 \

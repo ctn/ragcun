@@ -286,7 +286,7 @@ You now have:
 - Don't panic! Checkpoints saved every epoch
 - Re-launch p4d, resume from checkpoint:
   ```bash
-  python scripts/train.py [same args] --resume checkpoints/[model]/checkpoint_epoch_2.pt
+  python scripts/train/isotropic.py [same args] --resume checkpoints/[model]/checkpoint_epoch_2.pt
   ```
 
 ---

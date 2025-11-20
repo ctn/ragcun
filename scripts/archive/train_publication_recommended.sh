@@ -60,7 +60,7 @@ echo "============================================"
 echo "Experiment 1: Baseline (no isotropy)"
 echo "Started: $(date)"
 echo "============================================"
-python scripts/train.py \
+python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base False \
     --base_learning_rate 1e-5 \
@@ -78,7 +78,7 @@ echo "============================================"
 echo "Experiment 2: With Isotropy (YOUR METHOD)"
 echo "Started: $(date)"
 echo "============================================"
-python scripts/train.py \
+python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base False \
     --base_learning_rate 1e-5 \
@@ -96,7 +96,7 @@ echo "============================================"
 echo "Experiment 3: Frozen Base (Efficiency)"
 echo "Started: $(date)"
 echo "============================================"
-python scripts/train.py \
+python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base True \
     --projection_learning_rate 5e-4 \

@@ -71,7 +71,7 @@ echo "Experiment 1: Baseline (λ_iso=0)"
 echo "Started: $(date +'%H:%M:%S')"
 echo "============================================"
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     $COMMON \
     --base_learning_rate 2e-5 \
     --projection_learning_rate 1e-3 \
@@ -92,7 +92,7 @@ echo "Experiment 2: With Isotropy (λ_iso=1.0)"
 echo "Started: $(date +'%H:%M:%S')"
 echo "============================================"
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     $COMMON \
     --base_learning_rate 2e-5 \
     --projection_learning_rate 1e-3 \

@@ -29,8 +29,8 @@ echo ""
 echo "Test 1.1: Script existence..."
 REQUIRED_SCRIPTS=(
     "scripts/download_msmarco.py"
-    "scripts/train.py"
-    "scripts/evaluate_beir.py"
+    "scripts/train/isotropic.py"
+    "scripts/eval/beir.py"
 )
 
 for script in "${REQUIRED_SCRIPTS[@]}"; do
@@ -225,7 +225,7 @@ echo ""
 
 # Test 3.1: Baseline training (quick test)
 echo "Test 3.1: Baseline training (no isotropy)..."
-timeout 60 python scripts/train.py \
+timeout 60 python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -252,7 +252,7 @@ fi
 # Test 3.2: With isotropy training (quick test)
 echo ""
 echo "Test 3.2: Training with isotropy..."
-timeout 60 python scripts/train.py \
+timeout 60 python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -279,7 +279,7 @@ fi
 # Test 3.3: Frozen base training (quick test)
 echo ""
 echo "Test 3.3: Frozen base training..."
-timeout 60 python scripts/train.py \
+timeout 60 python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_tiny/train.json \
     --val_data data/processed/msmarco_tiny/val.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -355,7 +355,7 @@ else
     echo "Common fixes:"
     echo "  - Missing dependencies: pip install -r requirements.txt"
     echo "  - Model issues: Check ragcun/model.py exists"
-    echo "  - Training script: Check scripts/train.py has all args"
+    echo "  - Training script: Check scripts/train/isotropic.py has all args"
     echo ""
     exit 1
 fi

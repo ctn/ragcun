@@ -298,7 +298,7 @@ python scripts/prepare_data.py \
 
 echo ""
 echo "Step 3: Unsupervised pre-training (~6 hours)"
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/wiki100k/train.json \
     --val_data data/processed/wiki100k/val.json \
     --epochs 3 \
@@ -320,7 +320,7 @@ python scripts/download_msmarco.py \
 
 echo ""
 echo "Step 5: Supervised fine-tuning (~8 hours)"
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_100k/train.json \
     --val_data data/processed/msmarco_100k/dev.json \
     --epochs 1 \
@@ -381,7 +381,7 @@ echo "Step 2: Train Gaussian projection (~48 hours on T4)"
 echo "Starting training at $(date)"
 echo ""
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -429,7 +429,7 @@ pip install beir
 
 ### Script 2: BEIR Evaluation Script
 
-Create `scripts/evaluate_beir.py`:
+Create `scripts/eval/beir.py`:
 
 ```python
 #!/usr/bin/env python3
@@ -640,7 +640,7 @@ if [ ! -f "$MODEL_PATH" ]; then
 fi
 
 # Evaluate
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path "$MODEL_PATH" \
     --datasets all \
     --output_file "$OUTPUT_FILE"
@@ -652,7 +652,7 @@ echo "Results saved to: $OUTPUT_FILE"
 
 Make executable:
 ```bash
-chmod +x scripts/evaluate_beir.py
+chmod +x scripts/eval/beir.py
 chmod +x scripts/evaluate_beir.sh
 ```
 

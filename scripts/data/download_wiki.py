@@ -154,7 +154,7 @@ Next steps:
        --output_dir data/processed/wiki
 
   2. Train unsupervised:
-     python scripts/train.py \\
+     python scripts/train/isotropic.py \\
        --train_data data/processed/wiki/train.json \\
        --val_data data/processed/wiki/val.json
 """)

@@ -40,7 +40,7 @@ echo ""
 
 # Train
 echo "Starting quick training (1 epoch)..."
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data "$TRAIN_DATA" \
     --val_data "$VAL_DATA" \
     --epochs 1 \

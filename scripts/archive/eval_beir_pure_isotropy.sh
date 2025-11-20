@@ -28,7 +28,7 @@ echo "Evaluating on 5 BEIR datasets..."
 echo "  Datasets: SciFact, NFCorpus, ArguAna, FiQA, TREC-COVID"
 echo ""
 
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path "$MODEL_PATH" \
     --base_model "$BASE_MODEL" \
     --freeze_base \

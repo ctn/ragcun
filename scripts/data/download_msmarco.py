@@ -203,7 +203,7 @@ Files created:
 Total size: {train_size_mb + dev_size_mb:.1f} MB
 
 Next steps:
-  1. Train: python scripts/train.py --train_data {train_path} --val_data {dev_path}
+  1. Train: python scripts/train/isotropic.py --train_data {train_path} --val_data {dev_path}
   2. Or use wrapper: ./scripts/train_smart_hybrid.sh
 """)
 

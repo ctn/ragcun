@@ -105,7 +105,7 @@ model = IsotropicGaussianEncoder(
 
 ### 4. ✅ Training: Multi-GPU + Differential Learning Rates
 **Files:** 
-- `scripts/train.py` (updated)
+- `scripts/train/isotropic.py` (updated)
 - `scripts/train_smart_hybrid.sh` (new wrapper)
 
 **New Features:**
@@ -120,7 +120,7 @@ model = IsotropicGaussianEncoder(
 **Usage:**
 ```bash
 # Single GPU - Smart Hybrid
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --train_data data/processed/msmarco/train.json \
   --base_model sentence-transformers/all-mpnet-base-v2 \
   --freeze_base \
@@ -128,7 +128,7 @@ python scripts/train.py \
   --output_dir checkpoints/smart_hybrid
 
 # Multi-GPU (4 GPUs) - Smart Hybrid
-torchrun --nproc_per_node=4 scripts/train.py \
+torchrun --nproc_per_node=4 scripts/train/isotropic.py \
   --train_data data/processed/msmarco/train.json \
   --base_model sentence-transformers/all-mpnet-base-v2 \
   --freeze_base \
@@ -136,7 +136,7 @@ torchrun --nproc_per_node=4 scripts/train.py \
   --output_dir checkpoints/smart_hybrid
 
 # Differential LR (fine-tuning)
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --train_data data/processed/msmarco/train.json \
   --base_learning_rate 1e-5 \
   --projection_learning_rate 5e-4 \
@@ -156,7 +156,7 @@ python scripts/train.py \
 ---
 
 ### 5. ✅ BEIR Evaluation Script
-**File:** `scripts/evaluate_beir.py`
+**File:** `scripts/eval/beir.py`
 
 **Features:**
 - Evaluates on BEIR benchmark (15+ datasets)
@@ -173,18 +173,18 @@ python scripts/train.py \
 **Usage:**
 ```bash
 # Quick evaluation (2 datasets, 5-10 min)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
   --model_path checkpoints/smart_hybrid/best_model.pt \
   --datasets scifact nfcorpus
 
 # Standard evaluation (5 datasets, 30 min)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
   --model_path checkpoints/smart_hybrid/best_model.pt \
   --datasets scifact nfcorpus arguana fiqa trec-covid \
   --output_file results/beir_standard.json
 
 # Custom batch size for GPU memory
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
   --model_path checkpoints/smart_hybrid/best_model.pt \
   --datasets scifact \
   --batch_size 128
@@ -248,12 +248,12 @@ python scripts/download_msmarco.py \
 ### Step 3: Evaluate on BEIR (5-10 min for quick, 30 min for standard)
 ```bash
 # Quick
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
   --model_path checkpoints/smart_hybrid/best_model.pt \
   --datasets scifact nfcorpus
 
 # Standard (for paper)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
   --model_path checkpoints/smart_hybrid/best_model.pt \
   --datasets scifact nfcorpus arguana fiqa trec-covid \
   --output_file results/beir_results.json
@@ -366,7 +366,7 @@ python scripts/download_msmarco.py --output_dir data/processed/msmarco
   3
 
 # Evaluate
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
   --model_path checkpoints/smart_hybrid/best_model.pt \
   --datasets scifact nfcorpus arguana fiqa trec-covid
 ```
@@ -377,7 +377,7 @@ python scripts/evaluate_beir.py \
 **Trainable Params:** ~300M (full model)
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --train_data data/processed/msmarco/train.json \
   --val_data data/processed/msmarco/dev.json \
   --base_model google/embeddinggemma-300m \
@@ -407,7 +407,7 @@ python scripts/prepare_data.py \
   --output_dir data/processed/wiki
 
 # Step 3: Unsupervised pre-training
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --train_data data/processed/wiki/train.json \
   --val_data data/processed/wiki/val.json \
   --freeze_base True \
@@ -416,7 +416,7 @@ python scripts/train.py \
   --output_dir checkpoints/unsupervised
 
 # Step 4: Fine-tune on MS MARCO
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --train_data data/processed/msmarco/train.json \
   --val_data data/processed/msmarco/dev.json \
   --resume checkpoints/unsupervised/best_model.pt \
@@ -444,7 +444,7 @@ pip install datasets beir
 echo "HF_TOKEN=your_token_here" >> .env
 
 # Reduce batch size for memory
-python scripts/evaluate_beir.py --batch_size 32  # Instead of 64
+python scripts/eval/beir.py --batch_size 32  # Instead of 64
 ```
 
 ---

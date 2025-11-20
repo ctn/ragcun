@@ -6,9 +6,9 @@ This script trains the model using isotropic Gaussian embeddings with LeJEPA's
 SIGReg loss for superior retrieval performance.
 
 Usage:
-    python scripts/train.py --config config/train_config.yaml
-    python scripts/train.py --data_path data/processed/train.json --epochs 3
-    python scripts/train.py --help
+    python scripts/train/isotropic.py --config config/train_config.yaml
+    python scripts/train/isotropic.py --data_path data/processed/train.json --epochs 3
+    python scripts/train/isotropic.py --help
 """
 
 import argparse

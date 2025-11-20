@@ -58,7 +58,7 @@ for epoch in $(seq 1 $EPOCHS); do
     fi
     
     # Train this epoch
-    python scripts/train.py \
+    python scripts/train/isotropic.py \
         --train_data "$TRAIN_DATA" \
         --val_data "$VAL_DATA" \
         --output_dir "$OUTPUT_DIR" \
@@ -92,7 +92,7 @@ for epoch in $(seq 1 $EPOCHS); do
         EVAL_RESULTS="${RESULTS_DIR}/iso15_48k_epoch${epoch}.json"
         
         # Launch eval in background
-        nohup python scripts/evaluate_beir.py \
+        nohup python scripts/eval/beir.py \
             --model_path "$CHECKPOINT" \
             --base_model "$BASE_MODEL" \
             --output_dim "$OUTPUT_DIM" \

@@ -109,7 +109,7 @@ python scripts/download_msmarco.py --output_dir data/processed/msmarco
 ### **Experiment 1: Baseline (No Isotropy)**
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -131,7 +131,7 @@ python scripts/train.py \
 ### **Experiment 2: With Isotropy (YOUR METHOD)**
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -153,7 +153,7 @@ python scripts/train.py \
 ### **Experiment 3: Frozen Base (Efficiency)**
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -182,7 +182,7 @@ python scripts/train.py \
 ./scripts/evaluate_all_beir.sh
 
 # Or individually:
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/with_isotropy/best_model.pt \
     --datasets all \
     --output_file results/beir_with_isotropy.json
@@ -217,7 +217,7 @@ python scripts/evaluate_beir.py \
 tail -100 logs/*.log
 
 # Test with tiny dataset first
-python scripts/train.py [args] --max_steps 10
+python scripts/train/isotropic.py [args] --max_steps 10
 ```
 
 ### **Poor Results**
@@ -263,7 +263,7 @@ pip install wandb
 
 ### **Resume Training**
 ```bash
-python scripts/train.py [same args] \
+python scripts/train/isotropic.py [same args] \
     --resume checkpoints/with_isotropy/checkpoint_epoch_2.pt
 ```
 
@@ -333,10 +333,10 @@ Frozen (w/ iso) & 46.8 & 34.9 & 68.7 & 32.1 & 0.92 \\
 ./scripts/evaluate_all_beir.sh
 
 # Individual training
-python scripts/train.py [see configs above]
+python scripts/train/isotropic.py [see configs above]
 
 # Individual evaluation
-python scripts/evaluate_beir.py --model_path [path] --datasets all
+python scripts/eval/beir.py --model_path [path] --datasets all
 ```
 
 ---

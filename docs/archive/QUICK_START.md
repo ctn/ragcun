@@ -20,7 +20,7 @@ python scripts/download_msmarco.py \
   1
 
 # 3. Evaluate on BEIR
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
   --model_path checkpoints/quick_test/best_model.pt \
   --datasets scifact nfcorpus
 ```
@@ -45,7 +45,7 @@ python scripts/download_msmarco.py \
   3
 
 # 3. Evaluate on BEIR standard set (~30 min)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
   --model_path checkpoints/smart_hybrid/best_model.pt \
   --datasets scifact nfcorpus arguana fiqa trec-covid \
   --output_file results/beir_results.json
@@ -74,13 +74,13 @@ pytest tests/test_model_smart_hybrid.py \
 ### ✅ New Scripts (5)
 1. `scripts/download_msmarco.py` - Download MS MARCO dataset
 2. `scripts/download_wiki.py` - Download Wikipedia for unsupervised training
-3. `scripts/evaluate_beir.py` - Evaluate on BEIR benchmark
+3. `scripts/eval/beir.py` - Evaluate on BEIR benchmark
 4. `scripts/train_smart_hybrid.sh` - Convenient training wrapper
 5. `scripts/train_updates.py` - Reference for DDP updates
 
 ### ✅ Updated Core Files (2)
 1. `ragcun/model.py` - Smart hybrid training support
-2. `scripts/train.py` - Multi-GPU + differential learning rates
+2. `scripts/train/isotropic.py` - Multi-GPU + differential learning rates
 
 ### ✅ New Tests (3 files, 36 tests)
 1. `tests/test_model_smart_hybrid.py` - 11 tests
@@ -141,7 +141,7 @@ pytest tests/test_model_smart_hybrid.py \
 **Params:** 300M trainable (full model)
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --train_data data/processed/msmarco/train.json \
   --val_data data/processed/msmarco/dev.json \
   --base_model google/embeddinggemma-300m \
@@ -159,14 +159,14 @@ python scripts/train.py \
 ```bash
 # Unsupervised pre-training
 python scripts/download_wiki.py --num_passages 100000
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --train_data data/processed/wiki/train.json \
   --freeze_base True \
   --epochs 3 \
   --output_dir checkpoints/unsupervised
 
 # Supervised fine-tuning
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --train_data data/processed/msmarco/train.json \
   --resume checkpoints/unsupervised/best_model.pt \
   --base_learning_rate 1e-5 \
@@ -183,7 +183,7 @@ python scripts/train.py \
 ./scripts/train_smart_hybrid.sh ...
 
 # Manual (4 GPUs)
-torchrun --nproc_per_node=4 scripts/train.py \
+torchrun --nproc_per_node=4 scripts/train/isotropic.py \
   --train_data data/processed/msmarco/train.json \
   --base_model sentence-transformers/all-mpnet-base-v2 \
   --freeze_base \
@@ -229,10 +229,10 @@ echo "HF_TOKEN=your_token_here" >> .env
 ### Issue: "CUDA out of memory"
 ```bash
 # Reduce batch size
-python scripts/train.py --batch_size 8  # Instead of 16
+python scripts/train/isotropic.py --batch_size 8  # Instead of 16
 
 # Or use gradient accumulation
-python scripts/train.py \
+python scripts/train/isotropic.py \
   --batch_size 8 \
   --gradient_accumulation_steps 2  # Effective batch = 16
 ```
@@ -255,8 +255,8 @@ Datasets cache in `data/beir/` after first download. Subsequent evaluations are 
 - [ ] All tests pass: `pytest tests/test_*.py -v`
 - [ ] Can download MS MARCO: `python scripts/download_msmarco.py --max_train_samples 100 --output_dir /tmp/test`
 - [ ] Can train (quick): Run 1 epoch on 100 samples
-- [ ] Can evaluate: `python scripts/evaluate_beir.py` on trained model
-- [ ] Multi-GPU works: `torchrun --nproc_per_node=2 scripts/train.py ...`
+- [ ] Can evaluate: `python scripts/eval/beir.py` on trained model
+- [ ] Multi-GPU works: `torchrun --nproc_per_node=2 scripts/train/isotropic.py ...`
 
 ---
 

@@ -212,7 +212,7 @@ Currently hardcoded: `max_norm=1.0`
 
 ### Test 1: Small Contrastive Component
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
@@ -228,7 +228,7 @@ python scripts/train.py \
 
 ### Test 2: Higher Isotropy Weight
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
@@ -243,7 +243,7 @@ python scripts/train.py \
 
 ### Test 3: Remove Normalization
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smoke/train.json \
     --val_data data/processed/msmarco_smoke/dev.json \
     --base_model "sentence-transformers/all-mpnet-base-v2" \

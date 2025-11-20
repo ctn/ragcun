@@ -33,7 +33,7 @@ echo ""
 
 # Train model
 echo "Starting training (this will take a few minutes)..."
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 2 \

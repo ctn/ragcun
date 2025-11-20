@@ -12,7 +12,7 @@ echo "Base: sentence-transformers/all-mpnet-base-v2"
 echo "Output Dim: 768"
 echo ""
 
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/jepa_iso15_pred12/best_model.pt \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
     --output_dim 768 \

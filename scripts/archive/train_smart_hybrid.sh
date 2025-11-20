@@ -60,7 +60,7 @@ if [ "$NUM_GPUS" -gt 1 ]; then
     echo "🚀 Starting multi-GPU training ($NUM_GPUS GPUs)..."
     echo ""
     
-    torchrun --nproc_per_node=$NUM_GPUS scripts/train.py \
+    torchrun --nproc_per_node=$NUM_GPUS scripts/train/isotropic.py \
         --train_data "$TRAIN_DATA" \
         --val_data "$VAL_DATA" \
         --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -81,7 +81,7 @@ else
     echo "🚀 Starting single-GPU training..."
     echo ""
     
-    python scripts/train.py \
+    python scripts/train/isotropic.py \
         --train_data "$TRAIN_DATA" \
         --val_data "$VAL_DATA" \
         --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -109,7 +109,7 @@ echo "Model saved to: $OUTPUT_DIR/best_model.pt"
 echo ""
 echo "Next steps:"
 echo "  1. Evaluate on BEIR:"
-echo "     python scripts/evaluate_beir.py \\"
+echo "     python scripts/eval/beir.py \\"
 echo "       --model_path $OUTPUT_DIR/best_model.pt \\"
 echo "       --output_file results/beir_results.json"
 echo ""

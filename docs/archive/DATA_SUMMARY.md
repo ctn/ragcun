@@ -154,7 +154,7 @@ python scripts/prepare_data.py \
     --split 0.7 0.15 0.15 \
     --output_dir data/processed
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --epochs 1 \
     --batch_size 8
@@ -172,7 +172,7 @@ python scripts/prepare_data.py \
     --split 0.8 0.1 0.1 \
     --output_dir data/processed
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 3 \
@@ -196,7 +196,7 @@ python scripts/prepare_data.py \
     --split 0.8 0.1 0.1 \
     --output_dir data/processed
 
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/train.json \
     --val_data data/processed/val.json \
     --epochs 5 \
@@ -342,7 +342,7 @@ data/processed/
 
 2. **Train your model**:
    ```bash
-   python scripts/train.py --train_data data/processed/train.json --val_data data/processed/val.json --epochs 3
+   python scripts/train/isotropic.py --train_data data/processed/train.json --val_data data/processed/val.json --epochs 3
    ```
 
 3. **Evaluate**:

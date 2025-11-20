@@ -98,7 +98,7 @@ np.save('corpus_embeddings.npy', embeddings)
 ### **Command Line**
 
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -148,7 +148,7 @@ train_model(
 ### **BEIR Evaluation**
 
 ```bash
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/model.pt \
     --datasets scifact nfcorpus arguana \
     --output_file results/beir_results.json
@@ -365,7 +365,7 @@ results = search.search("your query")
 
 ```python
 # Train with custom isotropy weight
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --lambda_isotropy 2.0 \  # Stronger isotropy
     --lambda_reg 0.2 \
     [other args]
@@ -375,7 +375,7 @@ python scripts/train.py \
 
 ```python
 # Faster training with FP16
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --mixed_precision \
     [other args]
 ```
@@ -384,7 +384,7 @@ python scripts/train.py \
 
 ```python
 # Save memory at cost of speed
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --gradient_checkpointing \
     [other args]
 ```
@@ -393,7 +393,7 @@ python scripts/train.py \
 
 ```bash
 # Use PyTorch DDP
-torchrun --nproc_per_node=4 scripts/train.py [args]
+torchrun --nproc_per_node=4 scripts/train/isotropic.py [args]
 ```
 
 ---

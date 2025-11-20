@@ -25,7 +25,7 @@ echo "  Model: MPNet Frozen+Iso (48K examples)"
 echo "  Datasets: SciFact, NFCorpus, ArguAna, FiQA, TREC-COVID"
 echo ""
 
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path "$MODEL_PATH" \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
     --output_dim 512 \

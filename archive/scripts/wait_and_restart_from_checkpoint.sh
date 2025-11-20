@@ -113,7 +113,7 @@ echo "Datasets: scifact, nfcorpus, arguana, fiqa, trec-covid"
 echo ""
 
 # Start evaluation in background
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path "$TEMP_MODEL" \
     --base_model "sentence-transformers/all-mpnet-base-v2" \
     --output_dim 768 \

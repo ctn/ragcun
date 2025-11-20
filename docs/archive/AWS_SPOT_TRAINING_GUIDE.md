@@ -203,7 +203,7 @@ COMMON_ARGS="--train_data data/processed/msmarco/train.json \
 
 # Experiment 1: Baseline (GPU 0)
 echo "Starting Experiment 1 on GPU 0..."
-CUDA_VISIBLE_DEVICES=0 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=0 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base False \
     --base_learning_rate 1e-5 \
@@ -216,7 +216,7 @@ PID1=$!
 
 # Experiment 2: With isotropy (GPU 1)
 echo "Starting Experiment 2 on GPU 1..."
-CUDA_VISIBLE_DEVICES=1 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=1 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base False \
     --base_learning_rate 1e-5 \
@@ -229,7 +229,7 @@ PID2=$!
 
 # Experiment 3: Frozen base (GPU 2)
 echo "Starting Experiment 3 on GPU 2..."
-CUDA_VISIBLE_DEVICES=2 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=2 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base True \
     --projection_learning_rate 5e-4 \
@@ -398,7 +398,7 @@ tmux attach -t monitoring
 # Add to your training script
 pip install wandb
 
-# In scripts/train.py, add:
+# In scripts/train/isotropic.py, add:
 import wandb
 wandb.init(project="ragcun-training", name=f"{experiment_name}")
 wandb.config.update(args)
@@ -454,7 +454,7 @@ nohup ./scripts/spot_interruption_handler.sh > logs/interruption.log 2>&1 &
 ls checkpoints/*/best_model.pt
 
 # Resume incomplete experiments
-CUDA_VISIBLE_DEVICES=0 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=0 python scripts/train/isotropic.py \
     [same args as before] \
     --resume checkpoints/baseline_no_isotropy/checkpoint_epoch_2.pt \
     --output_dir checkpoints/baseline_no_isotropy

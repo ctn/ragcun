@@ -6,7 +6,7 @@ BEIR is the standard evaluation benchmark for retrieval models,
 testing on 15+ diverse datasets without dataset-specific tuning.
 
 Usage:
-    python scripts/evaluate_beir.py \\
+    python scripts/eval/beir.py \\
         --model_path checkpoints/smart_hybrid/best_model.pt \\
         --datasets scifact nfcorpus \\
         --output_file results/beir_scifact_nfcorpus.json
@@ -304,17 +304,17 @@ def main():
         epilog=f"""
 Examples:
   # Quick evaluation (5-10 min)
-  python scripts/evaluate_beir.py \\
+  python scripts/eval/beir.py \\
     --model_path checkpoints/smart_hybrid/best_model.pt \\
     --datasets scifact nfcorpus
 
   # Standard evaluation (30 min)
-  python scripts/evaluate_beir.py \\
+  python scripts/eval/beir.py \\
     --model_path checkpoints/smart_hybrid/best_model.pt \\
     --datasets scifact nfcorpus arguana fiqa trec-covid
 
   # Specific output file
-  python scripts/evaluate_beir.py \\
+  python scripts/eval/beir.py \\
     --model_path checkpoints/smart_hybrid/best_model.pt \\
     --datasets scifact \\
     --output_file results/beir_scifact.json

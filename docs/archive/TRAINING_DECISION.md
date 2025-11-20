@@ -124,12 +124,12 @@ Before training:
 ### 2. ✅ Verify Full Fine-Tuning Works
 ```bash
 # Test that --freeze_base False works
-python scripts/train.py --freeze_base False --epochs 1 [other args]
+python scripts/train/isotropic.py --freeze_base False --epochs 1 [other args]
 ```
 
 ### 3. ✅ Ensure Euclidean Distance in Evaluation
 ```python
-# In scripts/evaluate_beir.py
+# In scripts/eval/beir.py
 # Use: -euclidean_distance(query, doc)
 # NOT: cosine_similarity(query, doc)
 ```
@@ -151,7 +151,7 @@ cd /home/ubuntu/ragcun
 python scripts/download_msmarco.py --output_dir data/processed/msmarco
 
 # 2. Verify baseline (30 min)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model sentence-transformers/all-mpnet-base-v2 \
     --datasets scifact nfcorpus \
     --output_file results/baseline_quick.json

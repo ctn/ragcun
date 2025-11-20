@@ -6,7 +6,7 @@ This document compares **your implementation** of LeJEPA/SIGReg with the **offic
 
 ## 📍 Where LeJEPA is Implemented in Your Code
 
-### 1. **Loss Function**: `scripts/train.py` (Lines 97-220)
+### 1. **Loss Function**: `scripts/train/isotropic.py` (Lines 97-220)
 
 ```python
 class SIGRegLoss(nn.Module):
@@ -323,5 +323,5 @@ For your RAG publication, **keep your current approach** but:
 - **LeJEPA Paper**: https://arxiv.org/abs/2511.08544
 - **LeJEPA Repo**: https://github.com/rbalestr-lab/lejepa
 - **Your Submodule**: `external/lejepa/`
-- **Your Implementation**: `scripts/train.py` (SIGRegLoss)
+- **Your Implementation**: `scripts/train/isotropic.py` (SIGRegLoss)
 

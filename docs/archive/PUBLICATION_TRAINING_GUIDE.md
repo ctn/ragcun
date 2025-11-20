@@ -99,7 +99,7 @@ python scripts/prepare_data.py \
 #### Step 3: Unsupervised Pre-training
 ```bash
 # Train with LeJEPA loss (your novel contribution)
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/wiki100k/train.json \
     --val_data data/processed/wiki100k/val.json \
     --epochs 3 \
@@ -128,7 +128,7 @@ dataset = load_dataset('ms_marco', 'v1.1', split='train[:100000]')
 
 #### Step 5: Supervised Fine-tuning (Optional)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco100k/train.json \
     --val_data data/processed/msmarco100k/val.json \
     --epochs 1 \
@@ -146,7 +146,7 @@ python scripts/train.py \
 pip install beir
 
 # Evaluate on all 18 BEIR datasets
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/msmarco_finetune/best_model.pt \
     --output_file results/beir_results.json
 
@@ -208,7 +208,7 @@ python scripts/prepare_data.py \
 #### Step 2: Unsupervised Pre-training (1M pairs)
 ```bash
 # Train with full optimization
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/wiki1m/train.json \
     --val_data data/processed/wiki1m/val.json \
     --epochs 3 \
@@ -242,7 +242,7 @@ python scripts/download_msmarco.py \
 
 #### Step 4: Supervised Fine-tuning (500K pairs)
 ```bash
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_full/train.json \
     --val_data data/processed/msmarco_full/dev.json \
     --epochs 3 \
@@ -262,14 +262,14 @@ python scripts/train.py \
 #### Step 5: Comprehensive BEIR Evaluation
 ```bash
 # Evaluate on all 18 BEIR datasets
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/msmarco_full/best_model.pt \
     --datasets all \
     --output_file results/beir_full_results.json
 
 # Also evaluate baselines for comparison
-python scripts/evaluate_beir.py --model bm25 --output results/bm25_baseline.json
-python scripts/evaluate_beir.py --model contriever --output results/contriever_baseline.json
+python scripts/eval/beir.py --model bm25 --output results/bm25_baseline.json
+python scripts/eval/beir.py --model contriever --output results/contriever_baseline.json
 ```
 
 ### Expected Results (Medium Scale)
@@ -383,7 +383,7 @@ python scripts/download_msmarco.py \
 #### Step 3: Train Projection Layer Only
 ```bash
 # Train ONLY the Gaussian projection with LeJEPA
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco_smart/train.json \
     --val_data data/processed/msmarco_smart/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -406,7 +406,7 @@ python scripts/train.py \
 
 #### Step 4: Evaluate on BEIR
 ```bash
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/smart_hybrid/best_model.pt \
     --base_model sentence-transformers/all-mpnet-base-v2 \
     --output_file results/smart_hybrid_beir.json
@@ -415,7 +415,7 @@ python scripts/evaluate_beir.py \
 #### Step 5: Compare Baselines
 ```bash
 # Evaluate baseline (same base, but L2 normalized)
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model sentence-transformers/all-mpnet-base-v2 \
     --output_file results/baseline_mpnet.json
 
@@ -625,7 +625,7 @@ export HF_TOKEN="your_token_here"
 python scripts/download_msmarco.py --output_dir data/processed/msmarco
 
 # 3. Train (2-3 days on T4)
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/msmarco/train.json \
     --val_data data/processed/msmarco/dev.json \
     --base_model sentence-transformers/all-mpnet-base-v2 \
@@ -640,7 +640,7 @@ python scripts/train.py \
     --output_dir checkpoints/smart_hybrid
 
 # 4. Evaluate on BEIR
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/smart_hybrid/best_model.pt \
     --output_file results/beir_results.json
 

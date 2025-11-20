@@ -55,7 +55,7 @@ train_epoch() {
     fi
     
     if [ -n "$resume_from" ]; then
-        python scripts/train.py \
+        python scripts/train/isotropic.py \
             --train_data data/processed/msmarco/train.json \
             --val_data data/processed/msmarco/dev.json \
             --output_dir "$OUTPUT_DIR" \
@@ -73,7 +73,7 @@ train_epoch() {
             --resume_from "$resume_from" \
             2>&1 | tee -a "$TRAIN_LOG"
     else
-        python scripts/train.py \
+        python scripts/train/isotropic.py \
             --train_data data/processed/msmarco/train.json \
             --val_data data/processed/msmarco/dev.json \
             --output_dir "$OUTPUT_DIR" \
@@ -111,7 +111,7 @@ eval_epoch() {
     echo "  Log: $eval_log" | tee -a "$TRAIN_LOG"
     
     # Launch eval in background
-    nohup python scripts/evaluate_beir.py \
+    nohup python scripts/eval/beir.py \
         --model_path "$checkpoint" \
         --base_model sentence-transformers/all-mpnet-base-v2 \
         --output_dim 768 \

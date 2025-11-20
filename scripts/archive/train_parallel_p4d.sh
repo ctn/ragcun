@@ -66,7 +66,7 @@ echo "============================================"
 echo "Experiment 1: Baseline (no isotropy)"
 echo "GPU: 0"
 echo "============================================"
-CUDA_VISIBLE_DEVICES=0 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=0 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base False \
     --base_learning_rate 1e-5 \
@@ -85,7 +85,7 @@ echo "============================================"
 echo "Experiment 2: With Isotropy (YOUR METHOD)"
 echo "GPU: 1"
 echo "============================================"
-CUDA_VISIBLE_DEVICES=1 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=1 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base False \
     --base_learning_rate 1e-5 \
@@ -104,7 +104,7 @@ echo "============================================"
 echo "Experiment 3: Frozen Base (Efficiency)"
 echo "GPU: 2"
 echo "============================================"
-CUDA_VISIBLE_DEVICES=2 python scripts/train.py \
+CUDA_VISIBLE_DEVICES=2 python scripts/train/isotropic.py \
     $COMMON_ARGS \
     --freeze_base True \
     --projection_learning_rate 5e-4 \

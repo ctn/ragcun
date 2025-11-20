@@ -40,7 +40,7 @@ mkdir -p "$OUTPUT_DIR"
 # - Keep isotropy loss (maintains learned structure)
 # - USE predictor - prevents embedding collapse (key finding!)
 # - Lower learning rate (fine-tuning)
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data "$TRAIN_DATA" \
     --val_data "$VAL_DATA" \
     --base_model "$BASE_MODEL" \

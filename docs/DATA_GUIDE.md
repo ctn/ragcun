@@ -95,7 +95,7 @@ EOF
 
 ```bash
 # BEIR datasets download automatically when needed
-python scripts/evaluate_beir.py \
+python scripts/eval/beir.py \
     --model_path checkpoints/model.pt \
     --datasets scifact nfcorpus  # Auto-downloads these
 ```
@@ -141,7 +141,7 @@ with open('data/processed/custom/train.json', 'w') as f:
     json.dump(custom_data, f)
 
 # Use in training
-python scripts/train.py \
+python scripts/train/isotropic.py \
     --train_data data/processed/custom/train.json \
     ...
 ```
@@ -204,7 +204,7 @@ python scripts/download_msmarco.py --output_dir data/processed/msmarco
 ls -lh data/processed/msmarco/
 
 # 3. Start training
-python scripts/train.py --train_data data/processed/msmarco/train.json ...
+python scripts/train/isotropic.py --train_data data/processed/msmarco/train.json ...
 ```
 
 That's it! MS MARCO is all you need.

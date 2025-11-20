@@ -7,7 +7,7 @@ echo "============================================"
 echo ""
 
 # Check if training is running
-if ! pgrep -f "scripts/train.py" > /dev/null; then
+if ! pgrep -f "scripts/train/isotropic.py" > /dev/null; then
     echo "⚠️  No training process detected"
     echo ""
     echo "Start training with:"
