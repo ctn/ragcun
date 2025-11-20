@@ -115,10 +115,10 @@ ragcun/
 **Method 1: Programmatic API**
 
 ```python
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
 # Load trained model
-retriever = GaussianRetriever(
+retriever = IsotropicRetriever(
     model_path='data/embeddings/gaussian_embeddinggemma_final.pt'
 )
 
@@ -350,7 +350,7 @@ num_slices = 2048  # Instead of 1024
 **Q: FAISS not working?**
 ```python
 # Use numpy fallback (slower but works)
-# Automatically handled in GaussianRetriever
+# Automatically handled in IsotropicRetriever
 ```
 
 ---

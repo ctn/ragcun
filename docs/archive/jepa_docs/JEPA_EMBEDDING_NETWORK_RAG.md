@@ -137,10 +137,10 @@ return top_k_by_distance(documents, distances)
 ## Code Example: RAG Usage
 
 ```python
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
 # Load model (encoder + projection, predictor not loaded)
-retriever = GaussianRetriever(model_path='checkpoints/model.pt')
+retriever = IsotropicRetriever(model_path='checkpoints/model.pt')
 
 # Add documents (uses encoder + projection)
 retriever.add_documents([

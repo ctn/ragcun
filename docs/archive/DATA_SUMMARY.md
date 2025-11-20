@@ -352,8 +352,8 @@ data/processed/
 
 4. **Use in production**:
    ```python
-   from ragcun import GaussianRetriever
-   retriever = GaussianRetriever('checkpoints/best_model.pt')
+   from ragcun import IsotropicRetriever
+   retriever = IsotropicRetriever('checkpoints/best_model.pt')
    retriever.add_documents(your_documents)
    results = retriever.retrieve("your query", top_k=5)
    ```

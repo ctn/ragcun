@@ -28,7 +28,7 @@ ragcun/
 **Contents**:
 - `__init__.py` - Package initialization, exports main classes
 - `model.py` - `IsotropicGaussianEncoder` model class
-- `retriever.py` - `GaussianRetriever` for document retrieval
+- `retriever.py` - `IsotropicRetriever` for document retrieval
 
 **Key Classes**:
 1. **IsotropicGaussianEncoder**:
@@ -37,14 +37,14 @@ ragcun/
    - Uses LeJEPA SIGReg loss
    - Outputs unnormalized embeddings
 
-2. **GaussianRetriever**:
+2. **IsotropicRetriever**:
    - Document retrieval with Euclidean distance
    - FAISS indexing for speed
    - Saves/loads document indices
 
 **Import from**:
 ```python
-from ragcun import IsotropicGaussianEncoder, GaussianRetriever
+from ragcun import IsotropicGaussianEncoder, IsotropicRetriever
 ```
 
 ---
@@ -116,7 +116,7 @@ python scripts/prepare_data.py --documents data/raw/mydocs.txt ...
 
 **Usage**:
 ```python
-retriever = GaussianRetriever(
+retriever = IsotropicRetriever(
     model_path='data/embeddings/my_model.pt'
 )
 ```

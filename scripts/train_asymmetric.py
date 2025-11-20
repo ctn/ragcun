@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 load_dotenv()
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.asymmetric_model import AsymmetricProjectionModel
+from ragcun.asymmetric_model import AsymmetricDualEncoder
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -281,7 +281,7 @@ def main():
     
     # Create model
     logger.info("Creating asymmetric projection model...")
-    model = AsymmetricProjectionModel(
+    model = AsymmetricDualEncoder(
         base_model=args.base_model,
         output_dim=args.output_dim,
         freeze_base=True,

@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 from ragcun.model import IsotropicGaussianEncoder
-from ragcun.retriever import GaussianRetriever
+from ragcun.retriever import IsotropicRetriever
 
 
 class TestFullRetrievalPipeline:
@@ -21,7 +21,7 @@ class TestFullRetrievalPipeline:
     def test_load_add_retrieve_pipeline(self, mock_model_checkpoint, embedding_dim, sample_texts):
         """Test: Load model → add documents → retrieve."""
         # 1. Load model
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -44,7 +44,7 @@ class TestFullRetrievalPipeline:
     @pytest.mark.integration
     def test_incremental_document_addition(self, mock_model_checkpoint, embedding_dim):
         """Test adding documents incrementally and retrieving."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -71,7 +71,7 @@ class TestFullRetrievalPipeline:
     @pytest.mark.integration
     def test_clear_and_rebuild(self, mock_model_checkpoint, embedding_dim, sample_texts):
         """Test clearing index and rebuilding."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -160,7 +160,7 @@ class TestIndexPersistence:
     def test_save_load_index_preserves_results(self, mock_model_checkpoint, embedding_dim, sample_texts, temp_dir):
         """Test that saved/loaded index gives same results."""
         # Create retriever and add documents
-        retriever1 = GaussianRetriever(
+        retriever1 = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -175,7 +175,7 @@ class TestIndexPersistence:
         retriever1.save_index(str(index_path))
 
         # Load into new retriever
-        retriever2 = GaussianRetriever(
+        retriever2 = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -198,7 +198,7 @@ class TestIndexPersistence:
         docs = [f"Document {i} about topic {i % 10}" for i in range(100)]
 
         # Build index
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -209,7 +209,7 @@ class TestIndexPersistence:
         retriever.save_index(str(index_path))
 
         # Load
-        retriever2 = GaussianRetriever(
+        retriever2 = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -234,7 +234,7 @@ class TestEndToEndRetrieval:
             "Cloud computing provides scalable infrastructure for applications."
         ]
 
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -251,7 +251,7 @@ class TestEndToEndRetrieval:
     @pytest.mark.integration
     def test_retrieval_quality_with_negatives(self, mock_model_checkpoint, embedding_dim):
         """Test that dissimilar docs have higher distances."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -276,7 +276,7 @@ class TestEndToEndRetrieval:
     @pytest.mark.integration
     def test_multiple_queries_same_corpus(self, mock_model_checkpoint, embedding_dim, sample_texts):
         """Test multiple different queries on same corpus."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -304,7 +304,7 @@ class TestErrorHandlingAndRecovery:
     @pytest.mark.integration
     def test_retrieve_before_adding_documents(self, mock_model_checkpoint, embedding_dim):
         """Test retrieving from empty index."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -317,7 +317,7 @@ class TestErrorHandlingAndRecovery:
     @pytest.mark.integration
     def test_recover_after_error(self, mock_model_checkpoint, embedding_dim, sample_texts):
         """Test that retriever can recover after operations."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -339,7 +339,7 @@ class TestErrorHandlingAndRecovery:
     @pytest.mark.integration
     def test_add_empty_batch_doesnt_break(self, mock_model_checkpoint, embedding_dim, sample_texts):
         """Test that adding empty batch doesn't break subsequent operations."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -362,7 +362,7 @@ class TestDistanceProperties:
     @pytest.mark.integration
     def test_distance_is_symmetric(self, mock_model_checkpoint, embedding_dim):
         """Test that distance(A, B) == distance(B, A)."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -388,7 +388,7 @@ class TestDistanceProperties:
     @pytest.mark.integration
     def test_self_distance_is_small(self, mock_model_checkpoint, embedding_dim):
         """Test that distance(A, A) is very small."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )
@@ -406,7 +406,7 @@ class TestDistanceProperties:
     @pytest.mark.integration
     def test_distances_are_non_negative(self, mock_model_checkpoint, embedding_dim, sample_texts):
         """Test that all distances are >= 0."""
-        retriever = GaussianRetriever(
+        retriever = IsotropicRetriever(
             model_path=str(mock_model_checkpoint),
             embedding_dim=embedding_dim
         )

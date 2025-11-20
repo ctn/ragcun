@@ -186,9 +186,9 @@ python scripts/evaluate.py \
 
 # Step 4: Use the model
 python << EOF
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
-retriever = GaussianRetriever('checkpoints/best_model.pt', use_gpu=True)
+retriever = IsotropicRetriever('checkpoints/best_model.pt', use_gpu=True)
 retriever.add_documents(["doc1", "doc2", "doc3"])
 results = retriever.retrieve("my query", top_k=5)
 

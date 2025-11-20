@@ -139,9 +139,9 @@ python scripts/evaluate.py \
 
 ### Use for Retrieval
 ```python
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
-retriever = GaussianRetriever(
+retriever = IsotropicRetriever(
     model_path='checkpoints/full/best_model.pt',
     embedding_dim=512
 )

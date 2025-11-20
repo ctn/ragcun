@@ -1,7 +1,7 @@
 # ASYMMETRIC PROJECTIONS FAILURE ANALYSIS
 
 **Date:** 2025-11-18  
-**Model:** AsymmetricProjectionModel  
+**Model:** AsymmetricDualEncoder  
 **Status:** ❌ FAILED (Initial), 🔧 FIXING (Retraining in progress)
 
 ---
@@ -144,7 +144,7 @@ With cosine similarity:
 
 **Current Run:**
 - Started: 2025-11-18 15:28 UTC
-- Model: AsymmetricProjectionModel (with cosine similarity fix)
+- Model: AsymmetricDualEncoder (with cosine similarity fix)
 - Dataset: MS MARCO Smoke (10K examples)
 - Epochs: 3
 - Batch size: 64

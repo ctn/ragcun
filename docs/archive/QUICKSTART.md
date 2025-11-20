@@ -121,10 +121,10 @@ This will:
 
 ### Use Your Trained Model
 ```python
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
 # Load model
-retriever = GaussianRetriever(
+retriever = IsotropicRetriever(
     model_path='checkpoints/best_model.pt',
     use_gpu=True
 )
@@ -165,7 +165,7 @@ ragcun/
 ├── results/              # Evaluation results (created by eval)
 └── ragcun/               # Python package
     ├── model.py          # IsotropicGaussianEncoder
-    └── retriever.py      # GaussianRetriever
+    └── retriever.py      # IsotropicRetriever
 ```
 
 ---
@@ -233,10 +233,10 @@ cat results/quick_results.json
 
 Create `test_retrieval.py`:
 ```python
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
 # Load trained model
-retriever = GaussianRetriever('checkpoints/full/best_model.pt')
+retriever = IsotropicRetriever('checkpoints/full/best_model.pt')
 
 # Add your documents
 docs = [

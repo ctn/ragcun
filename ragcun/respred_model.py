@@ -13,7 +13,7 @@ import torch.nn as nn
 from ragcun.model import IsotropicGaussianEncoder
 
 
-class ResPredModel(IsotropicGaussianEncoder):
+class ResidualGaussianEncoder(IsotropicGaussianEncoder):
     """
     ResPred model with residual predictor connection.
     

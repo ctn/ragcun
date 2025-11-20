@@ -179,7 +179,7 @@ source .venv/bin/activate
 uv pip install -e ".[all]"
 
 # 5. Verify
-python -c "from ragcun import GaussianRetriever; print('✅ Works!')"
+python -c "from ragcun import IsotropicRetriever; print('✅ Works!')"
 python -c "import lejepa; print('✅ LeJEPA works!')"
 ```
 

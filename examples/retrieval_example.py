@@ -5,7 +5,7 @@ This example shows how to use trained LeJEPA isotropic Gaussian embeddings
 for document retrieval with Euclidean distance.
 """
 
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
 
     print("\n1. Loading model...")
     try:
-        retriever = GaussianRetriever(model_path=model_path)
+        retriever = IsotropicRetriever(model_path=model_path)
     except FileNotFoundError:
         print(f"\n⚠️  Model not found at {model_path}")
         print("   Train a model first:")
@@ -27,7 +27,7 @@ def main():
         print("   2. Run all cells to train")
         print("   3. Download and save to data/embeddings/")
         print("\n   For now, using untrained model for demo...")
-        retriever = GaussianRetriever()
+        retriever = IsotropicRetriever()
 
     # Sample documents
     documents = [

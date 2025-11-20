@@ -16,7 +16,7 @@ from beir.retrieval.search.dense import DenseRetrievalExactSearch as DRES
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.respred_model import ResPredModel
+from ragcun.respred_model import ResidualGaussianEncoder
 
 
 class ResPredRetriever:
@@ -144,7 +144,7 @@ def main():
     # Ensure we don't track gradients
     torch.set_grad_enabled(False)
     
-    model = ResPredModel(
+    model = ResidualGaussianEncoder(
         base_model=args.base_model,
         output_dim=args.output_dim,
         freeze_base=True,

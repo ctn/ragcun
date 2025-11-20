@@ -123,9 +123,9 @@ Query: "What is machine learning?"
 
 ### **Use:**
 ```python
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
-retriever = GaussianRetriever(model_path='data/embeddings/gaussian_embeddinggemma_final.pt')
+retriever = IsotropicRetriever(model_path='data/embeddings/gaussian_embeddinggemma_final.pt')
 retriever.add_documents(["doc1", "doc2", ...])
 results = retriever.retrieve("query", top_k=5)
 ```

@@ -1,5 +1,5 @@
 """
-GaussianRetriever - Document retrieval using isotropic Gaussian embeddings.
+IsotropicRetriever - Document retrieval using isotropic Gaussian embeddings.
 
 Uses Euclidean distance (L2) instead of cosine similarity.
 """
@@ -16,7 +16,7 @@ except ImportError:
 from .model import IsotropicGaussianEncoder
 
 
-class GaussianRetriever:
+class IsotropicRetriever:
     """
     Document retriever using isotropic Gaussian embeddings.
 
@@ -31,7 +31,7 @@ class GaussianRetriever:
         use_gpu: Whether to use GPU for FAISS index
 
     Example:
-        >>> retriever = GaussianRetriever(model_path='model.pt')
+        >>> retriever = IsotropicRetriever(model_path='model.pt')
         >>> retriever.add_documents(["Python is great", "ML is cool"])
         >>> results = retriever.retrieve("programming language", top_k=1)
         >>> print(results)

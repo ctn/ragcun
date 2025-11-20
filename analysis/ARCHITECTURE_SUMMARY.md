@@ -185,7 +185,7 @@ The residual magnitudes shrink to nearly zero:
 ## Architecture 4: Asymmetric Projections
 
 **Status:** ❌ **FAILED - Severe Underperformance**  
-**File:** `ragcun/asymmetric_model.py` → `AsymmetricProjectionModel`
+**File:** `ragcun/asymmetric_model.py` → `AsymmetricDualEncoder`
 
 ### Architecture
 ```

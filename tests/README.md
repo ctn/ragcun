@@ -19,7 +19,7 @@ This test suite ensures that:
 tests/
 ├── conftest.py                    # Pytest fixtures and configuration
 ├── test_model.py                  # IsotropicGaussianEncoder tests (P0)
-├── test_retriever.py              # GaussianRetriever tests (P0)
+├── test_retriever.py              # IsotropicRetriever tests (P0)
 ├── test_data_preparation.py       # Data loading/preparation tests
 ├── test_evaluation.py             # Metrics (Recall@K, MRR, NDCG, MAP)
 ├── test_integration.py            # End-to-end workflows
@@ -123,7 +123,7 @@ These tests ensure core functionality:
 ```bash
 # Critical model tests
 pytest tests/test_model.py::TestIsotropicGaussianEncoderEncoding::test_embeddings_are_not_normalized
-pytest tests/test_retriever.py::TestGaussianRetrieverRetrieval::test_retrieve_uses_euclidean_distance
+pytest tests/test_retriever.py::TestIsotropicRetrieverRetrieval::test_retrieve_uses_euclidean_distance
 ```
 
 **Why P0?**

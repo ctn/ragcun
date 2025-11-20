@@ -15,7 +15,7 @@ from sentence_transformers import SentenceTransformer
 from typing import List
 
 
-class AsymmetricProjectionModel(nn.Module):
+class AsymmetricDualEncoder(nn.Module):
     """
     Model with asymmetric projections for queries and documents.
     

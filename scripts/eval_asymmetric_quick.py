@@ -18,7 +18,7 @@ from tqdm import tqdm
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.asymmetric_model import AsymmetricProjectionModel
+from ragcun.asymmetric_model import AsymmetricDualEncoder
 
 
 def evaluate_dataset(model, dataset_name, data_dir="data/beir", batch_size=64):
@@ -113,7 +113,7 @@ def main():
     # Ensure we don't track gradients
     torch.set_grad_enabled(False)
     
-    model = AsymmetricProjectionModel(
+    model = AsymmetricDualEncoder(
         base_model=args.base_model,
         output_dim=args.output_dim,
         freeze_base=True,

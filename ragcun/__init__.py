@@ -8,6 +8,6 @@ __version__ = "0.2.0"
 __author__ = "RAGCUN Team"
 
 from .model import IsotropicGaussianEncoder
-from .retriever import GaussianRetriever
+from .retriever import IsotropicRetriever
 
-__all__ = ["IsotropicGaussianEncoder", "GaussianRetriever"]
+__all__ = ["IsotropicGaussianEncoder", "IsotropicRetriever"]

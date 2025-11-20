@@ -31,7 +31,7 @@ load_dotenv()
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.respred_model import ResPredModel
+from ragcun.respred_model import ResidualGaussianEncoder
 
 # Set up logging
 logging.basicConfig(
@@ -361,7 +361,7 @@ def main():
     
     # Create model
     logger.info("Creating ResPred model...")
-    model = ResPredModel(
+    model = ResidualGaussianEncoder(
         base_model=args.base_model,
         output_dim=args.output_dim,
         freeze_base=args.freeze_base,

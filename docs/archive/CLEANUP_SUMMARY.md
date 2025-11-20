@@ -40,7 +40,7 @@
 - Environment variable configuration (not needed)
 
 **Now:**
-- Model path is passed as parameter to `GaussianRetriever`
+- Model path is passed as parameter to `IsotropicRetriever`
 - Configuration is in code or function arguments
 - Simpler, more explicit
 
@@ -95,10 +95,10 @@ results = retriever.retrieve(query, top_k=config.TOP_K)
 
 ### New Way (Explicit Parameters)
 ```python
-from ragcun import GaussianRetriever
+from ragcun import IsotropicRetriever
 
 # Clear, explicit
-retriever = GaussianRetriever(
+retriever = IsotropicRetriever(
     model_path='data/embeddings/gaussian_embeddinggemma_final.pt'
 )
 
@@ -155,7 +155,7 @@ TOP_K=10
 ### After:
 ```python
 # In your code directly
-retriever = GaussianRetriever(
+retriever = IsotropicRetriever(
     model_path='path/to/your/model.pt'
 )
 

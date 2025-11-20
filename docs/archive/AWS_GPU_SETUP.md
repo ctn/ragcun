@@ -121,7 +121,7 @@ uv pip install -e ".[all]"
 python -c "import torch; print(f'PyTorch: {torch.__version__}'); print(f'CUDA: {torch.cuda.is_available()}')"
 # Should show: PyTorch: 2.x.x, CUDA: True
 
-python -c "from ragcun import GaussianRetriever; print('✅ ragcun works!')"
+python -c "from ragcun import IsotropicRetriever; print('✅ ragcun works!')"
 python -c "import lejepa; print('✅ LeJEPA works!')"
 ```
 

@@ -121,7 +121,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from ragcun.model import IsotropicGaussianEncoder
-from ragcun.retriever import GaussianRetriever
+from ragcun.retriever import IsotropicRetriever
 from torch.utils.data import DataLoader, Dataset
 
 print("Loading models...")

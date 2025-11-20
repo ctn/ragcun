@@ -464,7 +464,7 @@ BEIR_DATASETS = [
     'climate-fever', 'scifact', 'germanquad', 'germandpr'
 ]
 
-class GaussianRetriever:
+class IsotropicRetriever:
     """Wrapper for BEIR evaluation."""
     
     def __init__(self, model_path: str, device='cuda'):
@@ -508,7 +508,7 @@ def evaluate_beir(model_path: str, datasets=None, output_file=None):
     logger.info(f"Using device: {device}")
     
     # Load model
-    retriever = GaussianRetriever(model_path, device)
+    retriever = IsotropicRetriever(model_path, device)
     
     # Results
     all_results = {}
