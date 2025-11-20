@@ -120,19 +120,19 @@ import sys
 # Add project to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 from ragcun.retriever import GaussianRetriever
 from torch.utils.data import DataLoader, Dataset
 
 print("Loading models...")
 
 # Load both models (specify base_model to match training)
-baseline_model = GaussianEmbeddingGemma.from_pretrained(
+baseline_model = IsotropicGaussianEncoder.from_pretrained(
     'checkpoints/smoke_baseline/best_model.pt',
     base_model='sentence-transformers/all-mpnet-base-v2',
     output_dim=512
 )
-isotropy_model = GaussianEmbeddingGemma.from_pretrained(
+isotropy_model = IsotropicGaussianEncoder.from_pretrained(
     'checkpoints/smoke_isotropy/best_model.pt',
     base_model='sentence-transformers/all-mpnet-base-v2',
     output_dim=512

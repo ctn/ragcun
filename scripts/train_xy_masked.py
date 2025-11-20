@@ -37,7 +37,7 @@ from tqdm import tqdm
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 from scripts.train import SIGRegLoss
 
 # Set up logging
@@ -88,7 +88,7 @@ def collate_fn_xy_masked(batch):
 
 
 def train_epoch(
-    model: GaussianEmbeddingGemma,
+    model: IsotropicGaussianEncoder,
     dataloader: DataLoader,
     criterion: SIGRegLoss,
     optimizer: torch.optim.Optimizer,
@@ -274,7 +274,7 @@ def main():
     
     # Initialize model
     logger.info("Initializing model...")
-    model = GaussianEmbeddingGemma(
+    model = IsotropicGaussianEncoder(
         output_dim=args.output_dim,
         base_model=args.base_model,
         freeze_base=args.freeze_base,

@@ -145,10 +145,10 @@ python scripts/evaluate_beir.py \
 ### **Using Trained Model**
 
 ```python
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 # Load trained model
-model = GaussianEmbeddingGemma.from_pretrained('checkpoints/with_isotropy/best_model.pt')
+model = IsotropicGaussianEncoder.from_pretrained('checkpoints/with_isotropy/best_model.pt')
 
 # Encode queries and documents
 query_emb = model.encode(["What is machine learning?"])
@@ -167,7 +167,7 @@ similarity = -distance  # Negative distance (higher = more similar)
 ```
 ragcun/
 ├── ragcun/              # Core model code
-│   ├── model.py         # GaussianEmbeddingGemma
+│   ├── model.py         # IsotropicGaussianEncoder
 │   ├── losses.py        # LeJEPA isotropy loss
 │   └── config.py        # Configuration
 ├── scripts/             # Training and evaluation

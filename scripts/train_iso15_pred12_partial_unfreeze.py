@@ -15,7 +15,7 @@ from pathlib import Path
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 from scripts.archive.train import train_model
 
 
@@ -120,7 +120,7 @@ def main():
     
     # Create model (initially frozen)
     print("Creating model...")
-    model = GaussianEmbeddingGemma(
+    model = IsotropicGaussianEncoder(
         base_model=args.base_model,
         output_dim=args.output_dim,
         freeze_base=True,  # Start frozen

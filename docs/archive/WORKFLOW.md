@@ -13,7 +13,7 @@ ragcun/
 │   └── notebooks/evaluate_isotropy.ipynb       # Verify N(0,I) distribution
 │
 ├── Phase 3: RAG Usage (Local)
-│   ├── ragcun/model.py                     # GaussianEmbeddingGemma
+│   ├── ragcun/model.py                     # IsotropicGaussianEncoder
 │   ├── ragcun/retriever.py                 # L2 distance retriever
 │   └── examples/retrieval_example.py           # Usage demo
 │

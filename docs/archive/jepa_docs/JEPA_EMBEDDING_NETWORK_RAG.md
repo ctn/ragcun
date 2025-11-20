@@ -82,7 +82,7 @@ Embedding Network = Base Encoder + Projection Layer
 
 ```python
 # Load model (encoder + projection, NO predictor needed)
-model = GaussianEmbeddingGemma.from_pretrained('checkpoints/model.pt')
+model = IsotropicGaussianEncoder.from_pretrained('checkpoints/model.pt')
 model.eval()  # Inference mode
 
 # Encode all documents
@@ -189,7 +189,7 @@ torch.save({
 
 ```python
 # Load for RAG (predictor not needed)
-model = GaussianEmbeddingGemma.from_pretrained(
+model = IsotropicGaussianEncoder.from_pretrained(
     'checkpoint.pt',
     load_predictor=False  # Skip predictor
 )

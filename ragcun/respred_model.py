@@ -10,14 +10,14 @@ Key innovation: Learns residual corrections (delta) instead of full predictions.
 
 import torch
 import torch.nn as nn
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 
-class ResPredModel(GaussianEmbeddingGemma):
+class ResPredModel(IsotropicGaussianEncoder):
     """
     ResPred model with residual predictor connection.
     
-    Inherits from GaussianEmbeddingGemma but modifies the predictor to:
+    Inherits from IsotropicGaussianEncoder but modifies the predictor to:
     1. Use Tanh() to bound residuals
     2. Add learnable scale factor (alpha)
     3. Return residual connection: query_emb + alpha * delta

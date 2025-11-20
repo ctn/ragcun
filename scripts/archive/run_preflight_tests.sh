@@ -65,8 +65,8 @@ echo "Test 1.3: Custom model import..."
 python << 'EOF' || ((FAILURES++))
 import sys
 try:
-    from ragcun.model import GaussianEmbeddingGemma
-    print("✅ GaussianEmbeddingGemma imports successfully")
+    from ragcun.model import IsotropicGaussianEncoder
+    print("✅ IsotropicGaussianEncoder imports successfully")
 except ImportError as e:
     print(f"❌ Model import failed: {e}")
     sys.exit(1)
@@ -165,15 +165,15 @@ EOF
 
 # Test 2.3: Custom model
 echo ""
-echo "Test 2.3: Custom model (GaussianEmbeddingGemma)..."
+echo "Test 2.3: Custom model (IsotropicGaussianEncoder)..."
 python << 'EOF' || ((FAILURES++))
 import sys
 import torch
 try:
-    from ragcun.model import GaussianEmbeddingGemma
+    from ragcun.model import IsotropicGaussianEncoder
     
     # Test frozen base
-    model = GaussianEmbeddingGemma(
+    model = IsotropicGaussianEncoder(
         output_dim=512,
         base_model='sentence-transformers/all-mpnet-base-v2',
         freeze_base=True
@@ -190,7 +190,7 @@ try:
     print(f"   Trainable params: {trainable:,}")
     
     # Test unfrozen base
-    model2 = GaussianEmbeddingGemma(
+    model2 = IsotropicGaussianEncoder(
         output_dim=512,
         base_model='sentence-transformers/all-mpnet-base-v2',
         freeze_base=False

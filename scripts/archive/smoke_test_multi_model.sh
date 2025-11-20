@@ -119,7 +119,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path.cwd()))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def measure_isotropy(embeddings):
     cov = np.cov(embeddings.T)
@@ -158,13 +158,13 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Load models
 try:
-    baseline = GaussianEmbeddingGemma.from_pretrained(
+    baseline = IsotropicGaussianEncoder.from_pretrained(
         'checkpoints/smoke_multi/${model_key}_baseline/best_model.pt',
         base_model='${model_name}',
         output_dim=512
     ).to(device).eval()
     
-    isotropy = GaussianEmbeddingGemma.from_pretrained(
+    isotropy = IsotropicGaussianEncoder.from_pretrained(
         'checkpoints/smoke_multi/${model_key}_isotropy/best_model.pt',
         base_model='${model_name}',
         output_dim=512

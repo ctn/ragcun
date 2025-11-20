@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Data preparation script for training GaussianEmbeddingGemma.
+Data preparation script for training IsotropicGaussianEncoder.
 
 This script helps prepare training data in the correct format for the training script.
 Supports various input formats and generates contrastive pairs.

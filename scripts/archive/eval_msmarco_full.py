@@ -13,7 +13,7 @@ import sys
 from typing import List, Tuple
 
 sys.path.insert(0, str(Path.cwd()))
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def load_msmarco_dev(dev_path: str, max_queries: int = None):
     """Load MS MARCO dev set"""
@@ -153,7 +153,7 @@ def main():
         baseline_path = f'checkpoints/smoke_multi/{model_key}_baseline/best_model.pt'
         
         try:
-            baseline_model = GaussianEmbeddingGemma.from_pretrained(
+            baseline_model = IsotropicGaussianEncoder.from_pretrained(
                 baseline_path,
                 base_model=base_model,
                 output_dim=512
@@ -189,7 +189,7 @@ def main():
         isotropy_path = f'checkpoints/smoke_multi/{model_key}_isotropy/best_model.pt'
         
         try:
-            isotropy_model = GaussianEmbeddingGemma.from_pretrained(
+            isotropy_model = IsotropicGaussianEncoder.from_pretrained(
                 isotropy_path,
                 base_model=base_model,
                 output_dim=512
@@ -225,7 +225,7 @@ def main():
         frozen_path = f'checkpoints/smoke_frozen/{model_key}_frozen_isotropy/best_model.pt'
         
         try:
-            frozen_model = GaussianEmbeddingGemma.from_pretrained(
+            frozen_model = IsotropicGaussianEncoder.from_pretrained(
                 frozen_path,
                 base_model=base_model,
                 output_dim=512,

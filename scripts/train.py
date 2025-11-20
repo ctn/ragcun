@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Training script for GaussianEmbeddingGemma with LeJEPA SIGReg loss.
+Training script for IsotropicGaussianEncoder with LeJEPA SIGReg loss.
 
 This script trains the model using isotropic Gaussian embeddings with LeJEPA's
 SIGReg loss for superior retrieval performance.
@@ -36,7 +36,7 @@ load_dotenv()
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 
 # Set up logging
@@ -257,7 +257,7 @@ def collate_fn(batch):
 
 
 def train_epoch(
-    model: GaussianEmbeddingGemma,
+    model: IsotropicGaussianEncoder,
     dataloader: DataLoader,
     criterion: SIGRegLoss,
     optimizer: torch.optim.Optimizer,
@@ -350,7 +350,7 @@ def train_epoch(
 
 
 def validate(
-    model: GaussianEmbeddingGemma,
+    model: IsotropicGaussianEncoder,
     dataloader: DataLoader,
     criterion: SIGRegLoss,
     device: torch.device
@@ -392,7 +392,7 @@ def validate(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train GaussianEmbeddingGemma")
+    parser = argparse.ArgumentParser(description="Train IsotropicGaussianEncoder")
 
     # Data arguments
     parser.add_argument('--train_data', type=str, default='data/processed/train.json',
@@ -522,7 +522,7 @@ def main():
 
     # Initialize model
     logger.info("Initializing model...")
-    model = GaussianEmbeddingGemma(
+    model = IsotropicGaussianEncoder(
         output_dim=args.output_dim,
         base_model=args.base_model,
         freeze_base=args.freeze_base,

@@ -240,7 +240,7 @@ def random_seed():
 def mock_model_checkpoint(temp_dir, embedding_dim):
     """Create a mock model checkpoint for testing loading."""
     # Manually create state dict without loading the actual model
-    # This mimics the structure of GaussianEmbeddingGemma
+    # This mimics the structure of IsotropicGaussianEncoder
     state_dict = {
         # Projection layers (768 -> 768*2 -> output_dim)
         'projection.0.weight': torch.randn(768 * 2, 768),

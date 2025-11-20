@@ -1,5 +1,5 @@
 """
-GaussianEmbeddingGemma - Isotropic Gaussian embeddings via LeJEPA.
+IsotropicGaussianEncoder - Isotropic Gaussian embeddings via LeJEPA.
 
 This model wraps EmbeddingGemma-300M and projects to unnormalized
 isotropic Gaussian space using LeJEPA's SIGReg loss.
@@ -10,7 +10,7 @@ import torch.nn as nn
 from sentence_transformers import SentenceTransformer
 
 
-class GaussianEmbeddingGemma(nn.Module):
+class IsotropicGaussianEncoder(nn.Module):
     """
     EmbeddingGemma with LeJEPA-trained projection to isotropic Gaussian space.
 
@@ -28,10 +28,10 @@ class GaussianEmbeddingGemma(nn.Module):
 
     Example:
         >>> # Full training
-        >>> model = GaussianEmbeddingGemma(output_dim=512)
+        >>> model = IsotropicGaussianEncoder(output_dim=512)
         
         >>> # Smart hybrid (train projection only)
-        >>> model = GaussianEmbeddingGemma(
+        >>> model = IsotropicGaussianEncoder(
         ...     output_dim=512,
         ...     base_model='sentence-transformers/all-mpnet-base-v2',
         ...     freeze_base=True

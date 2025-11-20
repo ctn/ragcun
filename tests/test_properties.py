@@ -10,7 +10,7 @@ import torch
 import numpy as np
 from scipy import stats
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 
 class TestIsotropyProperties:
@@ -19,7 +19,7 @@ class TestIsotropyProperties:
     @pytest.mark.slow
     def test_embedding_mean_near_zero(self, embedding_dim, sample_texts):
         """Test that mean of embeddings is close to 0 (first moment)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         with torch.no_grad():
@@ -36,7 +36,7 @@ class TestIsotropyProperties:
     @pytest.mark.slow
     def test_embedding_dimensions_approximately_uncorrelated(self, embedding_dim, sample_texts):
         """Test that embedding dimensions are approximately uncorrelated."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         # Need more samples for covariance estimation
@@ -62,7 +62,7 @@ class TestIsotropyProperties:
     @pytest.mark.slow
     def test_embedding_norms_vary(self, embedding_dim, sample_texts):
         """Test that embedding norms vary (not constant like normalized vectors)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         with torch.no_grad():
@@ -85,7 +85,7 @@ class TestIsotropyProperties:
     @pytest.mark.slow
     def test_covariance_closer_to_identity_than_constant(self, embedding_dim, sample_texts):
         """Test that covariance is closer to identity than to constant matrix."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         texts = sample_texts * 5
@@ -111,7 +111,7 @@ class TestIsotropyProperties:
     @pytest.mark.slow
     def test_no_dimensional_collapse(self, embedding_dim, sample_texts):
         """Test that all dimensions are used (no collapse to lower-dimensional space)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         texts = sample_texts * 5
@@ -136,7 +136,7 @@ class TestGaussianDistributionProperties:
     @pytest.mark.slow
     def test_dimension_values_approximately_gaussian(self, embedding_dim, sample_texts):
         """Test that values in each dimension are approximately Gaussian."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         # Need more samples for distribution testing
@@ -167,7 +167,7 @@ class TestGaussianDistributionProperties:
     @pytest.mark.slow
     def test_embedding_values_have_reasonable_range(self, embedding_dim, sample_texts):
         """Test that embedding values are in reasonable range for N(0,1)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         with torch.no_grad():
@@ -187,7 +187,7 @@ class TestEuclideanDistanceProperties:
     @pytest.mark.slow
     def test_distance_triangle_inequality(self, embedding_dim):
         """Test that triangle inequality holds: d(A,C) <= d(A,B) + d(B,C)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         texts = ["Text A", "Text B", "Text C"]
@@ -208,7 +208,7 @@ class TestEuclideanDistanceProperties:
     @pytest.mark.slow
     def test_distance_symmetry(self, embedding_dim):
         """Test that d(A, B) == d(B, A)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         text_a = "First text"
@@ -226,7 +226,7 @@ class TestEuclideanDistanceProperties:
     @pytest.mark.slow
     def test_self_distance_is_zero(self, embedding_dim):
         """Test that d(A, A) == 0."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         text = "Test text"
@@ -242,7 +242,7 @@ class TestEuclideanDistanceProperties:
     @pytest.mark.slow
     def test_distance_is_positive_for_different_texts(self, embedding_dim):
         """Test that d(A, B) > 0 when A != B."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         text_a = "First text"
@@ -263,7 +263,7 @@ class TestNotNormalizedProperty:
     @pytest.mark.slow
     def test_embeddings_not_unit_norm(self, embedding_dim, sample_texts):
         """Test that embeddings do NOT have unit norm (≠ 1)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         with torch.no_grad():
@@ -282,7 +282,7 @@ class TestNotNormalizedProperty:
     @pytest.mark.slow
     def test_norm_variance_is_significant(self, embedding_dim, sample_texts):
         """Test that norms have significant variance (not all the same)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         with torch.no_grad():
@@ -297,7 +297,7 @@ class TestNotNormalizedProperty:
     @pytest.mark.slow
     def test_different_norm_than_cosine_space(self, embedding_dim):
         """Test that distance differs from what cosine similarity would give."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         texts = ["Text A", "Text B"]
@@ -325,7 +325,7 @@ class TestMagnitudeAsConfidence:
     @pytest.mark.slow
     def test_magnitude_varies_across_samples(self, embedding_dim, sample_texts):
         """Test that different texts have different embedding magnitudes."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         with torch.no_grad():
@@ -342,7 +342,7 @@ class TestMagnitudeAsConfidence:
     @pytest.mark.slow
     def test_can_use_magnitude_for_filtering(self, embedding_dim, sample_texts):
         """Test that magnitude can be used as a filtering criterion."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         with torch.no_grad():
@@ -366,7 +366,7 @@ class TestCompositionalityProperty:
     @pytest.mark.slow
     def test_addition_preserves_meaning(self, embedding_dim):
         """Test that embedding addition is meaningful."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         texts = ["Python", "programming", "Python programming"]
@@ -391,7 +391,7 @@ class TestCompositionalityProperty:
     @pytest.mark.slow
     def test_scalar_multiplication_is_meaningful(self, embedding_dim):
         """Test that scaling embeddings is meaningful."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()
 
         text = "Test text"

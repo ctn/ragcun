@@ -165,7 +165,7 @@ L = L_predictive(q→d) + L_predictive(d→q) + L_isotropy
 **File: `ragcun/model.py`**
 
 ```python
-class GaussianEmbeddingGemma(nn.Module):
+class IsotropicGaussianEncoder(nn.Module):
     def __init__(self, ..., use_predictor=False):
         # ... existing code ...
         
@@ -362,7 +362,7 @@ def train_epoch(...):
 
 ```python
 # 1. Modify model
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     base_model='sentence-transformers/all-mpnet-base-v2',
     output_dim=512,
     freeze_base=True,

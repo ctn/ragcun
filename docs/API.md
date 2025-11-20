@@ -1,16 +1,16 @@
 # API Documentation
 
-## GaussianEmbeddingGemma
+## IsotropicGaussianEncoder
 
 Main model class for training and inference.
 
 ### **Initialization**
 
 ```python
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 # Create model
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     output_dim=512,
     base_model='sentence-transformers/all-mpnet-base-v2',
     freeze_base=True
@@ -28,7 +28,7 @@ model = GaussianEmbeddingGemma(
 
 ```python
 # Load from checkpoint
-model = GaussianEmbeddingGemma.from_pretrained('checkpoints/model.pt')
+model = IsotropicGaussianEncoder.from_pretrained('checkpoints/model.pt')
 
 # Move to GPU
 model = model.cuda()
@@ -118,11 +118,11 @@ python scripts/train.py \
 ### **Programmatic**
 
 ```python
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 from ragcun.training import train_model
 
 # Initialize model
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     output_dim=512,
     base_model='sentence-transformers/all-mpnet-base-v2',
     freeze_base=False
@@ -157,11 +157,11 @@ python scripts/evaluate_beir.py \
 ### **Custom Evaluation**
 
 ```python
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 import numpy as np
 
 # Load model
-model = GaussianEmbeddingGemma.from_pretrained('checkpoints/model.pt')
+model = IsotropicGaussianEncoder.from_pretrained('checkpoints/model.pt')
 
 # Your queries and documents
 queries = ["query 1", "query 2"]
@@ -202,7 +202,7 @@ config = ModelConfig(
     dropout=0.1
 )
 
-model = GaussianEmbeddingGemma(config)
+model = IsotropicGaussianEncoder(config)
 ```
 
 ### **Training Config**
@@ -228,7 +228,7 @@ config = TrainingConfig(
 ### **Get Trainable Parameters**
 
 ```python
-model = GaussianEmbeddingGemma(freeze_base=True)
+model = IsotropicGaussianEncoder(freeze_base=True)
 
 base_params, proj_params = model.get_trainable_parameters()
 
@@ -243,7 +243,7 @@ print(f"Projection params: {sum(p.numel() for p in proj_params):,}")
 model.save_pretrained('checkpoints/my_model')
 
 # Load
-model = GaussianEmbeddingGemma.from_pretrained('checkpoints/my_model')
+model = IsotropicGaussianEncoder.from_pretrained('checkpoints/my_model')
 ```
 
 ### **Export to HuggingFace**
@@ -253,7 +253,7 @@ model = GaussianEmbeddingGemma.from_pretrained('checkpoints/my_model')
 model.push_to_hub('username/model-name')
 
 # Load from HuggingFace
-model = GaussianEmbeddingGemma.from_pretrained('username/model-name')
+model = IsotropicGaussianEncoder.from_pretrained('username/model-name')
 ```
 
 ---
@@ -263,11 +263,11 @@ model = GaussianEmbeddingGemma.from_pretrained('username/model-name')
 ### **Example 1: Simple Retrieval**
 
 ```python
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 import numpy as np
 
 # Load model
-model = GaussianEmbeddingGemma.from_pretrained('checkpoints/model.pt')
+model = IsotropicGaussianEncoder.from_pretrained('checkpoints/model.pt')
 
 # Query and corpus
 query = "What is deep learning?"
@@ -321,7 +321,7 @@ for i, query in enumerate(queries):
 ```python
 class SemanticSearch:
     def __init__(self, model_path):
-        self.model = GaussianEmbeddingGemma.from_pretrained(model_path)
+        self.model = IsotropicGaussianEncoder.from_pretrained(model_path)
         self.corpus = []
         self.corpus_embeddings = None
     

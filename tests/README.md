@@ -18,7 +18,7 @@ This test suite ensures that:
 ```
 tests/
 ├── conftest.py                    # Pytest fixtures and configuration
-├── test_model.py                  # GaussianEmbeddingGemma tests (P0)
+├── test_model.py                  # IsotropicGaussianEncoder tests (P0)
 ├── test_retriever.py              # GaussianRetriever tests (P0)
 ├── test_data_preparation.py       # Data loading/preparation tests
 ├── test_evaluation.py             # Metrics (Recall@K, MRR, NDCG, MAP)
@@ -76,10 +76,10 @@ View coverage report: `open htmlcov/index.html`
 
 ```bash
 # Run single test
-pytest tests/test_model.py::TestGaussianEmbeddingGemmaEncoding::test_encode_single_string
+pytest tests/test_model.py::TestIsotropicGaussianEncoderEncoding::test_encode_single_string
 
 # Run test class
-pytest tests/test_model.py::TestGaussianEmbeddingGemmaEncoding
+pytest tests/test_model.py::TestIsotropicGaussianEncoderEncoding
 
 # Run tests matching pattern
 pytest tests/ -k "encode"
@@ -122,7 +122,7 @@ These tests ensure core functionality:
 
 ```bash
 # Critical model tests
-pytest tests/test_model.py::TestGaussianEmbeddingGemmaEncoding::test_embeddings_are_not_normalized
+pytest tests/test_model.py::TestIsotropicGaussianEncoderEncoding::test_embeddings_are_not_normalized
 pytest tests/test_retriever.py::TestGaussianRetrieverRetrieval::test_retrieve_uses_euclidean_distance
 ```
 
@@ -229,7 +229,7 @@ pip install -e .
 
 ```python
 import pytest
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 class TestMyFeature:
     """Test description."""
@@ -237,7 +237,7 @@ class TestMyFeature:
     @pytest.mark.slow  # If it loads the model
     def test_something(self, embedding_dim):
         """Test that something works."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim)
         # ... test code
         assert result == expected
 ```

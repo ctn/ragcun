@@ -13,7 +13,7 @@ try:
 except ImportError:
     HAS_FAISS = False
 
-from .model import GaussianEmbeddingGemma
+from .model import IsotropicGaussianEncoder
 
 
 class GaussianRetriever:
@@ -26,7 +26,7 @@ class GaussianRetriever:
     - Better separation between relevant/irrelevant documents
 
     Args:
-        model_path: Path to trained GaussianEmbeddingGemma weights
+        model_path: Path to trained IsotropicGaussianEncoder weights
         embedding_dim: Dimension of embeddings (default: 512)
         use_gpu: Whether to use GPU for FAISS index
 
@@ -48,7 +48,7 @@ class GaussianRetriever:
 
         if model_path:
             # Load trained model
-            self.model = GaussianEmbeddingGemma.from_pretrained(
+            self.model = IsotropicGaussianEncoder.from_pretrained(
                 model_path,
                 output_dim=embedding_dim
             )
@@ -56,7 +56,7 @@ class GaussianRetriever:
             # Use untrained model (not recommended for production)
             print("⚠️  No model_path provided - using untrained model")
             print("   Train a model first using notebooks/lejepa_training.ipynb")
-            self.model = GaussianEmbeddingGemma(output_dim=embedding_dim)
+            self.model = IsotropicGaussianEncoder(output_dim=embedding_dim)
 
         self.model.eval()
         self.embedding_dim = embedding_dim

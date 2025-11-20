@@ -78,21 +78,21 @@ python scripts/download_wiki.py \
 **Examples:**
 ```python
 # Smart Hybrid: Train projection only (~1.2M params)
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     output_dim=512,
     base_model='sentence-transformers/all-mpnet-base-v2',
     freeze_base=True
 )
 
 # Full fine-tuning (~300M params)
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     output_dim=512,
     base_model='google/embeddinggemma-300m',
     freeze_base=False
 )
 
 # Different base models work seamlessly
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     output_dim=512,
     base_model='sentence-transformers/all-MiniLM-L6-v2',  # 384-dim
     freeze_base=True

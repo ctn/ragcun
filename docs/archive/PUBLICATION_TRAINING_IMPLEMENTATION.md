@@ -446,7 +446,7 @@ import sys
 # Add project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 import torch
 import numpy as np
 from beir import util
@@ -470,7 +470,7 @@ class GaussianRetriever:
     def __init__(self, model_path: str, device='cuda'):
         self.device = device
         logger.info(f"Loading model from {model_path}")
-        self.model = GaussianEmbeddingGemma.from_pretrained(model_path)
+        self.model = IsotropicGaussianEncoder.from_pretrained(model_path)
         self.model.to(device)
         self.model.eval()
     

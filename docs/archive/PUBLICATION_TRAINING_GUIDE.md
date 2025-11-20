@@ -1,7 +1,7 @@
 # Publication-Ready Training Guide
 ## Training Strategies for RAG Research Papers
 
-This guide documents three approaches for training GaussianEmbeddingGemma models suitable for publication in top-tier conferences and journals.
+This guide documents three approaches for training IsotropicGaussianEncoder models suitable for publication in top-tier conferences and journals.
 
 ---
 
@@ -340,7 +340,7 @@ Cost:                   $25         $30
 ```python
 # Update ragcun/model.py to support frozen base
 
-class GaussianEmbeddingGemma(nn.Module):
+class IsotropicGaussianEncoder(nn.Module):
     def __init__(self, output_dim=512, base_model=None, freeze_base=True):
         super().__init__()
         

@@ -143,18 +143,18 @@ if [ $? -ne 0 ]; then ((FAILURES++)); fi
 
 # Test 5: Custom model initialization
 echo ""
-echo "Test 5: Custom model (GaussianEmbeddingGemma)..."
+echo "Test 5: Custom model (IsotropicGaussianEncoder)..."
 python << 'EOF'
 import sys
 import os
 sys.path.insert(0, os.getcwd())
 
 try:
-    from ragcun.model import GaussianEmbeddingGemma
+    from ragcun.model import IsotropicGaussianEncoder
     import torch
     
-    print("Initializing GaussianEmbeddingGemma...")
-    model = GaussianEmbeddingGemma(
+    print("Initializing IsotropicGaussianEncoder...")
+    model = IsotropicGaussianEncoder(
         output_dim=512,
         base_model='sentence-transformers/all-mpnet-base-v2',
         freeze_base=True

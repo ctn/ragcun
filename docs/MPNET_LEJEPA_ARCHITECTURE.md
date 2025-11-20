@@ -235,7 +235,7 @@ The architecture uses LeJEPA's SIGReg (Sketched Isotropic Gaussian Regularizatio
 
 ## Differences from Previous Architecture
 
-The previous `GaussianEmbeddingGemma` model:
+The previous `IsotropicGaussianEncoder` model:
 - Used a single encoder
 - Had an optional predictor
 - Used simplified covariance-based isotropy loss

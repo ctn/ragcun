@@ -12,7 +12,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 
 class TestSmartHybridFeatures:
@@ -20,7 +20,7 @@ class TestSmartHybridFeatures:
     
     def test_freeze_base_parameter(self):
         """Test that freeze_base actually freezes the base encoder."""
-        model = GaussianEmbeddingGemma(
+        model = IsotropicGaussianEncoder(
             output_dim=128,
             base_model='sentence-transformers/all-MiniLM-L6-v2',
             freeze_base=True
@@ -44,7 +44,7 @@ class TestSmartHybridFeatures:
     
     def test_no_freeze_base(self):
         """Test that base is trainable when freeze_base=False."""
-        model = GaussianEmbeddingGemma(
+        model = IsotropicGaussianEncoder(
             output_dim=128,
             base_model='sentence-transformers/all-MiniLM-L6-v2',
             freeze_base=False,
@@ -67,7 +67,7 @@ class TestSmartHybridFeatures:
         ]
         
         for base_model in models:
-            model = GaussianEmbeddingGemma(
+            model = IsotropicGaussianEncoder(
                 output_dim=128,
                 base_model=base_model,
                 freeze_base=True
@@ -80,7 +80,7 @@ class TestSmartHybridFeatures:
     
     def test_get_trainable_parameters(self):
         """Test get_trainable_parameters method."""
-        model = GaussianEmbeddingGemma(
+        model = IsotropicGaussianEncoder(
             output_dim=128,
             base_model='sentence-transformers/all-MiniLM-L6-v2',
             freeze_base=True
@@ -97,7 +97,7 @@ class TestSmartHybridFeatures:
     
     def test_get_trainable_parameters_no_freeze(self):
         """Test get_trainable_parameters with unfrozen base."""
-        model = GaussianEmbeddingGemma(
+        model = IsotropicGaussianEncoder(
             output_dim=128,
             base_model='sentence-transformers/all-MiniLM-L6-v2',
             freeze_base=False,
@@ -119,7 +119,7 @@ class TestSmartHybridFeatures:
         
         for base_model, base_dim in base_dim_map.items():
             for output_dim in [128, 256, 512]:
-                model = GaussianEmbeddingGemma(
+                model = IsotropicGaussianEncoder(
                     output_dim=output_dim,
                     base_model=base_model,
                     freeze_base=True
@@ -131,7 +131,7 @@ class TestSmartHybridFeatures:
     def test_trainable_param_counts(self):
         """Test parameter counts for different configurations."""
         # Frozen base: only projection trainable
-        model_frozen = GaussianEmbeddingGemma(
+        model_frozen = IsotropicGaussianEncoder(
             output_dim=128,
             base_model='sentence-transformers/all-MiniLM-L6-v2',
             freeze_base=True
@@ -143,7 +143,7 @@ class TestSmartHybridFeatures:
         )
         
         # Unfrozen base: all trainable
-        model_unfrozen = GaussianEmbeddingGemma(
+        model_unfrozen = IsotropicGaussianEncoder(
             output_dim=128,
             base_model='sentence-transformers/all-MiniLM-L6-v2',
             freeze_base=False,
@@ -164,7 +164,7 @@ class TestModelForwardPass:
     
     def test_frozen_base_forward_pass(self):
         """Test that frozen base doesn't compute gradients."""
-        model = GaussianEmbeddingGemma(
+        model = IsotropicGaussianEncoder(
             output_dim=128,
             base_model='sentence-transformers/all-MiniLM-L6-v2',
             freeze_base=True
@@ -188,7 +188,7 @@ class TestModelForwardPass:
     
     def test_unfrozen_base_forward_pass(self):
         """Test that unfrozen base computes gradients."""
-        model = GaussianEmbeddingGemma(
+        model = IsotropicGaussianEncoder(
             output_dim=128,
             base_model='sentence-transformers/all-MiniLM-L6-v2',
             freeze_base=False,
@@ -227,14 +227,14 @@ class TestBackwardCompatibility:
     def test_default_parameters_unchanged(self):
         """Test that default parameters still work."""
         # Old code should still work
-        model = GaussianEmbeddingGemma(output_dim=512)
+        model = IsotropicGaussianEncoder(output_dim=512)
         
         embeddings = model.encode(["test"], convert_to_numpy=True)
         assert embeddings.shape == (1, 512)
     
     def test_freeze_early_layers_still_works(self):
         """Test that freeze_early_layers parameter still works."""
-        model = GaussianEmbeddingGemma(
+        model = IsotropicGaussianEncoder(
             output_dim=512,
             freeze_early_layers=True
         )

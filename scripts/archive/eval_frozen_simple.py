@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path.cwd()))
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def test_retrieval(model, queries, passages):
     """Same evaluation as multi-model smoke test"""
@@ -68,7 +68,7 @@ for model_key, base_model in models_config:
     
     # Load baseline (from multi-model smoke test)
     try:
-        baseline = GaussianEmbeddingGemma.from_pretrained(
+        baseline = IsotropicGaussianEncoder.from_pretrained(
             f'checkpoints/smoke_multi/{model_key}_baseline/best_model.pt',
             base_model=base_model,
             output_dim=512
@@ -85,7 +85,7 @@ for model_key, base_model in models_config:
     
     # Load full FT (from multi-model smoke test)
     try:
-        full_ft = GaussianEmbeddingGemma.from_pretrained(
+        full_ft = IsotropicGaussianEncoder.from_pretrained(
             f'checkpoints/smoke_multi/{model_key}_isotropy/best_model.pt',
             base_model=base_model,
             output_dim=512
@@ -102,7 +102,7 @@ for model_key, base_model in models_config:
     
     # Load frozen base
     try:
-        frozen = GaussianEmbeddingGemma.from_pretrained(
+        frozen = IsotropicGaussianEncoder.from_pretrained(
             f'checkpoints/smoke_frozen/{model_key}_frozen_isotropy/best_model.pt',
             base_model=base_model,
             output_dim=512,

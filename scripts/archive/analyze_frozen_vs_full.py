@@ -10,7 +10,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path.cwd()))
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def measure_isotropy(embeddings):
     """Measure isotropy score"""
@@ -91,7 +91,7 @@ def main():
         
         # Load models
         try:
-            baseline = GaussianEmbeddingGemma.from_pretrained(
+            baseline = IsotropicGaussianEncoder.from_pretrained(
                 f'checkpoints/smoke_multi/{key}_baseline/best_model.pt',
                 base_model=base_model,
                 output_dim=512
@@ -100,13 +100,13 @@ def main():
             print(f"⚠️  Baseline not found, skipping: {e}\n")
             continue
         
-        full_finetune = GaussianEmbeddingGemma.from_pretrained(
+        full_finetune = IsotropicGaussianEncoder.from_pretrained(
             f'checkpoints/smoke_multi/{key}_isotropy/best_model.pt',
             base_model=base_model,
             output_dim=512
         )
         
-        frozen = GaussianEmbeddingGemma.from_pretrained(
+        frozen = IsotropicGaussianEncoder.from_pretrained(
             f'checkpoints/smoke_frozen/{key}_frozen_isotropy/best_model.pt',
             base_model=base_model,
             output_dim=512,

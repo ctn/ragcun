@@ -148,7 +148,7 @@ def example_main_updates():
         logging.getLogger().setLevel(logging.WARNING)
     
     # 2. Create model with new parameters
-    model = GaussianEmbeddingGemma(
+    model = IsotropicGaussianEncoder(
         output_dim=args.output_dim,
         base_model=args.base_model,
         freeze_base=args.freeze_base,
@@ -241,7 +241,7 @@ To use these updates:
 
 3. In main(), replace model initialization:
    is_distributed, device, local_rank, world_size, rank = setup_ddp()
-   model = GaussianEmbeddingGemma(
+   model = IsotropicGaussianEncoder(
        output_dim=args.output_dim,
        base_model=args.base_model,
        freeze_base=args.freeze_base,

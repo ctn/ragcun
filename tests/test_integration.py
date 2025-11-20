@@ -9,7 +9,7 @@ import torch
 import json
 from pathlib import Path
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 from ragcun.retriever import GaussianRetriever
 
 
@@ -102,7 +102,7 @@ class TestModelSaveLoadCycle:
     def test_save_and_load_model(self, temp_dir, embedding_dim):
         """Test: Create model → save → load → use."""
         # 1. Create model
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         model.eval()  # Put in eval mode to disable dropout
 
         # 2. Get baseline encoding
@@ -115,7 +115,7 @@ class TestModelSaveLoadCycle:
         torch.save(model.state_dict(), save_path)
 
         # 4. Load model
-        loaded_model = GaussianEmbeddingGemma.from_pretrained(
+        loaded_model = IsotropicGaussianEncoder.from_pretrained(
             str(save_path),
             output_dim=embedding_dim
         )
@@ -131,7 +131,7 @@ class TestModelSaveLoadCycle:
     def test_save_load_with_full_checkpoint(self, temp_dir, embedding_dim):
         """Test saving/loading with full checkpoint dict."""
         # Create model
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
 
         # Save full checkpoint
         checkpoint = {
@@ -144,7 +144,7 @@ class TestModelSaveLoadCycle:
         torch.save(checkpoint, save_path)
 
         # Load
-        loaded_model = GaussianEmbeddingGemma.from_pretrained(
+        loaded_model = IsotropicGaussianEncoder.from_pretrained(
             str(save_path),
             output_dim=embedding_dim
         )

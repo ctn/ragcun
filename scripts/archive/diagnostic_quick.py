@@ -19,7 +19,7 @@ import json
 # Add project to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def print_section(title):
     print("\n" + "=" * 60)
@@ -47,7 +47,7 @@ def main():
     print_section("Test 1: Model Initialization")
     
     try:
-        model = GaussianEmbeddingGemma(
+        model = IsotropicGaussianEncoder(
             base_model='sentence-transformers/all-mpnet-base-v2',
             output_dim=512
         )
@@ -145,7 +145,7 @@ def main():
     print("Running 10 gradient steps with isotropy regularization...")
     
     # Fresh model for fair test
-    model_test = GaussianEmbeddingGemma(
+    model_test = IsotropicGaussianEncoder(
         base_model='sentence-transformers/all-mpnet-base-v2',
         output_dim=512
     )

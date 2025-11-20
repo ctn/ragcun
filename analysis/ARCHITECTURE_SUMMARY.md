@@ -23,7 +23,7 @@
 ## Architecture 1: MPNet + Projection (Baseline)
 
 **Status:** ✅ Working baseline  
-**File:** `ragcun/model.py` → `GaussianEmbeddingGemma`
+**File:** `ragcun/model.py` → `IsotropicGaussianEncoder`
 
 ### Architecture
 ```

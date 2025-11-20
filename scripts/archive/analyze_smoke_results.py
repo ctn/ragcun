@@ -11,7 +11,7 @@ import sys
 # Add project to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def measure_isotropy(embeddings):
     """Compute isotropy score (1 = perfectly isotropic)"""
@@ -38,7 +38,7 @@ print()
 # Load models
 print("Loading trained models...")
 try:
-    baseline_model = GaussianEmbeddingGemma.from_pretrained(
+    baseline_model = IsotropicGaussianEncoder.from_pretrained(
         'checkpoints/smoke_baseline/best_model.pt',
         base_model='sentence-transformers/all-mpnet-base-v2',
         output_dim=512
@@ -51,7 +51,7 @@ except Exception as e:
     sys.exit(1)
 
 try:
-    isotropy_model = GaussianEmbeddingGemma.from_pretrained(
+    isotropy_model = IsotropicGaussianEncoder.from_pretrained(
         'checkpoints/smoke_isotropy/best_model.pt',
         base_model='sentence-transformers/all-mpnet-base-v2',
         output_dim=512

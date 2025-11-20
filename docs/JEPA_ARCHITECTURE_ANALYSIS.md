@@ -341,7 +341,7 @@ The winning configuration achieves **+3.26% improvement** over baseline, with co
 - **Checkpoints:** `checkpoints/jepa_10k/`, `checkpoints/jepa_iso15_pred12/`, etc.
 - **Evaluation Results:** `results/beir_standard/*.json`
 - **Training Script:** `scripts/train.py`
-- **Model Architecture:** `ragcun/model.py` (GaussianEmbeddingGemma)
+- **Model Architecture:** `ragcun/model.py` (IsotropicGaussianEncoder)
 - **Baseline Analysis:** See `docs/` for failed architecture analyses (ResPred, Asymmetric)
 
 ---

@@ -20,7 +20,7 @@ This will:
 
 ### 1. `train.py` - Model Training
 
-Train GaussianEmbeddingGemma with LeJEPA SIGReg loss.
+Train IsotropicGaussianEncoder with LeJEPA SIGReg loss.
 
 **Basic usage:**
 ```bash

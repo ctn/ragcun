@@ -12,7 +12,7 @@ import sys
 from tqdm import tqdm
 
 sys.path.insert(0, str(Path.cwd()))
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def compute_mrr_at_k(ranks, k=10):
     """Compute Mean Reciprocal Rank @ k"""
@@ -131,7 +131,7 @@ def main():
         frozen_path = f'checkpoints/smoke_frozen/{model_key}_frozen_isotropy/best_model.pt'
         
         try:
-            frozen_model = GaussianEmbeddingGemma.from_pretrained(
+            frozen_model = IsotropicGaussianEncoder.from_pretrained(
                 frozen_path,
                 base_model=base_model,
                 output_dim=512,

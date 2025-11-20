@@ -164,7 +164,7 @@ ragcun/
 ├── checkpoints/          # Trained models (created by training)
 ├── results/              # Evaluation results (created by eval)
 └── ragcun/               # Python package
-    ├── model.py          # GaussianEmbeddingGemma
+    ├── model.py          # IsotropicGaussianEncoder
     └── retriever.py      # GaussianRetriever
 ```
 

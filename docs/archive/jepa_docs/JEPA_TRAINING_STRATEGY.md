@@ -33,7 +33,7 @@ Base Encoder (FROZEN) → Projection Layer (TRAINABLE) → Predictor (TRAINABLE)
 
 **Implementation:**
 ```python
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     base_model='sentence-transformers/all-mpnet-base-v2',
     freeze_base=True,  # Keep frozen!
     use_predictor=True
@@ -74,7 +74,7 @@ Base Encoder (TRAINABLE) → Projection Layer (TRAINABLE) → Predictor (TRAINAB
 
 **Implementation:**
 ```python
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     base_model='sentence-transformers/all-mpnet-base-v2',
     freeze_base=False,  # Train encoder
     use_predictor=True
@@ -131,7 +131,7 @@ optimizer = torch.optim.AdamW([
 
 ```python
 # Model setup
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     base_model='sentence-transformers/all-mpnet-base-v2',
     output_dim=512,
     freeze_base=True,  # CRITICAL: Keep frozen!
@@ -243,7 +243,7 @@ This gives you:
 
 ```python
 # Create model with predictor
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     base_model='sentence-transformers/all-mpnet-base-v2',
     output_dim=512,
     freeze_base=True,  # Keep frozen!

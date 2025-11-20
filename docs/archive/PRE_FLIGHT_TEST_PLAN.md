@@ -116,8 +116,8 @@ import sys
 sys.path.insert(0, '.')
 
 try:
-    from ragcun.model import GaussianEmbeddingGemma
-    print("✅ GaussianEmbeddingGemma imports successfully")
+    from ragcun.model import IsotropicGaussianEncoder
+    print("✅ IsotropicGaussianEncoder imports successfully")
 except ImportError as e:
     print(f"❌ Model import failed: {e}")
     sys.exit(1)
@@ -172,13 +172,13 @@ EOF
 
 # Test 3: Custom model on GPU
 echo ""
-echo "Test 3: Custom model (GaussianEmbeddingGemma)..."
+echo "Test 3: Custom model (IsotropicGaussianEncoder)..."
 python << 'EOF'
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 import torch
 
 # Test frozen base
-model = GaussianEmbeddingGemma(
+model = IsotropicGaussianEncoder(
     output_dim=512,
     base_model='sentence-transformers/all-mpnet-base-v2',
     freeze_base=True
@@ -192,7 +192,7 @@ print(f"   Output shape: {embeddings.shape}")
 print(f"   Trainable params: {sum(p.numel() for p in model.parameters() if p.requires_grad):,}")
 
 # Test unfrozen base
-model2 = GaussianEmbeddingGemma(
+model2 = IsotropicGaussianEncoder(
     output_dim=512,
     base_model='sentence-transformers/all-mpnet-base-v2',
     freeze_base=False
@@ -369,7 +369,7 @@ fi
 echo ""
 echo "Test: Loading saved checkpoint..."
 python << 'EOF'
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 import torch
 
 # Load checkpoint
@@ -380,7 +380,7 @@ print(f"✅ Checkpoint loads successfully")
 print(f"   Keys: {list(checkpoint.keys())}")
 
 # Try loading into model
-model = GaussianEmbeddingGemma.from_pretrained(checkpoint_path)
+model = IsotropicGaussianEncoder.from_pretrained(checkpoint_path)
 print(f"✅ Model loads from checkpoint")
 
 # Test encoding

@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
 
 from evaluate import RetrievalEvaluator
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 
 class TestRecallAtK:
@@ -286,7 +286,7 @@ class TestRetrievalEvaluatorCore:
     @pytest.mark.slow
     def test_evaluator_initialization(self, embedding_dim, device):
         """Test evaluator initializes correctly."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         evaluator = RetrievalEvaluator(model, device)
 
         assert evaluator.model is not None
@@ -295,7 +295,7 @@ class TestRetrievalEvaluatorCore:
     @pytest.mark.slow
     def test_encode_corpus(self, embedding_dim, device, sample_texts):
         """Test corpus encoding."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         evaluator = RetrievalEvaluator(model, device)
 
         embeddings = evaluator.encode_corpus(sample_texts, batch_size=16)
@@ -306,7 +306,7 @@ class TestRetrievalEvaluatorCore:
     @pytest.mark.slow
     def test_retrieve_returns_correct_format(self, embedding_dim, device, sample_texts):
         """Test that retrieve returns indices and distances."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         evaluator = RetrievalEvaluator(model, device)
 
         corpus_embeddings = evaluator.encode_corpus(sample_texts)
@@ -320,7 +320,7 @@ class TestRetrievalEvaluatorCore:
     @pytest.mark.slow
     def test_retrieve_uses_euclidean_distance(self, embedding_dim, device, sample_texts):
         """Test that retrieve uses Euclidean distance."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         evaluator = RetrievalEvaluator(model, device)
 
         corpus_embeddings = evaluator.encode_corpus(sample_texts)
@@ -332,7 +332,7 @@ class TestRetrievalEvaluatorCore:
     @pytest.mark.slow
     def test_retrieve_sorted_by_distance(self, embedding_dim, device, sample_texts):
         """Test that results are sorted by distance (ascending)."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         evaluator = RetrievalEvaluator(model, device)
 
         corpus_embeddings = evaluator.encode_corpus(sample_texts)
@@ -344,7 +344,7 @@ class TestRetrievalEvaluatorCore:
     @pytest.mark.slow
     def test_retrieve_top_k_parameter(self, embedding_dim, device, sample_texts):
         """Test that top_k parameter works correctly."""
-        model = GaussianEmbeddingGemma(output_dim=embedding_dim, freeze_early_layers=False)
+        model = IsotropicGaussianEncoder(output_dim=embedding_dim, freeze_early_layers=False)
         evaluator = RetrievalEvaluator(model, device)
 
         corpus_embeddings = evaluator.encode_corpus(sample_texts)

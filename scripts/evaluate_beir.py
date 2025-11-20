@@ -26,7 +26,7 @@ from tqdm import tqdm
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 logging.basicConfig(
     level=logging.INFO,
@@ -205,7 +205,7 @@ def compute_metrics(
 
 
 def evaluate_beir_dataset(
-    model: GaussianEmbeddingGemma,
+    model: IsotropicGaussianEncoder,
     dataset_name: str,
     device: torch.device,
     batch_size: int = 64,
@@ -416,7 +416,7 @@ Available datasets: {', '.join(BEIR_DATASETS.keys())}
     if args.use_predictor:
         load_kwargs['use_predictor'] = True
 
-    model = GaussianEmbeddingGemma.from_pretrained(
+    model = IsotropicGaussianEncoder.from_pretrained(
         args.model_path,
         **load_kwargs
     )

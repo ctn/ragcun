@@ -27,11 +27,11 @@ ragcun/
 
 **Contents**:
 - `__init__.py` - Package initialization, exports main classes
-- `model.py` - `GaussianEmbeddingGemma` model class
+- `model.py` - `IsotropicGaussianEncoder` model class
 - `retriever.py` - `GaussianRetriever` for document retrieval
 
 **Key Classes**:
-1. **GaussianEmbeddingGemma**:
+1. **IsotropicGaussianEncoder**:
    - Wraps Google's EmbeddingGemma-300M
    - Projects to isotropic Gaussian space
    - Uses LeJEPA SIGReg loss
@@ -44,7 +44,7 @@ ragcun/
 
 **Import from**:
 ```python
-from ragcun import GaussianEmbeddingGemma, GaussianRetriever
+from ragcun import IsotropicGaussianEncoder, GaussianRetriever
 ```
 
 ---
@@ -274,7 +274,7 @@ These directories are created automatically during training/evaluation:
 
 **Usage**:
 ```python
-model = GaussianEmbeddingGemma.from_pretrained(
+model = IsotropicGaussianEncoder.from_pretrained(
     'checkpoints/best_model.pt'
 )
 ```

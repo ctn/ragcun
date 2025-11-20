@@ -269,9 +269,9 @@ python scripts/train.py [same args] \
 
 ### **Load for Inference**
 ```python
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
-model = GaussianEmbeddingGemma.from_pretrained(
+model = IsotropicGaussianEncoder.from_pretrained(
     'checkpoints/with_isotropy/best_model.pt'
 )
 ```

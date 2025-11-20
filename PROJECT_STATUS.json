@@ -93,7 +93,7 @@
     "results": "results/beir_standard/ - BEIR evaluation results (JSON)",
     "logs": "logs/ - Training and evaluation logs",
     "scripts": "scripts/ - All training/evaluation scripts",
-    "core_code": "ragcun/ - Core model code (GaussianEmbeddingGemma)"
+    "core_code": "ragcun/ - Core model code (IsotropicGaussianEncoder)"
   },
   "architecture": {
     "base_encoder": {

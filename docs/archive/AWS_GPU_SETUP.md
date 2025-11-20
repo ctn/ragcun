@@ -206,7 +206,7 @@ cd ~/ragcun
 # Create a training script
 cat > train_remote.py << 'EOF'
 import torch
-from src.ragcun.model import GaussianEmbeddingGemma
+from src.ragcun.model import IsotropicGaussianEncoder
 from datasets import load_dataset
 from lejepa.losses import sigreg
 from tqdm.auto import tqdm
@@ -215,7 +215,7 @@ print(f"🎮 GPU: {torch.cuda.get_device_name(0)}")
 print(f"💾 CUDA Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
 
 # Load model
-model = GaussianEmbeddingGemma(output_dim=512, freeze_early_layers=True)
+model = IsotropicGaussianEncoder(output_dim=512, freeze_early_layers=True)
 model = model.cuda()
 
 # Load dataset

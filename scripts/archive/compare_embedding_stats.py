@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def compute_stats(embeddings, name=""):
     """Compute embedding statistics."""
@@ -133,7 +133,7 @@ def main():
     print("\n" + "="*80)
     print("Loading Self-Supervised X/Y-Masked Model")
     print("="*80)
-    model_self = GaussianEmbeddingGemma.from_pretrained(
+    model_self = IsotropicGaussianEncoder.from_pretrained(
         'checkpoints/jepa_xy_masked/best_model.pt',
         base_model='sentence-transformers/all-mpnet-base-v2',
         output_dim=768,
@@ -154,7 +154,7 @@ def main():
     print("\n" + "="*80)
     print("Loading Supervised Fine-Tuned Model")
     print("="*80)
-    model_sup = GaussianEmbeddingGemma.from_pretrained(
+    model_sup = IsotropicGaussianEncoder.from_pretrained(
         'checkpoints/jepa_supervised_finetuned/best_model.pt',
         base_model='sentence-transformers/all-mpnet-base-v2',
         output_dim=768,

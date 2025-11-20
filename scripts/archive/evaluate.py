@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Evaluation script for GaussianEmbeddingGemma retrieval performance.
+Evaluation script for IsotropicGaussianEncoder retrieval performance.
 
 This script evaluates the trained model on various retrieval metrics including:
 - Recall@K (1, 5, 10)
@@ -27,7 +27,7 @@ from tqdm import tqdm
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 # Set up logging
 logging.basicConfig(
@@ -44,12 +44,12 @@ class RetrievalEvaluator:
     Computes various retrieval metrics including Recall@K, MRR, NDCG, and MAP.
     """
 
-    def __init__(self, model: GaussianEmbeddingGemma, device: torch.device):
+    def __init__(self, model: IsotropicGaussianEncoder, device: torch.device):
         """
         Initialize evaluator.
 
         Args:
-            model: Trained GaussianEmbeddingGemma model
+            model: Trained IsotropicGaussianEncoder model
             device: Device to use for evaluation
         """
         self.model = model
@@ -335,7 +335,7 @@ def load_test_data(data_path: str) -> Tuple[List[str], List[str], List[List[int]
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Evaluate GaussianEmbeddingGemma")
+    parser = argparse.ArgumentParser(description="Evaluate IsotropicGaussianEncoder")
 
     # Model arguments
     parser.add_argument('--model_path', type=str, required=True,
@@ -369,7 +369,7 @@ def main():
 
     # Load model
     logger.info(f"Loading model from {args.model_path}")
-    model = GaussianEmbeddingGemma.from_pretrained(
+    model = IsotropicGaussianEncoder.from_pretrained(
         args.model_path,
         output_dim=args.output_dim
     )

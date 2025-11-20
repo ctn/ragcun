@@ -276,11 +276,11 @@ python scripts/evaluate_beir.py \
 # Create scripts/compute_isotropy.py
 import torch
 import numpy as np
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def compute_isotropy(model_path, test_sentences):
     """Compute isotropy score for embeddings."""
-    model = GaussianEmbeddingGemma.from_pretrained(model_path)
+    model = IsotropicGaussianEncoder.from_pretrained(model_path)
     embeddings = model.encode(test_sentences)
     
     # Center embeddings

@@ -101,7 +101,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path.cwd()))
 
-from ragcun.model import GaussianEmbeddingGemma
+from ragcun.model import IsotropicGaussianEncoder
 
 def measure_isotropy(embeddings):
     cov = np.cov(embeddings.T)
@@ -165,7 +165,7 @@ for key, (base_model, size) in models_config.items():
     
     # Load baseline (from multi-model test)
     try:
-        baseline = GaussianEmbeddingGemma.from_pretrained(
+        baseline = IsotropicGaussianEncoder.from_pretrained(
             f'checkpoints/smoke_multi/{key}_baseline/best_model.pt',
             base_model=base_model,
             output_dim=512
@@ -175,14 +175,14 @@ for key, (base_model, size) in models_config.items():
         continue
     
     # Load full fine-tune (from multi-model test)
-    full_finetune = GaussianEmbeddingGemma.from_pretrained(
+    full_finetune = IsotropicGaussianEncoder.from_pretrained(
         f'checkpoints/smoke_multi/{key}_isotropy/best_model.pt',
         base_model=base_model,
         output_dim=512
     ).to(device).eval()
     
     # Load frozen base (new)
-    frozen = GaussianEmbeddingGemma.from_pretrained(
+    frozen = IsotropicGaussianEncoder.from_pretrained(
         f'checkpoints/smoke_frozen/{key}_frozen_isotropy/best_model.pt',
         base_model=base_model,
         output_dim=512

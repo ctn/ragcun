@@ -79,7 +79,7 @@
 ```python
 # Standard PyTorch
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = GaussianEmbeddingGemma().to(device)
+model = IsotropicGaussianEncoder().to(device)
 
 # Standard training loop
 for batch in dataloader:
@@ -96,7 +96,7 @@ for batch in dataloader:
 import torch_xla.core.xla_model as xm
 
 device = xm.xla_device()  # ← Different
-model = GaussianEmbeddingGemma().to(device)
+model = IsotropicGaussianEncoder().to(device)
 
 # Need ParallelLoader
 para_loader = pl.ParallelLoader(dataloader, [device])
